@@ -1,0 +1,2 @@
+# ChineseSubtitleConversionTool
+繁体简体字幕转换工具
