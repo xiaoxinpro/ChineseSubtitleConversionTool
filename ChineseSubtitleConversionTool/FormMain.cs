@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ChineseSubtitleConversionTool
@@ -68,27 +69,7 @@ namespace ChineseSubtitleConversionTool
             string path = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
             if (File.Exists(path))
             {
-                try
-                {
-                    OpenFileDefineExt = Path.GetExtension(path);
-                    OpenFileDefineName = Path.GetFileNameWithoutExtension(path);
-                    // 创建一个 StreamReader 的实例来读取文件 
-                    // using 语句也能关闭 StreamReader
-                    using (StreamReader sr = new StreamReader(path))
-                    {
-                        StringBuilder sbText = new StringBuilder();
-                        // 从文件读取并显示行，直到文件的末尾 
-                        while (!sr.EndOfStream)
-                        {
-                            sbText.AppendLine(sr.ReadLine());
-                        }
-                        txtShow.Text = sbText.ToString();
-                    }
-                }
-                catch (Exception err)
-                {
-                    Console.WriteLine(err.Message);
-                }
+                txtShow.Text = ReadFile(path);
             }
             else if (Directory.Exists(path))
             {
@@ -152,7 +133,7 @@ namespace ChineseSubtitleConversionTool
         {
             if (txtShow.Text.Trim() != "")
             {
-                if(SaveFile(txtShow.Text))
+                if(SaveFile(GetSaveFilePath(OpenFileDefineName, OpenFileDefineExt), txtShow.Text))
                 {
                     MessageBox.Show("您的字幕文件已保存完毕。", "保存完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -188,7 +169,112 @@ namespace ChineseSubtitleConversionTool
         /// <param name="e"></param>
         private void btnStartConvert_Click(object sender, EventArgs e)
         {
+            string path = txtPath.Text.Trim();
+            string format = cbFormat.Text.Trim();
+            string nameStyle = txtFileName.Text.Trim();
+            if (Directory.Exists(path))
+            {
+                int len = 0;
+                DirectoryInfo folder = new DirectoryInfo(path);
+                foreach (FileInfo file in folder.GetFiles())
+                {
+                    switch (file.Extension.ToLower())
+                    {
+                        case ".ass":
+                        case ".ssa":
+                        case ".srt":
+                        case ".lrc":
+                        case ".txt":
+                            if (len++ == 0)
+                            {
+                                pbConvert.Value = 0;
+                                btnStartConvert.Hide();
+                            }
+                            Task.Factory.StartNew(() =>
+                            {
+                                Console.WriteLine(format + "\t" + MakeFileName(file.FullName, nameStyle));
+                                if (format == "转为简体")
+                                {
+                                    SaveFile(MakeFileName(file.FullName, nameStyle), StringToSimlified(ReadFile(file.FullName)));
+                                }
+                                else
+                                {
+                                    SaveFile(MakeFileName(file.FullName, nameStyle), StringToTraditional(ReadFile(file.FullName)));
+                                }
+                                this.Invoke(new Action(() =>
+                                {
+                                    pbConvert.PerformStep();
+                                    if (pbConvert.Maximum == pbConvert.Value)
+                                    {
+                                        MessageBox.Show("转换完成，共输出" + pbConvert.Value + "个字幕文件。", "转换完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        pbConvert.Value = 0;
+                                        btnStartConvert.Show();
+                                    }
+                                }));
+                            });
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                pbConvert.Maximum = len;
+            }
+            else
+            {
+                MessageBox.Show("目标目录不存在。", "无法转换", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
+        /// <summary>
+        /// 创建文件名称
+        /// </summary>
+        /// <param name="sourceName">源名称</param>
+        /// <param name="styleName">目标名称样式</param>
+        /// <returns></returns>
+        public string MakeFileName(string sourceName, string styleName)
+        {
+            string path = Path.GetDirectoryName(sourceName) + "\\";
+            string fileName = Path.GetFileNameWithoutExtension(sourceName);
+            string fileExt = Path.GetExtension(sourceName);
+            return path + styleName.Replace("{name}", fileName).Replace("{exten}", fileExt);
+        }
+
+        /// <summary>
+        /// 读取文件内容
+        /// </summary>
+        /// <param name="path">读取路径</param>
+        /// <returns>返回文件内容</returns>
+        public string ReadFile(string path)
+        {
+            if (File.Exists(path))
+            {
+                try
+                {
+                    OpenFileDefineExt = Path.GetExtension(path);
+                    OpenFileDefineName = Path.GetFileNameWithoutExtension(path);
+                    // 创建一个 StreamReader 的实例来读取文件 
+                    // using 语句也能关闭 StreamReader
+                    using (StreamReader sr = new StreamReader(path))
+                    {
+                        StringBuilder sbText = new StringBuilder();
+                        // 从文件读取并显示行，直到文件的末尾 
+                        while (!sr.EndOfStream)
+                        {
+                            sbText.AppendLine(sr.ReadLine());
+                        }
+                        return sbText.ToString();
+                    }
+                }
+                catch (Exception err)
+                {
+                    Console.WriteLine(err.Message);
+                    return err.Message;
+                }
+            }
+            else
+            {
+                return "";
+            }
         }
 
         /// <summary>
@@ -208,27 +294,50 @@ namespace ChineseSubtitleConversionTool
         }
 
         /// <summary>
-        /// 保存文件
+        /// 获取保存路径
         /// </summary>
-        /// <param name="text"></param>
+        /// <param name="fileName"></param>
+        /// <param name="fileExt"></param>
         /// <returns></returns>
-        public bool SaveFile(string text)
+        public string GetSaveFilePath(string fileName = "", string fileExt = "", string filePath = "")
         {
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Title = "保存字幕文件";
-            sfd.DefaultExt = OpenFileDefineExt;
-            sfd.FileName = OpenFileDefineName;
+            sfd.FileName = fileName;
+            sfd.DefaultExt = fileExt;
+            sfd.InitialDirectory = filePath;
             sfd.Filter = "ASS文件 (*.ass)|*.ass|SSA文件 (*.ssa)|*.ssa|SRT文件 (*.srt)|*.srt|LRC文件 (*.lrc)|*.lrc|文本文件 (*.txt)|*.txt|所有文件 (*.*)|*.*";
             if (sfd.ShowDialog() != DialogResult.OK)
             {
+                return "";
+            }
+            else
+            {
+                return sfd.FileName.Trim();
+            }
+        }
+
+        /// <summary>
+        /// 保存文件
+        /// </summary>
+        /// <param name="path">保存完整路径</param>
+        /// <param name="text">内容</param>
+        /// <returns></returns>
+        public bool SaveFile(string path, string text)
+        {
+            if (path.Trim() == "")
+            {
                 return false;
             }
-            string path = sfd.FileName;
             try
             {
+                if (File.Exists(path))
+                {
+                    File.Delete(path); //如果文件存在则删除文件
+                }
                 using (FileStream fsWrite = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
                 {
-                    byte[] buffer = Encoding.Default.GetBytes(text);
+                    byte[] buffer = Encoding.UTF8.GetBytes(text); // Encoding.Default.GetBytes(text);
                     fsWrite.Write(buffer, 0, buffer.Length);
                     return true;
                 }
