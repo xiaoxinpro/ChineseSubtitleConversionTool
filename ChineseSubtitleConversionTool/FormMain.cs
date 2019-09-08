@@ -172,7 +172,17 @@ namespace ChineseSubtitleConversionTool
             string path = txtPath.Text.Trim();
             string format = cbFormat.Text.Trim();
             string nameStyle = txtFileName.Text.Trim();
-            if (Directory.Exists(path))
+            if (Directory.Exists(path) == false)
+            {
+                MessageBox.Show("目标目录不存在。", "无法转换", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            else if (CheckFileStyle(nameStyle, out string err) == false)
+            {
+                MessageBox.Show(err, "文件名样式错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            else
             {
                 int len = 0;
                 DirectoryInfo folder = new DirectoryInfo(path);
@@ -219,10 +229,33 @@ namespace ChineseSubtitleConversionTool
                 }
                 pbConvert.Maximum = len;
             }
-            else
+        }
+
+        /// <summary>
+        /// 检查文件名样式是否合法
+        /// </summary>
+        /// <param name="fileStyle">文件名样式</param>
+        /// <param name="msg">输出错误</param>
+        /// <returns>返回是否合法</returns>
+        public bool CheckFileStyle(string fileStyle, out string msg)
+        {
+            msg = "";
+            if (fileStyle.IndexOf("{name}") == -1)
             {
-                MessageBox.Show("目标目录不存在。", "无法转换", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                msg = "文件名中必须包含{name}，请检查后修改再试。";
+                return false;
             }
+            if (fileStyle.IndexOf("{exten}") == -1)
+            {
+                msg = "文件名中必须包含{exten}，请检查后修改再试。";
+                return false;
+            }
+            if (fileStyle.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
+            {
+                msg = "文件名中包含非法字符，请删除非法字符再试。";
+                return false;
+            }
+            return true;
         }
 
         /// <summary>
