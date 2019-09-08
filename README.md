@@ -4,8 +4,9 @@
 此工具可将字幕文件中的简体中文与繁体中文进行相互转换，并且可以指定目录进行批量转换。
 
 ## 下载
-开发版本：[ChineseSubtitleConversionTool.exe](https://github.com/xiaoxinpro/ChineseSubtitleConversionTool/raw/master/ChineseSubtitleConversionTool/bin/Debug/ChineseSubtitleConversionTool.exe)
-稳定版本：[暂无](https://github.com/xiaoxinpro/ChineseSubtitleConversionTool/releases)
+- 开发版本：[ChineseSubtitleConversionTool.exe](https://github.com/xiaoxinpro/ChineseSubtitleConversionTool/raw/master/ChineseSubtitleConversionTool/bin/Debug/ChineseSubtitleConversionTool.exe)
+
+- 稳定版本：[暂无](https://github.com/xiaoxinpro/ChineseSubtitleConversionTool/releases)
 
 ## 捐赠
 如果您觉得此工具对你有帮助，欢迎给予我们一定的捐助来维持项目的长期发展。
