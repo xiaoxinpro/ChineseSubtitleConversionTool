@@ -35,6 +35,8 @@
 
 > 如果要使用源文件名替换掉旧的字幕文件可输入：`{name}{exten}`
 
+![界面](https://github.com/xiaoxinpro/ChineseSubtitleConversionTool/blob/master/Image.png)
+
 ## 捐赠
 如果您觉得此工具对你有帮助，欢迎给予我们一定的捐助来维持项目的长期发展。
 
