@@ -6,7 +6,9 @@
 ## 下载
 - 开发版本：[ChineseSubtitleConversionTool.exe](https://github.com/xiaoxinpro/ChineseSubtitleConversionTool/raw/master/ChineseSubtitleConversionTool/bin/Debug/ChineseSubtitleConversionTool.exe)
 
-- 稳定版本：[暂无](https://github.com/xiaoxinpro/ChineseSubtitleConversionTool/releases)
+- 稳定版本：[繁体简体字幕转换工具 V0.1.0.11](https://github.com/xiaoxinpro/ChineseSubtitleConversionTool/releases)
+
+- 其他版本：[繁体简体字幕转换工具 for 吾爱破解【小歆】](https://github.com/xiaoxinpro/ChineseSubtitleConversionTool/releases/download/V0.1.0.11/ChineseSubtitleConversionTool.52pojie.zip)
 
 ## 使用说明
 
