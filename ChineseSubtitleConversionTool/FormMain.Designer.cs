@@ -44,7 +44,7 @@
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPageCommon = new System.Windows.Forms.TabPage();
             this.tabPageBatch = new System.Windows.Forms.TabPage();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.listViewFile = new System.Windows.Forms.ListView();
             this.label4 = new System.Windows.Forms.Label();
             this.pbConvert = new System.Windows.Forms.ProgressBar();
             this.tabControlMain.SuspendLayout();
@@ -191,6 +191,9 @@
             // 
             // tabControlMain
             // 
+            this.tabControlMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControlMain.Controls.Add(this.tabPageCommon);
             this.tabControlMain.Controls.Add(this.tabPageBatch);
             this.tabControlMain.Location = new System.Drawing.Point(12, 12);
@@ -216,7 +219,7 @@
             // 
             // tabPageBatch
             // 
-            this.tabPageBatch.Controls.Add(this.listView1);
+            this.tabPageBatch.Controls.Add(this.listViewFile);
             this.tabPageBatch.Controls.Add(this.cbFormat);
             this.tabPageBatch.Controls.Add(this.btnOpenPath);
             this.tabPageBatch.Controls.Add(this.btnStartConvert);
@@ -235,14 +238,17 @@
             this.tabPageBatch.Text = "批量转换";
             this.tabPageBatch.UseVisualStyleBackColor = true;
             // 
-            // listView1
+            // listViewFile
             // 
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(48, 35);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(485, 241);
-            this.listView1.TabIndex = 4;
-            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listViewFile.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listViewFile.HideSelection = false;
+            this.listViewFile.Location = new System.Drawing.Point(48, 35);
+            this.listViewFile.Name = "listViewFile";
+            this.listViewFile.Size = new System.Drawing.Size(485, 241);
+            this.listViewFile.TabIndex = 4;
+            this.listViewFile.UseCompatibleStateImageBehavior = false;
             // 
             // label4
             // 
@@ -255,6 +261,7 @@
             // 
             // pbConvert
             // 
+            this.pbConvert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.pbConvert.Location = new System.Drawing.Point(458, 282);
             this.pbConvert.Name = "pbConvert";
             this.pbConvert.Size = new System.Drawing.Size(75, 22);
@@ -301,7 +308,7 @@
         private System.Windows.Forms.TabControl tabControlMain;
         private System.Windows.Forms.TabPage tabPageCommon;
         private System.Windows.Forms.TabPage tabPageBatch;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView listViewFile;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ProgressBar pbConvert;
     }

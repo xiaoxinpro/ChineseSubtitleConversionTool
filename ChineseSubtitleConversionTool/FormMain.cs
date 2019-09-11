@@ -29,6 +29,8 @@ namespace ChineseSubtitleConversionTool
         /// <param name="e"></param>
         private void FormMain_Load(object sender, EventArgs e)
         {
+            InitFileListView(listViewFile);
+
             cbFormat.SelectedIndex = 0;
 
             TipObject = new ToolTip();
@@ -40,6 +42,21 @@ namespace ChineseSubtitleConversionTool
             TipObject.UseFading = true;      //淡入淡出效果
             TipObject.IsBalloon = true;      //气球状外观
             TipObject.SetToolTip(this.txtFileName, "替换符说明：{name}原文件名称，{exten}文件扩展名，{num}文件序号");
+        }
+
+        private void InitFileListView(ListView listView)
+        {
+            //基本属性设置
+            listView.Clear();
+            listView.FullRowSelect = true;
+            listView.GridLines = true;
+            listView.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+            listView.View = View.Details;
+
+            //创建列表头
+            listView.Columns.Add("序号", 60, HorizontalAlignment.Center);
+            listView.Columns.Add("文件名称", 100, HorizontalAlignment.Left);
+            listView.Columns.Add("文件路径", 300, HorizontalAlignment.Left);
         }
 
         /// <summary>
@@ -69,8 +86,10 @@ namespace ChineseSubtitleConversionTool
             string path = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
             if (File.Exists(path))
             {
-                tabControlMain.SelectedIndex = 0;
-                txtShow.Text = ReadFile(path);
+                if(tabControlMain.SelectedIndex == 0)
+                {
+                    txtShow.Text = ReadFile(path);
+                }
             }
             else if (Directory.Exists(path))
             {
@@ -273,6 +292,8 @@ namespace ChineseSubtitleConversionTool
             string fileExt = Path.GetExtension(sourceName);
             return path + styleName.Replace("{name}", fileName).Replace("{exten}", fileExt);
         }
+
+        //public void LoadDirectoryFile(string path)
 
         /// <summary>
         /// 读取文件内容
