@@ -95,6 +95,8 @@ namespace ChineseSubtitleConversionTool
             {
                 tabControlMain.SelectedIndex = 1;
                 txtPath.Text = path.Trim();
+                LoadDirectoryFile(txtPath.Text.Trim(), listViewFile);
+                UpdataListViewFileName(listViewFile, txtFileName.Text.Trim());
             }
         }
 
@@ -293,7 +295,51 @@ namespace ChineseSubtitleConversionTool
             return path + styleName.Replace("{name}", fileName).Replace("{exten}", fileExt);
         }
 
-        //public void LoadDirectoryFile(string path)
+        public void LoadDirectoryFile(string path, ListView listView)
+        {
+            if (Directory.Exists(path))
+            {
+                listView.BeginUpdate();
+                DirectoryInfo folder = new DirectoryInfo(path);
+                foreach (FileInfo file in folder.GetFiles())
+                {
+                    switch (file.Extension.ToLower())
+                    {
+                        case ".ass":
+                        case ".ssa":
+                        case ".srt":
+                        case ".lrc":
+                        case ".txt":
+                            ListViewItem listViewItem = new ListViewItem();
+                            listViewItem.Text = (listView.Items.Count + 1).ToString();
+                            listViewItem.SubItems.Add("");
+                            listViewItem.SubItems.Add(file.FullName);
+                            listView.Items.Add(listViewItem);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                listView.EndUpdate();
+            }
+        }
+
+        public void UpdataListViewFileName(ListView listView, string nameStyle)
+        {
+            if (CheckFileStyle(nameStyle, out string msg)) 
+            {
+                listView.BeginUpdate();
+                foreach (ListViewItem item in listView.Items)
+                {
+                    string filePath = item.SubItems[2].Text;
+                    if (File.Exists(filePath))
+                    {
+                        item.SubItems[1].Text = Path.GetFileName(MakeFileName(filePath, nameStyle));
+                    }
+                }
+                listView.EndUpdate();
+            }
+        }
 
         /// <summary>
         /// 读取文件内容
