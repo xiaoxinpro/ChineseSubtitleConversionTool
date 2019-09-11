@@ -69,10 +69,12 @@ namespace ChineseSubtitleConversionTool
             string path = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
             if (File.Exists(path))
             {
+                tabControlMain.SelectedIndex = 0;
                 txtShow.Text = ReadFile(path);
             }
             else if (Directory.Exists(path))
             {
+                tabControlMain.SelectedIndex = 1;
                 txtPath.Text = path.Trim();
             }
         }
