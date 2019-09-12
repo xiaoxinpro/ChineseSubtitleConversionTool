@@ -129,12 +129,31 @@ namespace ChineseSubtitleConversionTool
         {
             try
             {
-                return Microsoft.VisualBasic.Strings.StrConv(str, Microsoft.VisualBasic.VbStrConv.SimplifiedChinese, 0);
+                return ChineseConvert.ToSimplified(str);
+                //return Microsoft.VisualBasic.Strings.StrConv(str, Microsoft.VisualBasic.VbStrConv.SimplifiedChinese, 0);
             }
             catch (Exception)
             {
                 return "";
             } 
+        }
+
+        /// <summary>
+        /// 字符串转为繁体字
+        /// </summary>
+        /// <param name="str">简体中文字符串</param>
+        /// <returns>繁体中文字符串</returns>
+        public string StringToTraditional(string str)
+        {
+            try
+            {
+                return ChineseConvert.ToTraditional(str);
+                //return Microsoft.VisualBasic.Strings.StrConv(str, Microsoft.VisualBasic.VbStrConv.TraditionalChinese, 0);
+            }
+            catch (Exception)
+            {
+                return "";
+            }
         }
 
         /// <summary>
@@ -449,23 +468,6 @@ namespace ChineseSubtitleConversionTool
                 Console.WriteLine(err.Message);
                 MessageBox.Show(err.Message, "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
-            }
-        }
-
-        /// <summary>
-        /// 字符串转为繁体字
-        /// </summary>
-        /// <param name="str">简体中文字符串</param>
-        /// <returns>繁体中文字符串</returns>
-        public string StringToTraditional(string str)
-        {
-            try
-            {
-                return Microsoft.VisualBasic.Strings.StrConv(str, Microsoft.VisualBasic.VbStrConv.TraditionalChinese, 0);
-            }
-            catch (Exception)
-            {
-                return "";
             }
         }
 
