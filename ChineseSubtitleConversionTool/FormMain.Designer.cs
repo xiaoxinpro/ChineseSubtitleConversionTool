@@ -61,7 +61,7 @@
             this.txtShow.Multiline = true;
             this.txtShow.Name = "txtShow";
             this.txtShow.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtShow.Size = new System.Drawing.Size(553, 290);
+            this.txtShow.Size = new System.Drawing.Size(555, 283);
             this.txtShow.TabIndex = 0;
             // 
             // btnToSimplified
@@ -87,7 +87,7 @@
             // btnSave
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(484, 6);
+            this.btnSave.Location = new System.Drawing.Point(486, 6);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 1;
@@ -98,7 +98,7 @@
             // btnClear
             // 
             this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClear.Location = new System.Drawing.Point(403, 6);
+            this.btnClear.Location = new System.Drawing.Point(405, 6);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(75, 23);
             this.btnClear.TabIndex = 1;
@@ -114,7 +114,7 @@
             this.cbFormat.Items.AddRange(new object[] {
             "转为简体",
             "转为繁体"});
-            this.cbFormat.Location = new System.Drawing.Point(48, 297);
+            this.cbFormat.Location = new System.Drawing.Point(41, 297);
             this.cbFormat.Name = "cbFormat";
             this.cbFormat.Size = new System.Drawing.Size(81, 20);
             this.cbFormat.TabIndex = 3;
@@ -122,7 +122,7 @@
             // btnStartConvert
             // 
             this.btnStartConvert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnStartConvert.Location = new System.Drawing.Point(473, 295);
+            this.btnStartConvert.Location = new System.Drawing.Point(486, 295);
             this.btnStartConvert.Name = "btnStartConvert";
             this.btnStartConvert.Size = new System.Drawing.Size(75, 23);
             this.btnStartConvert.TabIndex = 2;
@@ -133,7 +133,7 @@
             // btnOpenPath
             // 
             this.btnOpenPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOpenPath.Location = new System.Drawing.Point(473, 6);
+            this.btnOpenPath.Location = new System.Drawing.Point(486, 6);
             this.btnOpenPath.Name = "btnOpenPath";
             this.btnOpenPath.Size = new System.Drawing.Size(75, 23);
             this.btnOpenPath.TabIndex = 2;
@@ -145,9 +145,9 @@
             // 
             this.txtFileName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFileName.Location = new System.Drawing.Point(216, 297);
+            this.txtFileName.Location = new System.Drawing.Point(209, 297);
             this.txtFileName.Name = "txtFileName";
-            this.txtFileName.Size = new System.Drawing.Size(251, 21);
+            this.txtFileName.Size = new System.Drawing.Size(271, 21);
             this.txtFileName.TabIndex = 1;
             this.txtFileName.Text = "{name}.cs{exten}";
             this.txtFileName.TextChanged += new System.EventHandler(this.txtFileName_TextChanged);
@@ -156,16 +156,16 @@
             // 
             this.txtPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPath.Location = new System.Drawing.Point(48, 8);
+            this.txtPath.Location = new System.Drawing.Point(41, 8);
             this.txtPath.Name = "txtPath";
-            this.txtPath.Size = new System.Drawing.Size(419, 21);
+            this.txtPath.Size = new System.Drawing.Size(439, 21);
             this.txtPath.TabIndex = 1;
             // 
             // label2
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(144, 300);
+            this.label2.Location = new System.Drawing.Point(137, 300);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(77, 12);
             this.label2.TabIndex = 0;
@@ -175,7 +175,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(14, 300);
+            this.label3.Location = new System.Drawing.Point(7, 300);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(41, 12);
             this.label3.TabIndex = 0;
@@ -184,7 +184,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(14, 11);
+            this.label1.Location = new System.Drawing.Point(7, 11);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 12);
             this.label1.TabIndex = 0;
@@ -214,7 +214,7 @@
             this.tabPageCommon.Location = new System.Drawing.Point(4, 22);
             this.tabPageCommon.Name = "tabPageCommon";
             this.tabPageCommon.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCommon.Size = new System.Drawing.Size(571, 331);
+            this.tabPageCommon.Size = new System.Drawing.Size(567, 324);
             this.tabPageCommon.TabIndex = 0;
             this.tabPageCommon.Text = "普通转换";
             this.tabPageCommon.UseVisualStyleBackColor = true;
@@ -246,16 +246,16 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listViewFile.HideSelection = false;
-            this.listViewFile.Location = new System.Drawing.Point(48, 35);
+            this.listViewFile.Location = new System.Drawing.Point(41, 35);
             this.listViewFile.Name = "listViewFile";
-            this.listViewFile.Size = new System.Drawing.Size(500, 254);
+            this.listViewFile.Size = new System.Drawing.Size(520, 254);
             this.listViewFile.TabIndex = 4;
             this.listViewFile.UseCompatibleStateImageBehavior = false;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(14, 40);
+            this.label4.Location = new System.Drawing.Point(7, 42);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(41, 12);
             this.label4.TabIndex = 0;
@@ -264,7 +264,7 @@
             // pbConvert
             // 
             this.pbConvert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbConvert.Location = new System.Drawing.Point(473, 295);
+            this.pbConvert.Location = new System.Drawing.Point(486, 295);
             this.pbConvert.Name = "pbConvert";
             this.pbConvert.Size = new System.Drawing.Size(75, 22);
             this.pbConvert.TabIndex = 5;
