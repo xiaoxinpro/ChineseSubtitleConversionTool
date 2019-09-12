@@ -205,6 +205,25 @@ namespace ChineseSubtitleConversionTool
         }
 
         /// <summary>
+        /// 文件名称风格改变事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txtFileName_TextChanged(object sender, EventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            if (CheckFileStyle(textBox.Text, out string msg))
+            {
+                textBox.BackColor = Color.White;
+                UpdataListViewFileName(listViewFile, textBox.Text);
+            }
+            else
+            {
+                textBox.BackColor = Color.Red;
+            }
+        }
+
+        /// <summary>
         /// 开始转换按钮
         /// </summary>
         /// <param name="sender"></param>
@@ -314,6 +333,11 @@ namespace ChineseSubtitleConversionTool
             return path + styleName.Replace("{name}", fileName).Replace("{exten}", fileExt);
         }
 
+        /// <summary>
+        /// 加载文件夹中的文件到列表中
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="listView"></param>
         public void LoadDirectoryFile(string path, ListView listView)
         {
             if (Directory.Exists(path))
@@ -343,6 +367,11 @@ namespace ChineseSubtitleConversionTool
             }
         }
 
+        /// <summary>
+        /// 升级列表中的文件名
+        /// </summary>
+        /// <param name="listView"></param>
+        /// <param name="nameStyle"></param>
         public void UpdataListViewFileName(ListView listView, string nameStyle)
         {
             if (CheckFileStyle(nameStyle, out string msg)) 
@@ -470,6 +499,5 @@ namespace ChineseSubtitleConversionTool
                 return false;
             }
         }
-
     }
 }
