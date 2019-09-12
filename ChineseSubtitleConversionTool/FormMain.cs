@@ -34,7 +34,7 @@ namespace ChineseSubtitleConversionTool
             cbFormat.SelectedIndex = 0;
 
             TipObject = new ToolTip();
-            TipObject.AutoPopDelay = 5000;    //工具提示保持可见的时间期限
+            TipObject.AutoPopDelay = 10000;    //工具提示保持可见的时间期限
             TipObject.InitialDelay = 200;     //鼠标放上，自动打开提示的时间
             TipObject.ReshowDelay = 1000;       //鼠标离开，自动关闭提示的时间
             TipObject.ShowAlways = true;     //总是显示，即便空间非活动
@@ -42,8 +42,13 @@ namespace ChineseSubtitleConversionTool
             TipObject.UseFading = true;      //淡入淡出效果
             TipObject.IsBalloon = true;      //气球状外观
             TipObject.SetToolTip(this.txtFileName, "替换符说明：{name}原文件名称，{exten}文件扩展名，{num}文件序号");
+            TipObject.SetToolTip(this.chkChineseConvert, "如果不勾选可能在文本中出现的古文字转换后出现??\r\n如果勾选将大大降低转换速度\r\n请根据使用情况酌情勾选。");
         }
 
+        /// <summary>
+        /// 初始化列表
+        /// </summary>
+        /// <param name="listView"></param>
         private void InitFileListView(ListView listView)
         {
             //基本属性设置
@@ -57,6 +62,43 @@ namespace ChineseSubtitleConversionTool
             listView.Columns.Add("序号", 60, HorizontalAlignment.Center);
             listView.Columns.Add("文件名称", 100, HorizontalAlignment.Left);
             listView.Columns.Add("文件路径", 300, HorizontalAlignment.Left);
+        }
+
+        /// <summary>
+        /// 添加数据到列表
+        /// </summary>
+        /// <param name="listView"></param>
+        /// <param name="filePath"></param>
+        private void AddFileListView(ListView listView, params FileInfo[] arrPath)
+        {
+            listView.BeginUpdate();
+            foreach (FileInfo file in arrPath)
+            {
+                switch (file.Extension.ToLower())
+                {
+                    case ".ass":
+                    case ".ssa":
+                    case ".srt":
+                    case ".lrc":
+                    case ".txt":
+                        try
+                        {
+                            ListViewItem listViewItem = listView.Items.Cast<ListViewItem>().First(x => x.SubItems[2].Text == file.FullName);
+                        }
+                        catch (Exception)
+                        {
+                            ListViewItem listViewItem = new ListViewItem();
+                            listViewItem.Text = (listView.Items.Count + 1).ToString();
+                            listViewItem.SubItems.Add("");
+                            listViewItem.SubItems.Add(file.FullName);
+                            listView.Items.Add(listViewItem);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            listView.EndUpdate();
         }
 
         /// <summary>
@@ -233,9 +275,10 @@ namespace ChineseSubtitleConversionTool
             string path = txtPath.Text.Trim();
             string format = cbFormat.Text.Trim();
             string nameStyle = txtFileName.Text.Trim();
-            if (Directory.Exists(path) == false)
+            int fileLength = listViewFile.Items.Count;
+            if (fileLength <= 0)
             {
-                MessageBox.Show("目标目录不存在。", "无法转换", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("无可转换的文件不存在，请先打开字幕文件夹。", "无法转换", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             else if (CheckFileStyle(nameStyle, out string err) == false)
@@ -245,51 +288,104 @@ namespace ChineseSubtitleConversionTool
             }
             else
             {
-                int len = 0;
-                DirectoryInfo folder = new DirectoryInfo(path);
-                foreach (FileInfo file in folder.GetFiles())
+                Dictionary<string, string> dicFile = new Dictionary<string, string>();
+                foreach (ListViewItem item in listViewFile.Items)
                 {
-                    switch (file.Extension.ToLower())
-                    {
-                        case ".ass":
-                        case ".ssa":
-                        case ".srt":
-                        case ".lrc":
-                        case ".txt":
-                            if (len++ == 0)
-                            {
-                                pbConvert.Value = 0;
-                                btnStartConvert.Hide();
-                            }
-                            Task.Factory.StartNew(() =>
-                            {
-                                Console.WriteLine(format + "\t" + MakeFileName(file.FullName, nameStyle));
-                                if (format == "转为简体")
-                                {
-                                    SaveFile(MakeFileName(file.FullName, nameStyle), StringToSimlified(ReadFile(file.FullName)));
-                                }
-                                else
-                                {
-                                    SaveFile(MakeFileName(file.FullName, nameStyle), StringToTraditional(ReadFile(file.FullName)));
-                                }
-                                this.Invoke(new Action(() =>
-                                {
-                                    pbConvert.PerformStep();
-                                    if (pbConvert.Maximum == pbConvert.Value)
-                                    {
-                                        MessageBox.Show("转换完成，共输出" + pbConvert.Value + "个字幕文件。", "转换完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                        pbConvert.Value = 0;
-                                        btnStartConvert.Show();
-                                    }
-                                }));
-                            });
-                            break;
-                        default:
-                            break;
-                    }
+                    dicFile.Add(item.SubItems[1].Text, item.SubItems[2].Text);
                 }
-                pbConvert.Maximum = len;
+                pbConvert.Value = 0;
+                pbConvert.Maximum = dicFile.Count;
+                btnStartConvert.Hide();
+                int cnt = 0;
+                foreach (KeyValuePair<string,string> file in dicFile)
+                {
+                    Task.Factory.StartNew(() =>
+                    {
+                        Console.WriteLine(format + "\t" + MakeFileName(file.Value, nameStyle));
+                        if (format == "转为简体")
+                        {
+                            SaveFile(MakeFileName(file.Value, nameStyle), StringToSimlified(ReadFile(file.Value)));
+                        }
+                        else
+                        {
+                            SaveFile(MakeFileName(file.Value, nameStyle), StringToTraditional(ReadFile(file.Value)));
+                        }
+                        this.Invoke(new Action(() =>
+                        {
+                            cnt = cnt + 1;
+                            pbConvert.Value = cnt;
+                            if (cnt >= fileLength)
+                            {
+                                Console.WriteLine("第" + cnt + "次进去完成流程，", pbConvert.Value, pbConvert.Maximum);
+                                MessageBox.Show("转换完成，共输出" + pbConvert.Value + "个字幕文件。", "转换完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                pbConvert.Value = 0;
+                                btnStartConvert.Show();
+                            }
+                        }));
+                    });
+                }
+
             }
+            //string path = txtPath.Text.Trim();
+            //string format = cbFormat.Text.Trim();
+            //string nameStyle = txtFileName.Text.Trim();
+            //if (Directory.Exists(path) == false)
+            //{
+            //    MessageBox.Show("目标目录不存在。", "无法转换", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    return;
+            //}
+            //else if (CheckFileStyle(nameStyle, out string err) == false)
+            //{
+            //    MessageBox.Show(err, "文件名样式错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    return;
+            //}
+            //else
+            //{
+            //    int len = 0;
+            //    DirectoryInfo folder = new DirectoryInfo(path);
+            //    foreach (FileInfo file in folder.GetFiles())
+            //    {
+            //        switch (file.Extension.ToLower())
+            //        {
+            //            case ".ass":
+            //            case ".ssa":
+            //            case ".srt":
+            //            case ".lrc":
+            //            case ".txt":
+            //                if (len++ == 0)
+            //                {
+            //                    pbConvert.Value = 0;
+            //                    btnStartConvert.Hide();
+            //                }
+            //                Task.Factory.StartNew(() =>
+            //                {
+            //                    Console.WriteLine(format + "\t" + MakeFileName(file.FullName, nameStyle));
+            //                    if (format == "转为简体")
+            //                    {
+            //                        SaveFile(MakeFileName(file.FullName, nameStyle), StringToSimlified(ReadFile(file.FullName)));
+            //                    }
+            //                    else
+            //                    {
+            //                        SaveFile(MakeFileName(file.FullName, nameStyle), StringToTraditional(ReadFile(file.FullName)));
+            //                    }
+            //                    this.Invoke(new Action(() =>
+            //                    {
+            //                        pbConvert.PerformStep();
+            //                        if (pbConvert.Maximum == pbConvert.Value)
+            //                        {
+            //                            MessageBox.Show("转换完成，共输出" + pbConvert.Value + "个字幕文件。", "转换完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //                            pbConvert.Value = 0;
+            //                            btnStartConvert.Show();
+            //                        }
+            //                    }));
+            //                });
+            //                break;
+            //            default:
+            //                break;
+            //        }
+            //    }
+            //    pbConvert.Maximum = len;
+            //}
         }
 
         /// <summary>
@@ -342,28 +438,8 @@ namespace ChineseSubtitleConversionTool
         {
             if (Directory.Exists(path))
             {
-                listView.BeginUpdate();
                 DirectoryInfo folder = new DirectoryInfo(path);
-                foreach (FileInfo file in folder.GetFiles())
-                {
-                    switch (file.Extension.ToLower())
-                    {
-                        case ".ass":
-                        case ".ssa":
-                        case ".srt":
-                        case ".lrc":
-                        case ".txt":
-                            ListViewItem listViewItem = new ListViewItem();
-                            listViewItem.Text = (listView.Items.Count + 1).ToString();
-                            listViewItem.SubItems.Add("");
-                            listViewItem.SubItems.Add(file.FullName);
-                            listView.Items.Add(listViewItem);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                listView.EndUpdate();
+                AddFileListView(listView, folder.GetFiles());
             }
         }
 
