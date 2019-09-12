@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChineseConvert.cs" />
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
