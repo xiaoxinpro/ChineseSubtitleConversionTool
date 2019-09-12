@@ -47,6 +47,8 @@
             this.listViewFile = new System.Windows.Forms.ListView();
             this.label4 = new System.Windows.Forms.Label();
             this.pbConvert = new System.Windows.Forms.ProgressBar();
+            this.chkChineseConvert = new System.Windows.Forms.CheckBox();
+            this.btnClearList = new System.Windows.Forms.Button();
             this.tabControlMain.SuspendLayout();
             this.tabPageCommon.SuspendLayout();
             this.tabPageBatch.SuspendLayout();
@@ -87,9 +89,9 @@
             // btnSave
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(486, 6);
+            this.btnSave.Location = new System.Drawing.Point(511, 6);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.Size = new System.Drawing.Size(50, 23);
             this.btnSave.TabIndex = 1;
             this.btnSave.Text = "保存";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -98,9 +100,9 @@
             // btnClear
             // 
             this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClear.Location = new System.Drawing.Point(405, 6);
+            this.btnClear.Location = new System.Drawing.Point(455, 6);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(75, 23);
+            this.btnClear.Size = new System.Drawing.Size(50, 23);
             this.btnClear.TabIndex = 1;
             this.btnClear.Text = "清空";
             this.btnClear.UseVisualStyleBackColor = true;
@@ -133,9 +135,9 @@
             // btnOpenPath
             // 
             this.btnOpenPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOpenPath.Location = new System.Drawing.Point(486, 6);
+            this.btnOpenPath.Location = new System.Drawing.Point(430, 6);
             this.btnOpenPath.Name = "btnOpenPath";
-            this.btnOpenPath.Size = new System.Drawing.Size(75, 23);
+            this.btnOpenPath.Size = new System.Drawing.Size(50, 23);
             this.btnOpenPath.TabIndex = 2;
             this.btnOpenPath.Text = "浏览";
             this.btnOpenPath.UseVisualStyleBackColor = true;
@@ -158,7 +160,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtPath.Location = new System.Drawing.Point(41, 8);
             this.txtPath.Name = "txtPath";
-            this.txtPath.Size = new System.Drawing.Size(439, 21);
+            this.txtPath.ReadOnly = true;
+            this.txtPath.Size = new System.Drawing.Size(383, 21);
             this.txtPath.TabIndex = 1;
             // 
             // label2
@@ -206,6 +209,7 @@
             // 
             // tabPageCommon
             // 
+            this.tabPageCommon.Controls.Add(this.chkChineseConvert);
             this.tabPageCommon.Controls.Add(this.btnToSimplified);
             this.tabPageCommon.Controls.Add(this.txtShow);
             this.tabPageCommon.Controls.Add(this.btnClear);
@@ -221,6 +225,7 @@
             // 
             // tabPageBatch
             // 
+            this.tabPageBatch.Controls.Add(this.btnClearList);
             this.tabPageBatch.Controls.Add(this.listViewFile);
             this.tabPageBatch.Controls.Add(this.cbFormat);
             this.tabPageBatch.Controls.Add(this.btnOpenPath);
@@ -269,6 +274,25 @@
             this.pbConvert.Size = new System.Drawing.Size(75, 22);
             this.pbConvert.TabIndex = 5;
             // 
+            // chkChineseConvert
+            // 
+            this.chkChineseConvert.AutoSize = true;
+            this.chkChineseConvert.Location = new System.Drawing.Point(180, 10);
+            this.chkChineseConvert.Name = "chkChineseConvert";
+            this.chkChineseConvert.Size = new System.Drawing.Size(168, 16);
+            this.chkChineseConvert.TabIndex = 2;
+            this.chkChineseConvert.Text = "优化古文字转换（速度慢）";
+            this.chkChineseConvert.UseVisualStyleBackColor = true;
+            // 
+            // btnClearList
+            // 
+            this.btnClearList.Location = new System.Drawing.Point(486, 6);
+            this.btnClearList.Name = "btnClearList";
+            this.btnClearList.Size = new System.Drawing.Size(75, 23);
+            this.btnClearList.TabIndex = 6;
+            this.btnClearList.Text = "清空列表";
+            this.btnClearList.UseVisualStyleBackColor = true;
+            // 
             // FormMain
             // 
             this.AllowDrop = true;
@@ -276,7 +300,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 361);
             this.Controls.Add(this.tabControlMain);
-            this.MinimumSize = new System.Drawing.Size(400, 300);
+            this.MinimumSize = new System.Drawing.Size(500, 300);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "繁体简体字幕转换工具";
@@ -313,6 +337,8 @@
         private System.Windows.Forms.ListView listViewFile;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ProgressBar pbConvert;
+        private System.Windows.Forms.CheckBox chkChineseConvert;
+        private System.Windows.Forms.Button btnClearList;
     }
 }
 
