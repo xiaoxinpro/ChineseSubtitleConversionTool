@@ -42,7 +42,7 @@ namespace ChineseSubtitleConversionTool
             TipObject.UseFading = true;      //淡入淡出效果
             TipObject.IsBalloon = true;      //气球状外观
             TipObject.SetToolTip(this.txtFileName, "替换符说明：{name}原文件名称，{exten}文件扩展名，{num}文件序号");
-            TipObject.SetToolTip(this.chkChineseConvert, "如果不勾选可能在文本中出现的古文字转换后出现??\r\n如果勾选将大大降低转换速度\r\n请根据使用情况酌情勾选。");
+            TipObject.SetToolTip(this.chkChineseConvert, "如果不勾选可能在文本中出现的古文字转换后出现??\r\n如果勾选将大大降低转换速度\r\n请根据使用情况酌情勾选，全局有效！");
         }
 
         /// <summary>
@@ -62,6 +62,9 @@ namespace ChineseSubtitleConversionTool
             listView.Columns.Add("序号", 60, HorizontalAlignment.Center);
             listView.Columns.Add("文件名称", 100, HorizontalAlignment.Left);
             listView.Columns.Add("文件路径", 300, HorizontalAlignment.Left);
+
+            //自动列宽
+            listView.Columns[2].Width = -2;//根据标题设置宽度
         }
 
         /// <summary>
@@ -171,8 +174,14 @@ namespace ChineseSubtitleConversionTool
         {
             try
             {
-                return ChineseConvert.ToSimplified(str);
-                //return Microsoft.VisualBasic.Strings.StrConv(str, Microsoft.VisualBasic.VbStrConv.SimplifiedChinese, 0);
+                if (chkChineseConvert.Checked)
+                {
+                    return ChineseConvert.ToSimplified(str);
+                }
+                else
+                {
+                    return Microsoft.VisualBasic.Strings.StrConv(str, Microsoft.VisualBasic.VbStrConv.SimplifiedChinese, 0);
+                }
             }
             catch (Exception)
             {
@@ -189,8 +198,14 @@ namespace ChineseSubtitleConversionTool
         {
             try
             {
-                return ChineseConvert.ToTraditional(str);
-                //return Microsoft.VisualBasic.Strings.StrConv(str, Microsoft.VisualBasic.VbStrConv.TraditionalChinese, 0);
+                if (chkChineseConvert.Checked)
+                {
+                    return ChineseConvert.ToTraditional(str);
+                }
+                else
+                {
+                    return Microsoft.VisualBasic.Strings.StrConv(str, Microsoft.VisualBasic.VbStrConv.TraditionalChinese, 0);
+                }
             }
             catch (Exception)
             {
@@ -244,6 +259,17 @@ namespace ChineseSubtitleConversionTool
             {
                 txtPath.Text = path;
             }
+        }
+
+        /// <summary>
+        /// 清空列表按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnClearList_Click(object sender, EventArgs e)
+        {
+            listViewFile.Items.Clear();
+            txtPath.Clear();
         }
 
         /// <summary>
@@ -320,6 +346,8 @@ namespace ChineseSubtitleConversionTool
                                 MessageBox.Show("转换完成，共输出" + pbConvert.Value + "个字幕文件。", "转换完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 pbConvert.Value = 0;
                                 btnStartConvert.Show();
+                                listViewFile.Items.Clear();
+                                txtPath.Clear();
                             }
                         }));
                     });
@@ -575,5 +603,7 @@ namespace ChineseSubtitleConversionTool
                 return false;
             }
         }
+
+
     }
 }
