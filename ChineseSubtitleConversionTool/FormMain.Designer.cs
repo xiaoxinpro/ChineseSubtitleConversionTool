@@ -43,12 +43,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPageCommon = new System.Windows.Forms.TabPage();
+            this.chkChineseConvert = new System.Windows.Forms.CheckBox();
             this.tabPageBatch = new System.Windows.Forms.TabPage();
+            this.btnClearList = new System.Windows.Forms.Button();
             this.listViewFile = new System.Windows.Forms.ListView();
             this.label4 = new System.Windows.Forms.Label();
             this.pbConvert = new System.Windows.Forms.ProgressBar();
-            this.chkChineseConvert = new System.Windows.Forms.CheckBox();
-            this.btnClearList = new System.Windows.Forms.Button();
             this.tabControlMain.SuspendLayout();
             this.tabPageCommon.SuspendLayout();
             this.tabPageBatch.SuspendLayout();
@@ -223,6 +223,16 @@
             this.tabPageCommon.Text = "普通转换";
             this.tabPageCommon.UseVisualStyleBackColor = true;
             // 
+            // chkChineseConvert
+            // 
+            this.chkChineseConvert.AutoSize = true;
+            this.chkChineseConvert.Location = new System.Drawing.Point(180, 10);
+            this.chkChineseConvert.Name = "chkChineseConvert";
+            this.chkChineseConvert.Size = new System.Drawing.Size(168, 16);
+            this.chkChineseConvert.TabIndex = 2;
+            this.chkChineseConvert.Text = "优化古文字转换（速度慢）";
+            this.chkChineseConvert.UseVisualStyleBackColor = true;
+            // 
             // tabPageBatch
             // 
             this.tabPageBatch.Controls.Add(this.btnClearList);
@@ -244,6 +254,17 @@
             this.tabPageBatch.TabIndex = 1;
             this.tabPageBatch.Text = "批量转换";
             this.tabPageBatch.UseVisualStyleBackColor = true;
+            // 
+            // btnClearList
+            // 
+            this.btnClearList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClearList.Location = new System.Drawing.Point(486, 6);
+            this.btnClearList.Name = "btnClearList";
+            this.btnClearList.Size = new System.Drawing.Size(75, 23);
+            this.btnClearList.TabIndex = 6;
+            this.btnClearList.Text = "清空列表";
+            this.btnClearList.UseVisualStyleBackColor = true;
+            this.btnClearList.Click += new System.EventHandler(this.btnClearList_Click);
             // 
             // listViewFile
             // 
@@ -273,25 +294,6 @@
             this.pbConvert.Name = "pbConvert";
             this.pbConvert.Size = new System.Drawing.Size(75, 22);
             this.pbConvert.TabIndex = 5;
-            // 
-            // chkChineseConvert
-            // 
-            this.chkChineseConvert.AutoSize = true;
-            this.chkChineseConvert.Location = new System.Drawing.Point(180, 10);
-            this.chkChineseConvert.Name = "chkChineseConvert";
-            this.chkChineseConvert.Size = new System.Drawing.Size(168, 16);
-            this.chkChineseConvert.TabIndex = 2;
-            this.chkChineseConvert.Text = "优化古文字转换（速度慢）";
-            this.chkChineseConvert.UseVisualStyleBackColor = true;
-            // 
-            // btnClearList
-            // 
-            this.btnClearList.Location = new System.Drawing.Point(486, 6);
-            this.btnClearList.Name = "btnClearList";
-            this.btnClearList.Size = new System.Drawing.Size(75, 23);
-            this.btnClearList.TabIndex = 6;
-            this.btnClearList.Text = "清空列表";
-            this.btnClearList.UseVisualStyleBackColor = true;
             // 
             // FormMain
             // 
