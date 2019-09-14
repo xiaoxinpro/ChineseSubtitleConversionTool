@@ -31,6 +31,8 @@ namespace ChineseSubtitleConversionTool
         /// <param name="e"></param>
         private void FormMain_Load(object sender, EventArgs e)
         {
+            this.Text += @" V" + Application.ProductVersion.ToString();
+
             InitFileListView(listViewFile);
 
             cbFormat.SelectedIndex = 0;
