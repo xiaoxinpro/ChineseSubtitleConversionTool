@@ -412,6 +412,7 @@ namespace ChineseSubtitleConversionTool
         {
             if (Directory.Exists(path))
             {
+                listView.Items.Clear();
                 DirectoryInfo folder = new DirectoryInfo(path);
                 AddFileListView(listView, folder.GetFiles());
             }
