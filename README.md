@@ -6,11 +6,13 @@
 ## 下载
 - 开发版本：[ChineseSubtitleConversionTool.exe](https://github.com/xiaoxinpro/ChineseSubtitleConversionTool/raw/master/ChineseSubtitleConversionTool/bin/Debug/ChineseSubtitleConversionTool.exe)
 
-- 稳定版本：[繁体简体字幕转换工具 V0.1.0.11](https://github.com/xiaoxinpro/ChineseSubtitleConversionTool/releases)
+- 稳定版本：[繁体简体字幕转换工具 V0.2.0.28](https://github.com/xiaoxinpro/ChineseSubtitleConversionTool/releases)
 
-- 其他版本：[繁体简体字幕转换工具 for 吾爱破解【小歆】](https://github.com/xiaoxinpro/ChineseSubtitleConversionTool/releases/download/V0.1.0.11/ChineseSubtitleConversionTool.52pojie.zip)
+- 其他版本：[繁体简体字幕转换工具 for 吾爱破解【小歆】](https://github.com/xiaoxinpro/ChineseSubtitleConversionTool/releases/download/V0.2.0.28/ChineseSubtitleConversionTool.52pojie.zip)
 
 ## 使用说明
+
+![界面](https://github.com/xiaoxinpro/ChineseSubtitleConversionTool/blob/master/Image.png)
 
 ### 普通转换
 可以直接将字幕文件拖拽到软件中，自动读取字幕文件内容，点击“转为简体”或“转为繁体”完成转换，点击“保存”按钮可以输出保存。
@@ -37,7 +39,12 @@
 
 > 如果要使用源文件名替换掉旧的字幕文件可输入：`{name}{exten}`
 
-![界面](https://github.com/xiaoxinpro/ChineseSubtitleConversionTool/blob/master/Image.png)
+#### 优化古文字转换
+该功能开关在“普通转换”界面，但效果是全局的，主要应用场景是在含有古文字字符的文本中。
+
+默认不勾选该选项，可以最高效的速率进行转换，但文本中包含的古文字会转换成`??`。
+
+当勾选该选项时，文本中包含的古文字会原样输出，但转换速率会大大降低（转换时间为不开启时的10-20倍）。
 
 ## 捐赠
 如果您觉得此工具对你有帮助，欢迎给予我们一定的捐助来维持项目的长期发展。
