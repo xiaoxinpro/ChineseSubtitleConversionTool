@@ -18,6 +18,7 @@ namespace ChineseSubtitleConversionTool
         private string OpenFileDefineExt = "";
         private string OpenFileDefineName = "";
 
+        #region 初始化相关
         public FormMain()
         {
             InitializeComponent();
@@ -68,43 +69,9 @@ namespace ChineseSubtitleConversionTool
             listView.Columns[2].Width = -2;//根据标题设置宽度
         }
 
-        /// <summary>
-        /// 添加数据到列表
-        /// </summary>
-        /// <param name="listView"></param>
-        /// <param name="filePath"></param>
-        private void AddFileListView(ListView listView, params FileInfo[] arrPath)
-        {
-            listView.BeginUpdate();
-            foreach (FileInfo file in arrPath)
-            {
-                switch (file.Extension.ToLower())
-                {
-                    case ".ass":
-                    case ".ssa":
-                    case ".srt":
-                    case ".lrc":
-                    case ".txt":
-                        try
-                        {
-                            ListViewItem listViewItem = listView.Items.Cast<ListViewItem>().First(x => x.SubItems[2].Text == file.FullName);
-                        }
-                        catch (Exception)
-                        {
-                            ListViewItem listViewItem = new ListViewItem();
-                            listViewItem.Text = (listView.Items.Count + 1).ToString();
-                            listViewItem.SubItems.Add("");
-                            listViewItem.SubItems.Add(file.FullName);
-                            listView.Items.Add(listViewItem);
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
-            listView.EndUpdate();
-        }
+        #endregion
 
+        #region 控件相关
         /// <summary>
         /// 获取拖拽信息
         /// </summary>
@@ -164,54 +131,6 @@ namespace ChineseSubtitleConversionTool
         private void btnToTraditional_Click(object sender, EventArgs e)
         {
             txtShow.Text = StringToTraditional(txtShow.Text);
-        }
-
-        /// <summary>
-        /// 字符串转为简体中文
-        /// </summary>
-        /// <param name="str">简体中文字符串</param>
-        /// <returns>繁体中文字符串</returns>
-        public string StringToSimlified(string str)
-        {
-            try
-            {
-                if (chkChineseConvert.Checked)
-                {
-                    return ChineseConvert.ToSimplified(str);
-                }
-                else
-                {
-                    return Microsoft.VisualBasic.Strings.StrConv(str, Microsoft.VisualBasic.VbStrConv.SimplifiedChinese, 0);
-                }
-            }
-            catch (Exception)
-            {
-                return "";
-            } 
-        }
-
-        /// <summary>
-        /// 字符串转为繁体字
-        /// </summary>
-        /// <param name="str">简体中文字符串</param>
-        /// <returns>繁体中文字符串</returns>
-        public string StringToTraditional(string str)
-        {
-            try
-            {
-                if (chkChineseConvert.Checked)
-                {
-                    return ChineseConvert.ToTraditional(str);
-                }
-                else
-                {
-                    return Microsoft.VisualBasic.Strings.StrConv(str, Microsoft.VisualBasic.VbStrConv.TraditionalChinese, 0);
-                }
-            }
-            catch (Exception)
-            {
-                return "";
-            }
         }
 
         /// <summary>
@@ -418,7 +337,135 @@ namespace ChineseSubtitleConversionTool
             //    pbConvert.Maximum = len;
             //}
         }
+        #endregion
 
+        #region 列表相关
+        /// <summary>
+        /// 添加数据到列表
+        /// </summary>
+        /// <param name="listView"></param>
+        /// <param name="filePath"></param>
+        private void AddFileListView(ListView listView, params FileInfo[] arrPath)
+        {
+            listView.BeginUpdate();
+            foreach (FileInfo file in arrPath)
+            {
+                switch (file.Extension.ToLower())
+                {
+                    case ".ass":
+                    case ".ssa":
+                    case ".srt":
+                    case ".lrc":
+                    case ".txt":
+                        try
+                        {
+                            ListViewItem listViewItem = listView.Items.Cast<ListViewItem>().First(x => x.SubItems[2].Text == file.FullName);
+                        }
+                        catch (Exception)
+                        {
+                            ListViewItem listViewItem = new ListViewItem();
+                            listViewItem.Text = (listView.Items.Count + 1).ToString();
+                            listViewItem.SubItems.Add("");
+                            listViewItem.SubItems.Add(file.FullName);
+                            listView.Items.Add(listViewItem);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            listView.EndUpdate();
+        }
+
+        /// <summary>
+        /// 加载文件夹中的文件到列表中
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="listView"></param>
+        public void LoadDirectoryFile(string path, ListView listView)
+        {
+            if (Directory.Exists(path))
+            {
+                DirectoryInfo folder = new DirectoryInfo(path);
+                AddFileListView(listView, folder.GetFiles());
+            }
+        }
+
+        /// <summary>
+        /// 升级列表中的文件名
+        /// </summary>
+        /// <param name="listView"></param>
+        /// <param name="nameStyle"></param>
+        public void UpdataListViewFileName(ListView listView, string nameStyle)
+        {
+            if (CheckFileStyle(nameStyle, out string msg)) 
+            {
+                listView.BeginUpdate();
+                foreach (ListViewItem item in listView.Items)
+                {
+                    string filePath = item.SubItems[2].Text;
+                    if (File.Exists(filePath))
+                    {
+                        item.SubItems[1].Text = Path.GetFileName(MakeFileName(filePath, nameStyle));
+                    }
+                }
+                listView.EndUpdate();
+            }
+        }
+        #endregion
+
+        #region 转换相关
+        /// <summary>
+        /// 字符串转为简体中文
+        /// </summary>
+        /// <param name="str">简体中文字符串</param>
+        /// <returns>繁体中文字符串</returns>
+        public string StringToSimlified(string str)
+        {
+            try
+            {
+                if (chkChineseConvert.Checked)
+                {
+                    return ChineseConvert.ToSimplified(str);
+                }
+                else
+                {
+                    return Microsoft.VisualBasic.Strings.StrConv(str, Microsoft.VisualBasic.VbStrConv.SimplifiedChinese, 0);
+                }
+            }
+            catch (Exception)
+            {
+                return "";
+            } 
+        }
+
+        /// <summary>
+        /// 字符串转为繁体字
+        /// </summary>
+        /// <param name="str">简体中文字符串</param>
+        /// <returns>繁体中文字符串</returns>
+        public string StringToTraditional(string str)
+        {
+            try
+            {
+                if (chkChineseConvert.Checked)
+                {
+                    return ChineseConvert.ToTraditional(str);
+                }
+                else
+                {
+                    return Microsoft.VisualBasic.Strings.StrConv(str, Microsoft.VisualBasic.VbStrConv.TraditionalChinese, 0);
+                }
+            }
+            catch (Exception)
+            {
+                return "";
+            }
+        }
+
+        #endregion
+
+        #region 读写文件相关
         /// <summary>
         /// 检查文件名样式是否合法
         /// </summary>
@@ -458,42 +505,6 @@ namespace ChineseSubtitleConversionTool
             string fileName = Path.GetFileNameWithoutExtension(sourceName);
             string fileExt = Path.GetExtension(sourceName);
             return path + styleName.Replace("{name}", fileName).Replace("{exten}", fileExt);
-        }
-
-        /// <summary>
-        /// 加载文件夹中的文件到列表中
-        /// </summary>
-        /// <param name="path"></param>
-        /// <param name="listView"></param>
-        public void LoadDirectoryFile(string path, ListView listView)
-        {
-            if (Directory.Exists(path))
-            {
-                DirectoryInfo folder = new DirectoryInfo(path);
-                AddFileListView(listView, folder.GetFiles());
-            }
-        }
-
-        /// <summary>
-        /// 升级列表中的文件名
-        /// </summary>
-        /// <param name="listView"></param>
-        /// <param name="nameStyle"></param>
-        public void UpdataListViewFileName(ListView listView, string nameStyle)
-        {
-            if (CheckFileStyle(nameStyle, out string msg)) 
-            {
-                listView.BeginUpdate();
-                foreach (ListViewItem item in listView.Items)
-                {
-                    string filePath = item.SubItems[2].Text;
-                    if (File.Exists(filePath))
-                    {
-                        item.SubItems[1].Text = Path.GetFileName(MakeFileName(filePath, nameStyle));
-                    }
-                }
-                listView.EndUpdate();
-            }
         }
 
         /// <summary>
@@ -606,7 +617,7 @@ namespace ChineseSubtitleConversionTool
                 return false;
             }
         }
-
+        #endregion
 
     }
 }
