@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -323,6 +324,8 @@ namespace ChineseSubtitleConversionTool
                 pbConvert.Maximum = dicFile.Count;
                 btnStartConvert.Hide();
                 int cnt = 0;
+                Stopwatch Watch = new Stopwatch();
+                Watch.Start();
                 foreach (KeyValuePair<string,string> file in dicFile)
                 {
                     Task.Factory.StartNew(() =>
@@ -342,8 +345,8 @@ namespace ChineseSubtitleConversionTool
                             pbConvert.Value = cnt;
                             if (cnt >= fileLength)
                             {
-                                Console.WriteLine("第" + cnt + "次进去完成流程，", pbConvert.Value, pbConvert.Maximum);
-                                MessageBox.Show("转换完成，共输出" + pbConvert.Value + "个字幕文件。", "转换完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                Watch.Stop();
+                                MessageBox.Show("转换完成，共输出" + pbConvert.Value + "个字幕文件，耗时" + string.Format("{0:0.###}", Watch.Elapsed.TotalSeconds)  + "秒。", "转换完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 pbConvert.Value = 0;
                                 btnStartConvert.Show();
                                 listViewFile.Items.Clear();
