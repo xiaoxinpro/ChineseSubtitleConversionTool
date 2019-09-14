@@ -120,7 +120,20 @@ namespace ChineseSubtitleConversionTool
         /// <param name="e"></param>
         private void btnToSimplified_Click(object sender, EventArgs e)
         {
-            txtShow.Text = StringToSimlified(txtShow.Text);
+            TabPageControlEnable(tabPageCommon, false);
+            string strText = txtShow.Text;
+            Task.Factory.StartNew(() =>
+            {
+                Stopwatch Watch = new Stopwatch();
+                Watch.Start();
+                strText = StringToSimlified(strText);
+                Invoke(new Action(() =>
+                {
+                    Watch.Stop();
+                    txtShow.Text = strText;
+                    TabPageControlEnable(tabPageCommon, true);
+                }));
+            });
         }
 
         /// <summary>
@@ -130,7 +143,20 @@ namespace ChineseSubtitleConversionTool
         /// <param name="e"></param>
         private void btnToTraditional_Click(object sender, EventArgs e)
         {
-            txtShow.Text = StringToTraditional(txtShow.Text);
+            TabPageControlEnable(tabPageCommon, false);
+            string strText = txtShow.Text;
+            Task.Factory.StartNew(() =>
+            {
+                Stopwatch Watch = new Stopwatch();
+                Watch.Start();
+                strText = StringToTraditional(strText);
+                Invoke(new Action(() =>
+                {
+                    Watch.Stop();
+                    txtShow.Text = strText;
+                    TabPageControlEnable(tabPageCommon, true);
+                }));
+            });
         }
 
         /// <summary>
@@ -460,6 +486,30 @@ namespace ChineseSubtitleConversionTool
             catch (Exception)
             {
                 return "";
+            }
+        }
+
+        /// <summary>
+        /// TabPage页面内的控件是否使能
+        /// </summary>
+        /// <param name="tabPage"></param>
+        /// <param name="isEnable"></param>
+        public void TabPageControlEnable(TabPage tabPage, bool isEnable = true)
+        {
+            foreach (Control item in tabPage.Controls)
+            {
+                if (item is Button)
+                {
+                    ((Button)item).Enabled = isEnable;
+                }
+                else if (item is TextBox)
+                {
+                    ((TextBox)item).Enabled = isEnable;
+                }
+                else if (item is CheckBox)
+                {
+                    ((CheckBox)item).Enabled = isEnable;
+                }
             }
         }
 
