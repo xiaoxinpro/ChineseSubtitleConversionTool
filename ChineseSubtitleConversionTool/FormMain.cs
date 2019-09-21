@@ -124,11 +124,12 @@ namespace ChineseSubtitleConversionTool
         {
             TabPageControlEnable(tabPageCommon, false);
             string strText = txtShow.Text;
+            bool useChineseConvert = chkChineseConvert.Checked;
             Task.Factory.StartNew(() =>
             {
                 Stopwatch Watch = new Stopwatch();
                 Watch.Start();
-                strText = StringToSimlified(strText);
+                strText = StringToSimlified(strText, useChineseConvert);
                 Invoke(new Action(() =>
                 {
                     Watch.Stop();
@@ -147,11 +148,12 @@ namespace ChineseSubtitleConversionTool
         {
             TabPageControlEnable(tabPageCommon, false);
             string strText = txtShow.Text;
+            bool useChineseConvert = chkChineseConvert.Checked;
             Task.Factory.StartNew(() =>
             {
                 Stopwatch Watch = new Stopwatch();
                 Watch.Start();
-                strText = StringToTraditional(strText);
+                strText = StringToTraditional(strText, useChineseConvert);
                 Invoke(new Action(() =>
                 {
                     Watch.Stop();
@@ -249,6 +251,7 @@ namespace ChineseSubtitleConversionTool
             string path = txtPath.Text.Trim();
             string format = cbFormat.Text.Trim();
             string nameStyle = txtFileName.Text.Trim();
+            bool useChineseConvert = chkChineseConvert.Checked;
             int fileLength = listViewFile.Items.Count;
             if (fileLength <= 0)
             {
@@ -280,11 +283,11 @@ namespace ChineseSubtitleConversionTool
                         Console.WriteLine(format + "\t" + MakeFileName(file.Value, nameStyle));
                         if (format == "转为简体")
                         {
-                            SaveFile(MakeFileName(file.Value, nameStyle), StringToSimlified(ReadFile(file.Value)));
+                            SaveFile(MakeFileName(file.Value, nameStyle), StringToSimlified(ReadFile(file.Value), useChineseConvert));
                         }
                         else
                         {
-                            SaveFile(MakeFileName(file.Value, nameStyle), StringToTraditional(ReadFile(file.Value)));
+                            SaveFile(MakeFileName(file.Value, nameStyle), StringToTraditional(ReadFile(file.Value), useChineseConvert));
                         }
                         this.Invoke(new Action(() =>
                         {
@@ -449,12 +452,11 @@ namespace ChineseSubtitleConversionTool
         /// </summary>
         /// <param name="str">简体中文字符串</param>
         /// <returns>繁体中文字符串</returns>
-        public string StringToSimlified(string str)
+        public string StringToSimlified(string str, bool useChineseConverClass = true)
         {
             try
             {
-                Console.WriteLine("chkChineseConvert = " + chkChineseConvert.Checked.ToString());
-                if (chkChineseConvert.Checked)
+                if (useChineseConverClass)
                 {
                     return ChineseConvert.ToSimplified(str);
                 }
@@ -474,11 +476,11 @@ namespace ChineseSubtitleConversionTool
         /// </summary>
         /// <param name="str">简体中文字符串</param>
         /// <returns>繁体中文字符串</returns>
-        public string StringToTraditional(string str)
+        public string StringToTraditional(string str, bool useChineseConverClass = true)
         {
             try
             {
-                if (chkChineseConvert.Checked)
+                if (useChineseConverClass)
                 {
                     return ChineseConvert.ToTraditional(str);
                 }
