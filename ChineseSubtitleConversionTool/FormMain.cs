@@ -453,6 +453,7 @@ namespace ChineseSubtitleConversionTool
         {
             try
             {
+                Console.WriteLine("chkChineseConvert = " + chkChineseConvert.Checked.ToString());
                 if (chkChineseConvert.Checked)
                 {
                     return ChineseConvert.ToSimplified(str);
