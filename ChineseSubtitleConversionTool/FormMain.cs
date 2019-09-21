@@ -265,6 +265,11 @@ namespace ChineseSubtitleConversionTool
                 MessageBox.Show(err, "文件名样式错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            else if (CheckListViewItemSame(listViewFile, 1) == true) 
+            {
+                MessageBox.Show("列表中存在文件名重复，请先修改名称。", "文件名冲突", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             else
             {
                 Dictionary<string, string> dicFile = new Dictionary<string, string>();
@@ -282,14 +287,15 @@ namespace ChineseSubtitleConversionTool
                 {
                     Task.Factory.StartNew(() =>
                     {
-                        Console.WriteLine(format + "\t" + MakeFileName(file.Value, nameStyle));
+                        string newFilePath = Path.GetDirectoryName(file.Value) + "//" + file.Key;
+                        Console.WriteLine(format + "\t" + newFilePath);
                         if (format == "转为简体")
                         {
-                            SaveFile(MakeFileName(file.Value, nameStyle), StringToSimlified(ReadFile(file.Value), useChineseConvert));
+                            SaveFile(newFilePath, StringToSimlified(ReadFile(file.Value), useChineseConvert));
                         }
                         else
                         {
-                            SaveFile(MakeFileName(file.Value, nameStyle), StringToTraditional(ReadFile(file.Value), useChineseConvert));
+                            SaveFile(newFilePath, StringToTraditional(ReadFile(file.Value), useChineseConvert));
                         }
                         this.Invoke(new Action(() =>
                         {
@@ -355,7 +361,7 @@ namespace ChineseSubtitleConversionTool
         /// </summary>
         /// <param name="path"></param>
         /// <param name="listView"></param>
-        public void LoadDirectoryFile(string path, ListView listView)
+        private void LoadDirectoryFile(string path, ListView listView)
         {
             if (Directory.Exists(path))
             {
@@ -370,7 +376,7 @@ namespace ChineseSubtitleConversionTool
         /// </summary>
         /// <param name="listView"></param>
         /// <param name="nameStyle"></param>
-        public void UpdataListViewFileName(ListView listView, string nameStyle)
+        private void UpdataListViewFileName(ListView listView, string nameStyle)
         {
             if (CheckFileStyle(nameStyle, out string msg)) 
             {
@@ -380,11 +386,33 @@ namespace ChineseSubtitleConversionTool
                     string filePath = item.SubItems[2].Text;
                     if (File.Exists(filePath))
                     {
-                        item.SubItems[1].Text = Path.GetFileName(MakeFileName(filePath, nameStyle));
+                        item.SubItems[1].Text = Path.GetFileName(MakeFileName(filePath, nameStyle, Convert.ToInt32(item.Text).ToString().PadLeft(listView.Items.Count.ToString().Length, '0')));
                     }
                 }
                 listView.EndUpdate();
             }
+        }
+
+        /// <summary>
+        /// 检查列表中指定列是否有相同项
+        /// </summary>
+        /// <param name="listView">列表</param>
+        /// <param name="index">需要比较的列号</param>
+        /// <returns></returns>
+        private bool CheckListViewItemSame(ListView listView, int index)
+        {
+            for (int i = 0; i < listView.Items.Count; i++)
+            {
+                string text = listView.Items[i].SubItems[index].Text;
+                for (int j = i + 1; j < listView.Items.Count; j++)
+                {
+                    if (text == listView.Items[j].SubItems[index].Text)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
         #endregion
 
@@ -473,7 +501,7 @@ namespace ChineseSubtitleConversionTool
         public bool CheckFileStyle(string fileStyle, out string msg)
         {
             msg = "";
-            if (fileStyle.IndexOf("{name}") == -1)
+            if (fileStyle.IndexOf("{name}") == -1 && fileStyle.IndexOf("{num}") == -1)
             {
                 msg = "文件名中必须包含{name}，请检查后修改再试。";
                 return false;
@@ -497,12 +525,12 @@ namespace ChineseSubtitleConversionTool
         /// <param name="sourceName">源名称</param>
         /// <param name="styleName">目标名称样式</param>
         /// <returns></returns>
-        public string MakeFileName(string sourceName, string styleName)
+        public string MakeFileName(string sourceName, string styleName, string num = "")
         {
             string path = Path.GetDirectoryName(sourceName) + "\\";
             string fileName = Path.GetFileNameWithoutExtension(sourceName);
             string fileExt = Path.GetExtension(sourceName);
-            return path + styleName.Replace("{name}", fileName).Replace("{exten}", fileExt);
+            return path + styleName.Replace("{name}", fileName).Replace("{exten}", fileExt).Replace("{num}", num);
         }
 
         /// <summary>
