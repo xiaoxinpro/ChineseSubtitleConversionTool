@@ -226,11 +226,13 @@
             // chkChineseConvert
             // 
             this.chkChineseConvert.AutoSize = true;
+            this.chkChineseConvert.Checked = true;
+            this.chkChineseConvert.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkChineseConvert.Location = new System.Drawing.Point(180, 10);
             this.chkChineseConvert.Name = "chkChineseConvert";
-            this.chkChineseConvert.Size = new System.Drawing.Size(168, 16);
+            this.chkChineseConvert.Size = new System.Drawing.Size(108, 16);
             this.chkChineseConvert.TabIndex = 2;
-            this.chkChineseConvert.Text = "优化古文字转换（速度慢）";
+            this.chkChineseConvert.Text = "优化古文字转换";
             this.chkChineseConvert.UseVisualStyleBackColor = true;
             // 
             // tabPageBatch

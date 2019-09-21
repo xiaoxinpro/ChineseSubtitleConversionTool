@@ -10,50 +10,68 @@ namespace ChineseSubtitleConversionTool
     {
         public static string ToSimplified(string strTrad)
         {
-            HashSet<char> setChar = new HashSet<char>();
-            foreach (Match match in Regex.Matches(strTrad, @"[\u4E00-\u9FA5]"))
+            if (strTrad.Length > 0)
             {
-                setChar.Add(match.Value.ToCharArray()[0]);
-            }
-            StringBuilder sbTrad = new StringBuilder(strTrad);
-            foreach (char key in setChar)
-            {
-                int index = STR_TRAD.IndexOf(key);
-                if (index >= 0)
+                char[] arrTrad = strTrad.ToCharArray();
+                for (int i = 0; i < arrTrad.Length; i++)
                 {
-                    sbTrad = sbTrad.Replace(key, STR_SIMP[index]);
+                    int intChar = Convert.ToInt32(arrTrad[i]);
+                    if (intChar < 0x4e00 || intChar > 0x9fa5)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        intChar = STR_TRAD.IndexOf(arrTrad[i]);
+                        if (intChar >= 0)
+                        {
+                            arrTrad[i] = STR_SIMP[intChar];
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
                 }
+                return new string(arrTrad);
             }
-            return sbTrad.ToString();
+            else
+            {
+                return strTrad;
+            }
         }
 
         public static string ToTraditional(string strSimp)
         {
-            HashSet<char> setChar = new HashSet<char>();
-            foreach (Match match in Regex.Matches(strSimp, @"[\u4E00-\u9FA5]"))
+            if (strSimp.Length > 0)
             {
-                setChar.Add(match.Value.ToCharArray()[0]);
-            }
-            StringBuilder sbSimp = new StringBuilder(strSimp);
-            foreach (char key in setChar)
-            {
-                int index = STR_SIMP.IndexOf(key);
-                if (index >= 0)
+                char[] arrSimp = strSimp.ToCharArray();
+                for (int i = 0; i < arrSimp.Length; i++)
                 {
-                    sbSimp = sbSimp.Replace(key, STR_TRAD[index]);
+                    int intChar = Convert.ToInt32(arrSimp[i]);
+                    if (intChar < 0x4e00 || intChar > 0x9fa5)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        intChar = STR_SIMP.IndexOf(arrSimp[i]);
+                        if (intChar >= 0)
+                        {
+                            arrSimp[i] = STR_TRAD[intChar];
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
                 }
+                return new string(arrSimp);
             }
-            return sbSimp.ToString();
-        }
-
-        /// <summary>  
-        /// 移除数组中重复数据  
-        /// </summary>  
-        /// <param name="array">需要除重的数组</param>  
-        /// <returns>不重复数组</returns>  
-        private static char[] DelRepeatData(char[] array)
-        {
-            return array.GroupBy(p => p).Select(p => p.Key).ToArray();
+            else
+            {
+                return strSimp;
+            }
         }
 
         /// <summary>
