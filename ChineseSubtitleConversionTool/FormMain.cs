@@ -225,6 +225,29 @@ namespace ChineseSubtitleConversionTool
         }
 
         /// <summary>
+        /// 选择需要转换的目标格式
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cbFormat_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            string strFileStyle = txtFileName.Text.Trim();
+            if (strFileStyle == "{name}.cs{exten}" || strFileStyle == "{name}.ct{exten}")
+            {
+                ComboBox comboBox = (ComboBox)sender;
+                if (comboBox.SelectedIndex == 0)
+                {
+                    strFileStyle = "{name}.cs{exten}";
+                }
+                else if (comboBox.SelectedIndex == 1)
+                {
+                    strFileStyle = "{name}.ct{exten}";
+                }
+                txtFileName.Text = strFileStyle;
+            }
+        }
+
+        /// <summary>
         /// 文件名称风格改变事件
         /// </summary>
         /// <param name="sender"></param>

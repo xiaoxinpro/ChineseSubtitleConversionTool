@@ -120,6 +120,7 @@
             this.cbFormat.Name = "cbFormat";
             this.cbFormat.Size = new System.Drawing.Size(81, 20);
             this.cbFormat.TabIndex = 3;
+            this.cbFormat.SelectionChangeCommitted += new System.EventHandler(this.cbFormat_SelectionChangeCommitted);
             // 
             // btnStartConvert
             // 
