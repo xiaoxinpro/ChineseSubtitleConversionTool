@@ -280,6 +280,7 @@
             this.listViewFile.Size = new System.Drawing.Size(520, 254);
             this.listViewFile.TabIndex = 4;
             this.listViewFile.UseCompatibleStateImageBehavior = false;
+            this.listViewFile.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listViewFile_ColumnClick);
             // 
             // label4
             // 

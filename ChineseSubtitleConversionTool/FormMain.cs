@@ -59,7 +59,7 @@ namespace ChineseSubtitleConversionTool
             listView.Clear();
             listView.FullRowSelect = true;
             listView.GridLines = true;
-            listView.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+            listView.HeaderStyle = ColumnHeaderStyle.Clickable;
             listView.View = View.Details;
 
             //创建列表头
@@ -246,6 +246,40 @@ namespace ChineseSubtitleConversionTool
         {
             listViewFile.Items.Clear();
             txtPath.Clear();
+        }
+
+        /// <summary>
+        /// 点击列表表头事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void listViewFile_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            if (e.Column == 0)
+            {
+                return;
+            }
+            ListView listView = (ListView)sender;
+            if (listView.Columns[e.Column].Tag == null)
+            {
+                listView.Columns[e.Column].Tag = true;
+            }
+            bool tabK = (bool)listView.Columns[e.Column].Tag;
+            if (tabK)
+            {
+                listView.Columns[e.Column].Tag = false;
+            }
+            else
+            {
+                listView.Columns[e.Column].Tag = true;
+            }
+            listView.ListViewItemSorter = new ListViewSort(e.Column, listView.Columns[e.Column].Tag);
+            //指定排序器并传送列索引与升序降序关键字
+            listView.Sort();//对列表进行自定义排序
+            for (int i = 0; i < listView.Items.Count; i++)
+            {
+                listView.Items[i].Text = (i + 1).ToString();
+            }
         }
 
         /// <summary>
@@ -691,6 +725,7 @@ namespace ChineseSubtitleConversionTool
             }
         }
         #endregion
+
 
     }
 }
