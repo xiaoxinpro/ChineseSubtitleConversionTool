@@ -46,7 +46,7 @@ namespace ChineseSubtitleConversionTool
             TipObject.UseFading = true;      //淡入淡出效果
             TipObject.IsBalloon = true;      //气球状外观
             TipObject.SetToolTip(this.txtFileName, "替换符说明：{name}原文件名称，{exten}文件扩展名，{num}文件序号");
-            TipObject.SetToolTip(this.chkChineseConvert, "如果不勾选可能在文本中出现的古文字转换后出现??\r\n如果勾选将大大降低转换速度\r\n请根据使用情况酌情勾选，全局有效！");
+            TipObject.SetToolTip(this.chkChineseConvert, "勾选后可有效避免出现??异常文字，全局有效！");
         }
 
         /// <summary>
@@ -98,21 +98,45 @@ namespace ChineseSubtitleConversionTool
         /// <param name="e"></param>
         private void FormMain_DragDrop(object sender, DragEventArgs e)
         {
-            string path = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
-            if (File.Exists(path))
-            {
-                if(tabControlMain.SelectedIndex == 0)
-                {
-                    txtShow.Text = ReadFile(path);
-                }
-            }
-            else if (Directory.Exists(path))
+            string[] paths = (string[])e.Data.GetData(DataFormats.FileDrop, true);
+            if (paths.Length > 1)
             {
                 tabControlMain.SelectedIndex = 1;
-                txtPath.Text = path.Trim();
-                LoadDirectoryFile(txtPath.Text.Trim(), listViewFile);
-                UpdataListViewFileName(listViewFile, txtFileName.Text.Trim());
+                txtPath.Text = Path.GetDirectoryName(paths[0].Trim());
+                List<FileInfo> listFileInfo = new List<FileInfo>();
+                foreach (string item in paths)
+                {
+                    if (File.Exists(item))
+                    {
+                        listFileInfo.Add(new FileInfo(item));
+                    }
+                }
+                if (listFileInfo.Count > 0)
+                {
+                    listViewFile.Items.Clear();
+                    AddFileListView(listViewFile, listFileInfo.ToArray());
+                    UpdataListViewFileName(listViewFile, txtFileName.Text.Trim());
+                }
             }
+            else
+            {
+                string path = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
+                if (File.Exists(path))
+                {
+                    if(tabControlMain.SelectedIndex == 0)
+                    {
+                        txtShow.Text = ReadFile(path);
+                    }
+                }
+                else if (Directory.Exists(path))
+                {
+                    tabControlMain.SelectedIndex = 1;
+                    txtPath.Text = path.Trim();
+                    LoadDirectoryFile(txtPath.Text.Trim(), listViewFile);
+                    UpdataListViewFileName(listViewFile, txtFileName.Text.Trim());
+                }
+            }
+
         }
 
         /// <summary>
