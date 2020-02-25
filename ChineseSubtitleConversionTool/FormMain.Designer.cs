@@ -49,6 +49,8 @@
             this.listViewFile = new System.Windows.Forms.ListView();
             this.label4 = new System.Windows.Forms.Label();
             this.pbConvert = new System.Windows.Forms.ProgressBar();
+            this.label5 = new System.Windows.Forms.Label();
+            this.cbEncode = new System.Windows.Forms.ComboBox();
             this.tabControlMain.SuspendLayout();
             this.tabPageCommon.SuspendLayout();
             this.tabPageBatch.SuspendLayout();
@@ -148,9 +150,9 @@
             // 
             this.txtFileName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFileName.Location = new System.Drawing.Point(209, 297);
+            this.txtFileName.Location = new System.Drawing.Point(306, 297);
             this.txtFileName.Name = "txtFileName";
-            this.txtFileName.Size = new System.Drawing.Size(271, 21);
+            this.txtFileName.Size = new System.Drawing.Size(174, 21);
             this.txtFileName.TabIndex = 1;
             this.txtFileName.Text = "{name}.cs{exten}";
             this.txtFileName.TextChanged += new System.EventHandler(this.txtFileName_TextChanged);
@@ -169,7 +171,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(137, 300);
+            this.label2.Location = new System.Drawing.Point(234, 300);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(77, 12);
             this.label2.TabIndex = 0;
@@ -240,6 +242,7 @@
             // 
             this.tabPageBatch.Controls.Add(this.btnClearList);
             this.tabPageBatch.Controls.Add(this.listViewFile);
+            this.tabPageBatch.Controls.Add(this.cbEncode);
             this.tabPageBatch.Controls.Add(this.cbFormat);
             this.tabPageBatch.Controls.Add(this.btnOpenPath);
             this.tabPageBatch.Controls.Add(this.btnStartConvert);
@@ -247,6 +250,7 @@
             this.tabPageBatch.Controls.Add(this.txtPath);
             this.tabPageBatch.Controls.Add(this.label2);
             this.tabPageBatch.Controls.Add(this.label4);
+            this.tabPageBatch.Controls.Add(this.label5);
             this.tabPageBatch.Controls.Add(this.label1);
             this.tabPageBatch.Controls.Add(this.label3);
             this.tabPageBatch.Controls.Add(this.pbConvert);
@@ -299,6 +303,33 @@
             this.pbConvert.Size = new System.Drawing.Size(75, 22);
             this.pbConvert.TabIndex = 5;
             // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(128, 300);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(41, 12);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "编码：";
+            // 
+            // cbEncode
+            // 
+            this.cbEncode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cbEncode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbEncode.FormattingEnabled = true;
+            this.cbEncode.Items.AddRange(new object[] {
+            "UTF-8",
+            "UTF-16",
+            "UTF-32",
+            "ASCII",
+            "Unicode"});
+            this.cbEncode.Location = new System.Drawing.Point(162, 297);
+            this.cbEncode.Name = "cbEncode";
+            this.cbEncode.Size = new System.Drawing.Size(66, 20);
+            this.cbEncode.TabIndex = 3;
+            this.cbEncode.SelectionChangeCommitted += new System.EventHandler(this.cbFormat_SelectionChangeCommitted);
+            // 
             // FormMain
             // 
             this.AllowDrop = true;
@@ -345,6 +376,8 @@
         private System.Windows.Forms.ProgressBar pbConvert;
         private System.Windows.Forms.CheckBox chkChineseConvert;
         private System.Windows.Forms.Button btnClearList;
+        private System.Windows.Forms.ComboBox cbEncode;
+        private System.Windows.Forms.Label label5;
     }
 }
 

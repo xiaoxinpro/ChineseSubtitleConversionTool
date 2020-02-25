@@ -36,6 +36,7 @@ namespace ChineseSubtitleConversionTool
             InitFileListView(listViewFile);
 
             cbFormat.SelectedIndex = 0;
+            cbEncode.SelectedIndex = 0;
 
             TipObject = new ToolTip();
             TipObject.AutoPopDelay = 10000;    //工具提示保持可见的时间期限
@@ -333,6 +334,7 @@ namespace ChineseSubtitleConversionTool
         {
             string path = txtPath.Text.Trim();
             string format = cbFormat.Text.Trim();
+            string encode = cbEncode.Text.Trim();
             string nameStyle = txtFileName.Text.Trim();
             bool useChineseConvert = chkChineseConvert.Checked;
             int fileLength = listViewFile.Items.Count;
@@ -372,11 +374,11 @@ namespace ChineseSubtitleConversionTool
                         Console.WriteLine(format + "\t" + newFilePath);
                         if (format == "转为简体")
                         {
-                            SaveFile(newFilePath, StringToSimlified(ReadFile(file.Value), useChineseConvert));
+                            SaveFile(newFilePath, StringToSimlified(ReadFile(file.Value), useChineseConvert), encode);
                         }
                         else
                         {
-                            SaveFile(newFilePath, StringToTraditional(ReadFile(file.Value), useChineseConvert));
+                            SaveFile(newFilePath, StringToTraditional(ReadFile(file.Value), useChineseConvert), encode);
                         }
                         this.Invoke(new Action(() =>
                         {
@@ -698,8 +700,9 @@ namespace ChineseSubtitleConversionTool
         /// <param name="path">保存完整路径</param>
         /// <param name="text">内容</param>
         /// <returns></returns>
-        public bool SaveFile(string path, string text)
+        public bool SaveFile(string path, string text, string encode = "UTF-8")
         {
+            Encoding encoding = Encoding.GetEncoding(encode);
             if (path.Trim() == "")
             {
                 return false;
@@ -712,7 +715,7 @@ namespace ChineseSubtitleConversionTool
                 }
                 using (FileStream fsWrite = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
                 {
-                    byte[] buffer = Encoding.UTF8.GetBytes(text); // Encoding.Default.GetBytes(text);
+                    byte[] buffer = encoding.GetBytes(text); // Encoding.Default.GetBytes(text);
                     fsWrite.Write(buffer, 0, buffer.Length);
                     return true;
                 }
