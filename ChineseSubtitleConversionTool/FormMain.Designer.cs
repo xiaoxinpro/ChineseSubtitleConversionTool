@@ -43,17 +43,22 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPageCommon = new System.Windows.Forms.TabPage();
-            this.chkChineseConvert = new System.Windows.Forms.CheckBox();
             this.tabPageBatch = new System.Windows.Forms.TabPage();
             this.btnClearList = new System.Windows.Forms.Button();
             this.listViewFile = new System.Windows.Forms.ListView();
-            this.label4 = new System.Windows.Forms.Label();
-            this.pbConvert = new System.Windows.Forms.ProgressBar();
-            this.label5 = new System.Windows.Forms.Label();
             this.cbEncode = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.pbConvert = new System.Windows.Forms.ProgressBar();
+            this.rbConvertHigh = new System.Windows.Forms.RadioButton();
+            this.rbConvertOldWord = new System.Windows.Forms.RadioButton();
+            this.rbConvertQuick = new System.Windows.Forms.RadioButton();
+            this.label6 = new System.Windows.Forms.Label();
+            this.groupConvertOption = new System.Windows.Forms.GroupBox();
             this.tabControlMain.SuspendLayout();
             this.tabPageCommon.SuspendLayout();
             this.tabPageBatch.SuspendLayout();
+            this.groupConvertOption.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtShow
@@ -65,7 +70,7 @@
             this.txtShow.Multiline = true;
             this.txtShow.Name = "txtShow";
             this.txtShow.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtShow.Size = new System.Drawing.Size(555, 283);
+            this.txtShow.Size = new System.Drawing.Size(555, 246);
             this.txtShow.TabIndex = 0;
             // 
             // btnToSimplified
@@ -118,7 +123,7 @@
             this.cbFormat.Items.AddRange(new object[] {
             "转为简体",
             "转为繁体"});
-            this.cbFormat.Location = new System.Drawing.Point(41, 297);
+            this.cbFormat.Location = new System.Drawing.Point(41, 269);
             this.cbFormat.Name = "cbFormat";
             this.cbFormat.Size = new System.Drawing.Size(81, 20);
             this.cbFormat.TabIndex = 3;
@@ -127,7 +132,7 @@
             // btnStartConvert
             // 
             this.btnStartConvert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnStartConvert.Location = new System.Drawing.Point(486, 295);
+            this.btnStartConvert.Location = new System.Drawing.Point(486, 267);
             this.btnStartConvert.Name = "btnStartConvert";
             this.btnStartConvert.Size = new System.Drawing.Size(75, 23);
             this.btnStartConvert.TabIndex = 2;
@@ -150,7 +155,7 @@
             // 
             this.txtFileName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFileName.Location = new System.Drawing.Point(306, 297);
+            this.txtFileName.Location = new System.Drawing.Point(306, 269);
             this.txtFileName.Name = "txtFileName";
             this.txtFileName.Size = new System.Drawing.Size(174, 21);
             this.txtFileName.TabIndex = 1;
@@ -171,7 +176,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(234, 300);
+            this.label2.Location = new System.Drawing.Point(234, 272);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(77, 12);
             this.label2.TabIndex = 0;
@@ -181,7 +186,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 300);
+            this.label3.Location = new System.Drawing.Point(7, 272);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(41, 12);
             this.label3.TabIndex = 0;
@@ -203,16 +208,15 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControlMain.Controls.Add(this.tabPageCommon);
             this.tabControlMain.Controls.Add(this.tabPageBatch);
-            this.tabControlMain.Location = new System.Drawing.Point(5, 5);
+            this.tabControlMain.Location = new System.Drawing.Point(5, 6);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.Padding = new System.Drawing.Point(12, 3);
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(575, 350);
+            this.tabControlMain.Size = new System.Drawing.Size(575, 313);
             this.tabControlMain.TabIndex = 3;
             // 
             // tabPageCommon
             // 
-            this.tabPageCommon.Controls.Add(this.chkChineseConvert);
             this.tabPageCommon.Controls.Add(this.btnToSimplified);
             this.tabPageCommon.Controls.Add(this.txtShow);
             this.tabPageCommon.Controls.Add(this.btnClear);
@@ -221,22 +225,10 @@
             this.tabPageCommon.Location = new System.Drawing.Point(4, 22);
             this.tabPageCommon.Name = "tabPageCommon";
             this.tabPageCommon.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCommon.Size = new System.Drawing.Size(567, 324);
+            this.tabPageCommon.Size = new System.Drawing.Size(567, 287);
             this.tabPageCommon.TabIndex = 0;
             this.tabPageCommon.Text = "普通转换";
             this.tabPageCommon.UseVisualStyleBackColor = true;
-            // 
-            // chkChineseConvert
-            // 
-            this.chkChineseConvert.AutoSize = true;
-            this.chkChineseConvert.Checked = true;
-            this.chkChineseConvert.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkChineseConvert.Location = new System.Drawing.Point(180, 10);
-            this.chkChineseConvert.Name = "chkChineseConvert";
-            this.chkChineseConvert.Size = new System.Drawing.Size(108, 16);
-            this.chkChineseConvert.TabIndex = 2;
-            this.chkChineseConvert.Text = "优化古文字转换";
-            this.chkChineseConvert.UseVisualStyleBackColor = true;
             // 
             // tabPageBatch
             // 
@@ -257,7 +249,7 @@
             this.tabPageBatch.Location = new System.Drawing.Point(4, 22);
             this.tabPageBatch.Name = "tabPageBatch";
             this.tabPageBatch.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageBatch.Size = new System.Drawing.Size(567, 324);
+            this.tabPageBatch.Size = new System.Drawing.Size(567, 296);
             this.tabPageBatch.TabIndex = 1;
             this.tabPageBatch.Text = "批量转换";
             this.tabPageBatch.UseVisualStyleBackColor = true;
@@ -281,37 +273,10 @@
             this.listViewFile.HideSelection = false;
             this.listViewFile.Location = new System.Drawing.Point(41, 35);
             this.listViewFile.Name = "listViewFile";
-            this.listViewFile.Size = new System.Drawing.Size(520, 254);
+            this.listViewFile.Size = new System.Drawing.Size(520, 226);
             this.listViewFile.TabIndex = 4;
             this.listViewFile.UseCompatibleStateImageBehavior = false;
             this.listViewFile.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listViewFile_ColumnClick);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(7, 42);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(41, 12);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "列表：";
-            // 
-            // pbConvert
-            // 
-            this.pbConvert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbConvert.Location = new System.Drawing.Point(486, 295);
-            this.pbConvert.Name = "pbConvert";
-            this.pbConvert.Size = new System.Drawing.Size(75, 22);
-            this.pbConvert.TabIndex = 5;
-            // 
-            // label5
-            // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(128, 300);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(41, 12);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "编码：";
             // 
             // cbEncode
             // 
@@ -324,11 +289,97 @@
             "UTF-32",
             "ASCII",
             "Unicode"});
-            this.cbEncode.Location = new System.Drawing.Point(162, 297);
+            this.cbEncode.Location = new System.Drawing.Point(162, 269);
             this.cbEncode.Name = "cbEncode";
             this.cbEncode.Size = new System.Drawing.Size(66, 20);
             this.cbEncode.TabIndex = 3;
             this.cbEncode.SelectionChangeCommitted += new System.EventHandler(this.cbFormat_SelectionChangeCommitted);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(7, 42);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(41, 12);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "列表：";
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(128, 272);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(41, 12);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "编码：";
+            // 
+            // pbConvert
+            // 
+            this.pbConvert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbConvert.Location = new System.Drawing.Point(486, 267);
+            this.pbConvert.Name = "pbConvert";
+            this.pbConvert.Size = new System.Drawing.Size(75, 22);
+            this.pbConvert.TabIndex = 5;
+            // 
+            // rbConvertHigh
+            // 
+            this.rbConvertHigh.AutoSize = true;
+            this.rbConvertHigh.Location = new System.Drawing.Point(213, 15);
+            this.rbConvertHigh.Name = "rbConvertHigh";
+            this.rbConvertHigh.Size = new System.Drawing.Size(59, 16);
+            this.rbConvertHigh.TabIndex = 4;
+            this.rbConvertHigh.Tag = "2";
+            this.rbConvertHigh.Text = "高精度";
+            this.rbConvertHigh.UseVisualStyleBackColor = true;
+            this.rbConvertHigh.CheckedChanged += new System.EventHandler(this.rbConvertOption_CheckedChanged);
+            // 
+            // rbConvertOldWord
+            // 
+            this.rbConvertOldWord.AutoSize = true;
+            this.rbConvertOldWord.Location = new System.Drawing.Point(124, 15);
+            this.rbConvertOldWord.Name = "rbConvertOldWord";
+            this.rbConvertOldWord.Size = new System.Drawing.Size(83, 16);
+            this.rbConvertOldWord.TabIndex = 4;
+            this.rbConvertOldWord.Tag = "1";
+            this.rbConvertOldWord.Text = "优化古文字";
+            this.rbConvertOldWord.UseVisualStyleBackColor = true;
+            this.rbConvertOldWord.CheckedChanged += new System.EventHandler(this.rbConvertOption_CheckedChanged);
+            // 
+            // rbConvertQuick
+            // 
+            this.rbConvertQuick.AutoSize = true;
+            this.rbConvertQuick.Location = new System.Drawing.Point(71, 15);
+            this.rbConvertQuick.Name = "rbConvertQuick";
+            this.rbConvertQuick.Size = new System.Drawing.Size(47, 16);
+            this.rbConvertQuick.TabIndex = 4;
+            this.rbConvertQuick.Tag = "0";
+            this.rbConvertQuick.Text = "快速";
+            this.rbConvertQuick.UseVisualStyleBackColor = true;
+            this.rbConvertQuick.CheckedChanged += new System.EventHandler(this.rbConvertOption_CheckedChanged);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(8, 17);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(65, 12);
+            this.label6.TabIndex = 3;
+            this.label6.Text = "转换选项：";
+            // 
+            // groupConvertOption
+            // 
+            this.groupConvertOption.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupConvertOption.Controls.Add(this.rbConvertHigh);
+            this.groupConvertOption.Controls.Add(this.rbConvertOldWord);
+            this.groupConvertOption.Controls.Add(this.rbConvertQuick);
+            this.groupConvertOption.Controls.Add(this.label6);
+            this.groupConvertOption.Location = new System.Drawing.Point(5, 317);
+            this.groupConvertOption.Name = "groupConvertOption";
+            this.groupConvertOption.Size = new System.Drawing.Size(571, 38);
+            this.groupConvertOption.TabIndex = 5;
+            this.groupConvertOption.TabStop = false;
             // 
             // FormMain
             // 
@@ -337,6 +388,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 361);
             this.Controls.Add(this.tabControlMain);
+            this.Controls.Add(this.groupConvertOption);
             this.MinimumSize = new System.Drawing.Size(500, 300);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -349,6 +401,8 @@
             this.tabPageCommon.PerformLayout();
             this.tabPageBatch.ResumeLayout(false);
             this.tabPageBatch.PerformLayout();
+            this.groupConvertOption.ResumeLayout(false);
+            this.groupConvertOption.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -374,10 +428,14 @@
         private System.Windows.Forms.ListView listViewFile;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ProgressBar pbConvert;
-        private System.Windows.Forms.CheckBox chkChineseConvert;
         private System.Windows.Forms.Button btnClearList;
         private System.Windows.Forms.ComboBox cbEncode;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.RadioButton rbConvertHigh;
+        private System.Windows.Forms.RadioButton rbConvertOldWord;
+        private System.Windows.Forms.RadioButton rbConvertQuick;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.GroupBox groupConvertOption;
     }
 }
 

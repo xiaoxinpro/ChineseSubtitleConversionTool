@@ -17,6 +17,8 @@ namespace ChineseSubtitleConversionTool
         private ToolTip TipObject;
         private string OpenFileDefineExt = "";
         private string OpenFileDefineName = "";
+        private enumConvertOption ConvertOption;
+        private OfficeWordConvert HighConvert;
 
         #region 初始化相关
         public FormMain()
@@ -38,6 +40,17 @@ namespace ChineseSubtitleConversionTool
             cbFormat.SelectedIndex = 0;
             cbEncode.SelectedIndex = 0;
 
+            rbConvertOldWord.Checked = true;
+            try
+            {
+                HighConvert = new OfficeWordConvert();
+            }
+            catch (Exception err)
+            {
+                rbConvertHigh.Enabled = false;
+                Console.WriteLine(err.Message);
+            }
+
             TipObject = new ToolTip();
             TipObject.AutoPopDelay = 10000;    //工具提示保持可见的时间期限
             TipObject.InitialDelay = 200;     //鼠标放上，自动打开提示的时间
@@ -47,7 +60,9 @@ namespace ChineseSubtitleConversionTool
             TipObject.UseFading = true;      //淡入淡出效果
             TipObject.IsBalloon = true;      //气球状外观
             TipObject.SetToolTip(this.txtFileName, "替换符说明：{name}原文件名称，{exten}文件扩展名，{num}文件序号");
-            TipObject.SetToolTip(this.chkChineseConvert, "勾选后可有效避免出现??异常文字，全局有效！");
+            TipObject.SetToolTip(this.rbConvertQuick, "选择后可较快的转换完成，全局有效！");
+            TipObject.SetToolTip(this.rbConvertOldWord, "选择后可有效避免出现??异常文字，全局有效！");
+            TipObject.SetToolTip(this.rbConvertHigh, "选择后会结合上下文语义转换速度慢，全局有效！");
         }
 
         /// <summary>
@@ -149,12 +164,11 @@ namespace ChineseSubtitleConversionTool
         {
             TabPageControlEnable(tabPageCommon, false);
             string strText = txtShow.Text;
-            bool useChineseConvert = chkChineseConvert.Checked;
             Task.Factory.StartNew(() =>
             {
                 Stopwatch Watch = new Stopwatch();
                 Watch.Start();
-                strText = StringToSimlified(strText, useChineseConvert);
+                strText = StringToSimlified(strText, ConvertOption);
                 Invoke(new Action(() =>
                 {
                     Watch.Stop();
@@ -173,12 +187,11 @@ namespace ChineseSubtitleConversionTool
         {
             TabPageControlEnable(tabPageCommon, false);
             string strText = txtShow.Text;
-            bool useChineseConvert = chkChineseConvert.Checked;
             Task.Factory.StartNew(() =>
             {
                 Stopwatch Watch = new Stopwatch();
                 Watch.Start();
-                strText = StringToTraditional(strText, useChineseConvert);
+                strText = StringToTraditional(strText, ConvertOption);
                 Invoke(new Action(() =>
                 {
                     Watch.Stop();
@@ -336,7 +349,7 @@ namespace ChineseSubtitleConversionTool
             string format = cbFormat.Text.Trim();
             string encode = cbEncode.Text.Trim();
             string nameStyle = txtFileName.Text.Trim();
-            bool useChineseConvert = chkChineseConvert.Checked;
+            enumConvertOption convertOption = ConvertOption;
             int fileLength = listViewFile.Items.Count;
             if (fileLength <= 0)
             {
@@ -374,11 +387,11 @@ namespace ChineseSubtitleConversionTool
                         Console.WriteLine(format + "\t" + newFilePath);
                         if (format == "转为简体")
                         {
-                            SaveFile(newFilePath, StringToSimlified(ReadFile(file.Value), useChineseConvert), encode);
+                            SaveFile(newFilePath, StringToSimlified(ReadFile(file.Value), convertOption), encode);
                         }
                         else
                         {
-                            SaveFile(newFilePath, StringToTraditional(ReadFile(file.Value), useChineseConvert), encode);
+                            SaveFile(newFilePath, StringToTraditional(ReadFile(file.Value), convertOption), encode);
                         }
                         this.Invoke(new Action(() =>
                         {
@@ -399,6 +412,21 @@ namespace ChineseSubtitleConversionTool
 
             }
         }
+
+        /// <summary>
+        /// 转换选项改变事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void rbConvertOption_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton radioButton = (RadioButton)sender;
+            if (radioButton.Checked)
+            {
+                ConvertOption = (enumConvertOption)Convert.ToInt32(radioButton.Tag);
+            }
+        }
+
         #endregion
 
         #region 列表相关
@@ -505,17 +533,20 @@ namespace ChineseSubtitleConversionTool
         /// </summary>
         /// <param name="str">简体中文字符串</param>
         /// <returns>繁体中文字符串</returns>
-        public string StringToSimlified(string str, bool useChineseConverClass = true)
+        public string StringToSimlified(string str, enumConvertOption convertOption = enumConvertOption.OldWord)
         {
             try
             {
-                if (useChineseConverClass)
+                switch (convertOption)
                 {
-                    return ChineseConvert.ToSimplified(str);
-                }
-                else
-                {
-                    return Microsoft.VisualBasic.Strings.StrConv(str, Microsoft.VisualBasic.VbStrConv.SimplifiedChinese, 0);
+                    case enumConvertOption.Quick:
+                        return Microsoft.VisualBasic.Strings.StrConv(str, Microsoft.VisualBasic.VbStrConv.SimplifiedChinese, 0);
+                    case enumConvertOption.OldWord:
+                        return ChineseConvert.ToSimplified(str);
+                    case enumConvertOption.High:
+                        return HighConvert.Cht2Chs(str);
+                    default:
+                        return "";
                 }
             }
             catch (Exception)
@@ -529,17 +560,20 @@ namespace ChineseSubtitleConversionTool
         /// </summary>
         /// <param name="str">简体中文字符串</param>
         /// <returns>繁体中文字符串</returns>
-        public string StringToTraditional(string str, bool useChineseConverClass = true)
+        public string StringToTraditional(string str, enumConvertOption convertOption = enumConvertOption.OldWord)
         {
             try
             {
-                if (useChineseConverClass)
+                switch (convertOption)
                 {
-                    return ChineseConvert.ToTraditional(str);
-                }
-                else
-                {
-                    return Microsoft.VisualBasic.Strings.StrConv(str, Microsoft.VisualBasic.VbStrConv.TraditionalChinese, 0);
+                    case enumConvertOption.Quick:
+                        return Microsoft.VisualBasic.Strings.StrConv(str, Microsoft.VisualBasic.VbStrConv.TraditionalChinese, 0);
+                    case enumConvertOption.OldWord:
+                        return ChineseConvert.ToTraditional(str);
+                    case enumConvertOption.High:
+                        return HighConvert.Chs2Cht(str);
+                    default:
+                        return "";
                 }
             }
             catch (Exception)
@@ -729,6 +763,15 @@ namespace ChineseSubtitleConversionTool
         }
         #endregion
 
+    }
 
+    /// <summary>
+    /// 转换选项枚举
+    /// </summary>
+    public enum enumConvertOption
+    {
+        Quick = 0,
+        OldWord = 1,
+        High = 2
     }
 }
