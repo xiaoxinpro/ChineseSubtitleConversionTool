@@ -55,6 +55,7 @@
             this.rbConvertQuick = new System.Windows.Forms.RadioButton();
             this.label6 = new System.Windows.Forms.Label();
             this.groupConvertOption = new System.Windows.Forms.GroupBox();
+            this.btnCopy = new System.Windows.Forms.Button();
             this.tabControlMain.SuspendLayout();
             this.tabPageCommon.SuspendLayout();
             this.tabPageBatch.SuspendLayout();
@@ -219,6 +220,7 @@
             // 
             this.tabPageCommon.Controls.Add(this.btnToSimplified);
             this.tabPageCommon.Controls.Add(this.txtShow);
+            this.tabPageCommon.Controls.Add(this.btnCopy);
             this.tabPageCommon.Controls.Add(this.btnClear);
             this.tabPageCommon.Controls.Add(this.btnToTraditional);
             this.tabPageCommon.Controls.Add(this.btnSave);
@@ -381,6 +383,17 @@
             this.groupConvertOption.TabIndex = 5;
             this.groupConvertOption.TabStop = false;
             // 
+            // btnCopy
+            // 
+            this.btnCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCopy.Location = new System.Drawing.Point(399, 6);
+            this.btnCopy.Name = "btnCopy";
+            this.btnCopy.Size = new System.Drawing.Size(50, 23);
+            this.btnCopy.TabIndex = 1;
+            this.btnCopy.Text = "复制";
+            this.btnCopy.UseVisualStyleBackColor = true;
+            this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
+            // 
             // FormMain
             // 
             this.AllowDrop = true;
@@ -436,6 +449,7 @@
         private System.Windows.Forms.RadioButton rbConvertQuick;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.GroupBox groupConvertOption;
+        private System.Windows.Forms.Button btnCopy;
     }
 }
 

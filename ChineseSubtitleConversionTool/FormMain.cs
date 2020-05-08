@@ -252,6 +252,29 @@ namespace ChineseSubtitleConversionTool
         }
 
         /// <summary>
+        /// 复制按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnCopy_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            Clipboard.SetDataObject(txtShow.Text, true);
+            btn.Text = "已复制";
+            btn.Enabled = false;
+            Task.Factory.StartNew(() =>
+            {
+                System.Threading.Thread.Sleep(500);
+                this.Invoke(new Action(() =>
+                {
+                    btn.Text = "复制";
+                    btn.Enabled = true;
+                    btn.Focus();
+                }));
+            });
+        }
+
+        /// <summary>
         /// 清空列表按钮
         /// </summary>
         /// <param name="sender"></param>
@@ -762,6 +785,7 @@ namespace ChineseSubtitleConversionTool
             }
         }
         #endregion
+
 
     }
 
