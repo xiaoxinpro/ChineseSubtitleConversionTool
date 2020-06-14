@@ -6,7 +6,7 @@
 ## 下载
 - 开发版本：[ChineseSubtitleConversionTool.exe](https://github.com/xiaoxinpro/ChineseSubtitleConversionTool/raw/master/ChineseSubtitleConversionTool/bin/Debug/ChineseSubtitleConversionTool.exe)
 
-- 稳定版本：[繁体简体字幕转换工具 V0.3.0.41](https://github.com/xiaoxinpro/ChineseSubtitleConversionTool/releases)
+- 稳定版本：[繁体简体字幕转换工具 V0.4.0.47](https://github.com/xiaoxinpro/ChineseSubtitleConversionTool/releases)
 
 - 其他版本：[繁体简体字幕转换工具 for 吾爱破解【小歆】](https://github.com/xiaoxinpro/ChineseSubtitleConversionTool/releases/download/V0.2.0.28/ChineseSubtitleConversionTool.52pojie.zip)
 
@@ -41,12 +41,23 @@
 
 如果文件名样式格式存在问题，文件名样式文本框背景为红色，且不可进行转换。
 
-#### 优化古文字转换
-该功能开关在“普通转换”界面，但效果是全局的，主要应用场景是在含有古文字字符的文本中。
+### 转换选项
+此配置全局有效，针对普通转换与批量转换输出结果；启用不同转换选项输出的效果略有不同，可根据需要进行选择。
 
-默认勾选该选项，该模式下与传统模式转换效率相差无几，有效避免传统模式转换结果出现`??`的BUG。
+#### 快速转换
+采用常用模板算法，快速输出转换结果，无语义转换功能，适合大量简单的语句转换。
+
+#### 优化古文字转换
+在快速转换的基础上优化古文字显示，主要应用场景是在含有古文字字符的文本中，转换速度仅次于快速转换。
+
+默认勾选该选项，该模式下与快速转换效率相差无几，有效避免快速转换结果出现`??`的BUG。
 
 当不勾选该选项时，文本中包含的古文字有可能会被转换成`??`。
+
+#### 高精度转换
+采用Office组件实现的繁简转换功能，可根据语义输出转换结果，转换速度较慢，适合需要明确语义的使用场景。
+
+使用此选项必须已安装Office组件，否则此选项不可用。
 
 ## 捐赠
 如果您觉得此工具对你有帮助，欢迎给予我们一定的捐助来维持项目的长期发展。
