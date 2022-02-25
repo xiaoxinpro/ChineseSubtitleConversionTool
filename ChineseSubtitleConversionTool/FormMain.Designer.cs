@@ -43,6 +43,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPageCommon = new System.Windows.Forms.TabPage();
+            this.btnCopy = new System.Windows.Forms.Button();
             this.tabPageBatch = new System.Windows.Forms.TabPage();
             this.btnClearList = new System.Windows.Forms.Button();
             this.listViewFile = new System.Windows.Forms.ListView();
@@ -55,7 +56,6 @@
             this.rbConvertQuick = new System.Windows.Forms.RadioButton();
             this.label6 = new System.Windows.Forms.Label();
             this.groupConvertOption = new System.Windows.Forms.GroupBox();
-            this.btnCopy = new System.Windows.Forms.Button();
             this.tabControlMain.SuspendLayout();
             this.tabPageCommon.SuspendLayout();
             this.tabPageBatch.SuspendLayout();
@@ -68,6 +68,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtShow.Location = new System.Drawing.Point(6, 35);
+            this.txtShow.MaxLength = 0;
             this.txtShow.Multiline = true;
             this.txtShow.Name = "txtShow";
             this.txtShow.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -124,7 +125,7 @@
             this.cbFormat.Items.AddRange(new object[] {
             "转为简体",
             "转为繁体"});
-            this.cbFormat.Location = new System.Drawing.Point(41, 269);
+            this.cbFormat.Location = new System.Drawing.Point(41, 263);
             this.cbFormat.Name = "cbFormat";
             this.cbFormat.Size = new System.Drawing.Size(81, 20);
             this.cbFormat.TabIndex = 3;
@@ -133,7 +134,7 @@
             // btnStartConvert
             // 
             this.btnStartConvert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnStartConvert.Location = new System.Drawing.Point(486, 267);
+            this.btnStartConvert.Location = new System.Drawing.Point(486, 261);
             this.btnStartConvert.Name = "btnStartConvert";
             this.btnStartConvert.Size = new System.Drawing.Size(75, 23);
             this.btnStartConvert.TabIndex = 2;
@@ -156,7 +157,7 @@
             // 
             this.txtFileName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFileName.Location = new System.Drawing.Point(306, 269);
+            this.txtFileName.Location = new System.Drawing.Point(306, 263);
             this.txtFileName.Name = "txtFileName";
             this.txtFileName.Size = new System.Drawing.Size(174, 21);
             this.txtFileName.TabIndex = 1;
@@ -177,7 +178,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(234, 272);
+            this.label2.Location = new System.Drawing.Point(234, 266);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(77, 12);
             this.label2.TabIndex = 0;
@@ -187,7 +188,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 272);
+            this.label3.Location = new System.Drawing.Point(7, 266);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(41, 12);
             this.label3.TabIndex = 0;
@@ -232,6 +233,17 @@
             this.tabPageCommon.Text = "普通转换";
             this.tabPageCommon.UseVisualStyleBackColor = true;
             // 
+            // btnCopy
+            // 
+            this.btnCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCopy.Location = new System.Drawing.Point(399, 6);
+            this.btnCopy.Name = "btnCopy";
+            this.btnCopy.Size = new System.Drawing.Size(50, 23);
+            this.btnCopy.TabIndex = 1;
+            this.btnCopy.Text = "复制";
+            this.btnCopy.UseVisualStyleBackColor = true;
+            this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
+            // 
             // tabPageBatch
             // 
             this.tabPageBatch.Controls.Add(this.btnClearList);
@@ -251,7 +263,7 @@
             this.tabPageBatch.Location = new System.Drawing.Point(4, 22);
             this.tabPageBatch.Name = "tabPageBatch";
             this.tabPageBatch.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageBatch.Size = new System.Drawing.Size(567, 296);
+            this.tabPageBatch.Size = new System.Drawing.Size(567, 287);
             this.tabPageBatch.TabIndex = 1;
             this.tabPageBatch.Text = "批量转换";
             this.tabPageBatch.UseVisualStyleBackColor = true;
@@ -275,7 +287,7 @@
             this.listViewFile.HideSelection = false;
             this.listViewFile.Location = new System.Drawing.Point(41, 35);
             this.listViewFile.Name = "listViewFile";
-            this.listViewFile.Size = new System.Drawing.Size(520, 226);
+            this.listViewFile.Size = new System.Drawing.Size(520, 222);
             this.listViewFile.TabIndex = 4;
             this.listViewFile.UseCompatibleStateImageBehavior = false;
             this.listViewFile.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listViewFile_ColumnClick);
@@ -291,7 +303,7 @@
             "UTF-32",
             "ASCII",
             "Unicode"});
-            this.cbEncode.Location = new System.Drawing.Point(162, 269);
+            this.cbEncode.Location = new System.Drawing.Point(162, 263);
             this.cbEncode.Name = "cbEncode";
             this.cbEncode.Size = new System.Drawing.Size(66, 20);
             this.cbEncode.TabIndex = 3;
@@ -310,7 +322,7 @@
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(128, 272);
+            this.label5.Location = new System.Drawing.Point(128, 266);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(41, 12);
             this.label5.TabIndex = 0;
@@ -319,7 +331,7 @@
             // pbConvert
             // 
             this.pbConvert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbConvert.Location = new System.Drawing.Point(486, 267);
+            this.pbConvert.Location = new System.Drawing.Point(486, 261);
             this.pbConvert.Name = "pbConvert";
             this.pbConvert.Size = new System.Drawing.Size(75, 22);
             this.pbConvert.TabIndex = 5;
@@ -382,17 +394,6 @@
             this.groupConvertOption.Size = new System.Drawing.Size(571, 38);
             this.groupConvertOption.TabIndex = 5;
             this.groupConvertOption.TabStop = false;
-            // 
-            // btnCopy
-            // 
-            this.btnCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCopy.Location = new System.Drawing.Point(399, 6);
-            this.btnCopy.Name = "btnCopy";
-            this.btnCopy.Size = new System.Drawing.Size(50, 23);
-            this.btnCopy.TabIndex = 1;
-            this.btnCopy.Text = "复制";
-            this.btnCopy.UseVisualStyleBackColor = true;
-            this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
             // 
             // FormMain
             // 
