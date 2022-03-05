@@ -40,13 +40,15 @@ namespace ChineseSubtitleConversionTool
             cbFormat.SelectedIndex = 0;
             cbEncode.SelectedIndex = 0;
 
-            rbConvertOldWord.Checked = true;
             try
             {
                 HighConvert = new OfficeWordConvert();
+                rbConvertHigh.Enabled = true;
+                rbConvertHigh.Checked = true;
             }
             catch (Exception err)
             {
+                rbConvertOldWord.Checked = true;
                 rbConvertHigh.Enabled = false;
                 Console.WriteLine(err.Message);
             }
