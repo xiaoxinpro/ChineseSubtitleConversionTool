@@ -8,7 +8,7 @@
 
 - 稳定版本：[繁体简体字幕转换工具 V0.4.1.53](https://github.com/xiaoxinpro/ChineseSubtitleConversionTool/releases)
 
-- 其他版本：[繁体简体字幕转换工具 for 吾爱破解【小歆】](https://github.com/xiaoxinpro/ChineseSubtitleConversionTool/releases/download/V0.2.0.28/ChineseSubtitleConversionTool.52pojie.zip)
+- 其他版本：[繁体简体字幕转换工具 for 吾爱破解【小歆】](https://github.com/xiaoxinpro/ChineseSubtitleConversionTool/releases/download/V0.3.0.42/ChineseSubtitleConversionTool.52pojie.zip)
 
 ## 使用说明
 
