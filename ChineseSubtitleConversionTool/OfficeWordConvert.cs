@@ -32,10 +32,12 @@ namespace ChineseSubtitleConversionTool
         /// <returns>繁体字符串</returns>
         public string Chs2Cht(string src)
         {
-            appWord.Selection.TypeText(src);
-            appWord.Selection.Range.TCSCConverter(WdTCSCConverterDirection.wdTCSCConverterDirectionSCTC, true, true);
-            appWord.ActiveDocument.Select();
-            return appWord.Selection.Text;
+            StringBuilder sb = new StringBuilder();
+            foreach (string line in src.Split(new string[] { "\n" }, StringSplitOptions.None))
+            {
+                sb.AppendLine(chs_to_cht(line.Replace("\r", "")));
+            }
+            return sb.ToString();
         }
 
         /// <summary>
@@ -45,10 +47,12 @@ namespace ChineseSubtitleConversionTool
         /// <returns>简体字符串</returns>
         public string Cht2Chs(string src)
         {
-            appWord.Selection.TypeText(src);
-            appWord.Selection.Range.TCSCConverter(WdTCSCConverterDirection.wdTCSCConverterDirectionTCSC, true, true);
-            appWord.ActiveDocument.Select();
-            return appWord.Selection.Text;
+            StringBuilder sb = new StringBuilder();
+            foreach (string line in src.Split(new string[] { "\n" }, StringSplitOptions.None))
+            {
+                sb.AppendLine(cht_to_chs(line.Replace("\r", "")));
+            }
+            return sb.ToString();
         }
 
         /// <summary>
@@ -68,6 +72,34 @@ namespace ChineseSubtitleConversionTool
             doc = null;
             appWord = null;
             GC.Collect();
+        }
+
+        /// <summary>
+        /// 简体转繁体函数
+        /// </summary>
+        /// <param name="src">简体字符串</param>
+        /// <returns>繁体字符串</returns>
+        private string chs_to_cht(string src)
+        {
+            appWord.Selection.Delete();
+            appWord.Selection.TypeText(src);
+            appWord.Selection.Range.TCSCConverter(WdTCSCConverterDirection.wdTCSCConverterDirectionSCTC, true, true);
+            appWord.ActiveDocument.Select();
+            return appWord.Selection.Text;
+        }
+
+        /// <summary>
+        /// 繁体转简体函数
+        /// </summary>
+        /// <param name="src">繁体字符串</param>
+        /// <returns>简体字符串</returns>
+        private string cht_to_chs(string src)
+        {
+            appWord.Selection.Delete();
+            appWord.Selection.TypeText(src);
+            appWord.Selection.Range.TCSCConverter(WdTCSCConverterDirection.wdTCSCConverterDirectionTCSC, true, true);
+            appWord.ActiveDocument.Select();
+            return appWord.Selection.Text;
         }
     }
 }
