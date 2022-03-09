@@ -43,6 +43,7 @@ namespace ChineseSubtitleConversionTool
             try
             {
                 HighConvert = new OfficeWordConvert();
+                HighConvert.BindConvertEvent(ChangeProcessBarValue);
                 rbConvertHigh.Enabled = true;
                 rbConvertHigh.Checked = true;
             }
@@ -629,6 +630,23 @@ namespace ChineseSubtitleConversionTool
                     ((CheckBox)item).Enabled = isEnable;
                 }
             }
+        }
+
+        private void ChangeProcessBarValue(object sender, double percentage)
+        {
+            this.Invoke(new Action(() =>
+            {
+                if (percentage < 100)
+                {
+                    progressBarPercentage.Value = Convert.ToInt32(percentage);
+                    progressBarPercentage.Visible = true;
+                }
+                else
+                {
+                    progressBarPercentage.Value = progressBarPercentage.Maximum;
+                    progressBarPercentage.Visible = false;
+                }
+            }));
         }
 
         #endregion

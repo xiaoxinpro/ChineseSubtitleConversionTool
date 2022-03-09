@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.txtShow = new System.Windows.Forms.TextBox();
             this.btnToSimplified = new System.Windows.Forms.Button();
             this.btnToTraditional = new System.Windows.Forms.Button();
@@ -56,6 +57,7 @@
             this.rbConvertQuick = new System.Windows.Forms.RadioButton();
             this.label6 = new System.Windows.Forms.Label();
             this.groupConvertOption = new System.Windows.Forms.GroupBox();
+            this.progressBarPercentage = new System.Windows.Forms.ProgressBar();
             this.tabControlMain.SuspendLayout();
             this.tabPageCommon.SuspendLayout();
             this.tabPageBatch.SuspendLayout();
@@ -74,6 +76,7 @@
             this.txtShow.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtShow.Size = new System.Drawing.Size(555, 246);
             this.txtShow.TabIndex = 0;
+            this.txtShow.Text = resources.GetString("txtShow.Text");
             // 
             // btnToSimplified
             // 
@@ -219,6 +222,7 @@
             // 
             // tabPageCommon
             // 
+            this.tabPageCommon.Controls.Add(this.progressBarPercentage);
             this.tabPageCommon.Controls.Add(this.btnToSimplified);
             this.tabPageCommon.Controls.Add(this.txtShow);
             this.tabPageCommon.Controls.Add(this.btnCopy);
@@ -395,6 +399,17 @@
             this.groupConvertOption.TabIndex = 5;
             this.groupConvertOption.TabStop = false;
             // 
+            // progressBarPercentage
+            // 
+            this.progressBarPercentage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBarPercentage.Location = new System.Drawing.Point(169, 6);
+            this.progressBarPercentage.Name = "progressBarPercentage";
+            this.progressBarPercentage.Size = new System.Drawing.Size(224, 23);
+            this.progressBarPercentage.Step = 1;
+            this.progressBarPercentage.TabIndex = 2;
+            this.progressBarPercentage.Visible = false;
+            // 
             // FormMain
             // 
             this.AllowDrop = true;
@@ -451,6 +466,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.GroupBox groupConvertOption;
         private System.Windows.Forms.Button btnCopy;
+        private System.Windows.Forms.ProgressBar progressBarPercentage;
     }
 }
 

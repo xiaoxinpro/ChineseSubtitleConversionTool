@@ -13,6 +13,25 @@ namespace ChineseSubtitleConversionTool
         private Document doc;
 
         /// <summary>
+        /// 转换进度
+        /// </summary>
+        /// <param name="sender">转换对象</param>
+        /// <param name="percentage">进度百分比</param>
+        public delegate void DelegateConvertEvent(object sender, double percentage);
+        public event DelegateConvertEvent EventConvert;
+        public void BindConvertEvent(DelegateConvertEvent e)
+        {
+            EventConvert += e;
+        }
+        private void EventConvertCallback(double p)
+        {
+            if (EventConvert != null)
+            {
+                EventConvert(this, p);
+            }
+        }
+
+        /// <summary>
         /// 构造函数
         /// </summary>
         public OfficeWordConvert()
@@ -32,11 +51,19 @@ namespace ChineseSubtitleConversionTool
         /// <returns>繁体字符串</returns>
         public string Chs2Cht(string src)
         {
+            double p = 0;
             StringBuilder sb = new StringBuilder();
-            foreach (string line in src.Split(new string[] { "\n" }, StringSplitOptions.None))
+            string[] lines = src.Split(new string[] { "\n" }, StringSplitOptions.None);
+            for (int i = 0; i < lines.Length; i++)
             {
-                sb.AppendLine(chs_to_cht(line.Replace("\r", "")));
+                sb.AppendLine(chs_to_cht(lines[i].Replace("\r", "")));
+                if ((100 * i / lines.Length) - p > 1)
+                {
+                    p = 100 * i / lines.Length;
+                    EventConvertCallback(p);
+                }
             }
+            EventConvertCallback(100);
             return sb.ToString();
         }
 
@@ -47,11 +74,19 @@ namespace ChineseSubtitleConversionTool
         /// <returns>简体字符串</returns>
         public string Cht2Chs(string src)
         {
+            double p = 0;
             StringBuilder sb = new StringBuilder();
-            foreach (string line in src.Split(new string[] { "\n" }, StringSplitOptions.None))
+            string[] lines = src.Split(new string[] { "\n" }, StringSplitOptions.None);
+            for (int i = 0; i < lines.Length; i++)
             {
-                sb.AppendLine(cht_to_chs(line.Replace("\r", "")));
+                sb.AppendLine(cht_to_chs(lines[i].Replace("\r", "")));
+                if ((100 * i / lines.Length) - p > 1)
+                {
+                    p = 100 * i / lines.Length;
+                    EventConvertCallback(p);
+                }
             }
+            EventConvertCallback(100);
             return sb.ToString();
         }
 
