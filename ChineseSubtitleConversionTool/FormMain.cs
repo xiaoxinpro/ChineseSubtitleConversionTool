@@ -42,6 +42,8 @@ namespace ChineseSubtitleConversionTool
 
             try
             {
+                OfficeWordConvert owc = new OfficeWordConvert();
+                owc.Dispose();
                 rbConvertHigh.Enabled = true;
                 rbConvertHigh.Checked = true;
             }
