@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -18,7 +19,6 @@ namespace ChineseSubtitleConversionTool
         private string OpenFileDefineExt = "";
         private string OpenFileDefineName = "";
         private enumConvertOption ConvertOption;
-        private OfficeWordConvert HighConvert;
 
         #region 初始化相关
         public FormMain()
@@ -42,8 +42,8 @@ namespace ChineseSubtitleConversionTool
 
             try
             {
-                HighConvert = new OfficeWordConvert();
-                HighConvert.BindConvertEvent(ChangeProcessBarValue);
+                OfficeWordConvert owc = new OfficeWordConvert();
+                owc.Dispose();
                 rbConvertHigh.Enabled = true;
                 rbConvertHigh.Checked = true;
             }
@@ -167,6 +167,7 @@ namespace ChineseSubtitleConversionTool
         {
             TabPageControlEnable(tabPageCommon, false);
             string strText = txtShow.Text;
+            ChangeProcessBarValue(null, 1);
             Task.Factory.StartNew(() =>
             {
                 Stopwatch Watch = new Stopwatch();
@@ -177,6 +178,7 @@ namespace ChineseSubtitleConversionTool
                     Watch.Stop();
                     txtShow.Text = strText;
                     TabPageControlEnable(tabPageCommon, true);
+                    ChangeProcessBarValue(null, 100);
                 }));
             });
         }
@@ -190,6 +192,7 @@ namespace ChineseSubtitleConversionTool
         {
             TabPageControlEnable(tabPageCommon, false);
             string strText = txtShow.Text;
+            ChangeProcessBarValue(null, 1);
             Task.Factory.StartNew(() =>
             {
                 Stopwatch Watch = new Stopwatch();
@@ -200,6 +203,7 @@ namespace ChineseSubtitleConversionTool
                     Watch.Stop();
                     txtShow.Text = strText;
                     TabPageControlEnable(tabPageCommon, true);
+                    ChangeProcessBarValue(null, 100);
                 }));
             });
         }
@@ -571,7 +575,11 @@ namespace ChineseSubtitleConversionTool
                     case enumConvertOption.OldWord:
                         return ChineseConvert.ToSimplified(str);
                     case enumConvertOption.High:
-                        return HighConvert.Cht2Chs(str);
+                        OfficeWordConvert HighConvert = new OfficeWordConvert();
+                        HighConvert.BindConvertEvent(ChangeProcessBarValue);
+                        string ret = HighConvert.Cht2Chs(str);
+                        HighConvert.Dispose();
+                        return ret;
                     default:
                         return "";
                 }
@@ -598,7 +606,11 @@ namespace ChineseSubtitleConversionTool
                     case enumConvertOption.OldWord:
                         return ChineseConvert.ToTraditional(str);
                     case enumConvertOption.High:
-                        return HighConvert.Chs2Cht(str);
+                        OfficeWordConvert HighConvert = new OfficeWordConvert();
+                        HighConvert.BindConvertEvent(ChangeProcessBarValue);
+                        string ret = HighConvert.Chs2Cht(str);
+                        HighConvert.Dispose();
+                        return ret;
                     default:
                         return "";
                 }

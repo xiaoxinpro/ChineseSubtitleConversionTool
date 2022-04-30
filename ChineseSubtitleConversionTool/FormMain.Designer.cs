@@ -44,6 +44,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPageCommon = new System.Windows.Forms.TabPage();
+            this.progressBarPercentage = new System.Windows.Forms.ProgressBar();
             this.btnCopy = new System.Windows.Forms.Button();
             this.tabPageBatch = new System.Windows.Forms.TabPage();
             this.btnClearList = new System.Windows.Forms.Button();
@@ -57,7 +58,6 @@
             this.rbConvertQuick = new System.Windows.Forms.RadioButton();
             this.label6 = new System.Windows.Forms.Label();
             this.groupConvertOption = new System.Windows.Forms.GroupBox();
-            this.progressBarPercentage = new System.Windows.Forms.ProgressBar();
             this.tabControlMain.SuspendLayout();
             this.tabPageCommon.SuspendLayout();
             this.tabPageBatch.SuspendLayout();
@@ -238,12 +238,23 @@
             this.tabPageCommon.Text = "普通转换";
             this.tabPageCommon.UseVisualStyleBackColor = true;
             // 
+            // progressBarPercentage
+            // 
+            this.progressBarPercentage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBarPercentage.Location = new System.Drawing.Point(169, 6);
+            this.progressBarPercentage.Name = "progressBarPercentage";
+            this.progressBarPercentage.Size = new System.Drawing.Size(216, 23);
+            this.progressBarPercentage.Step = 1;
+            this.progressBarPercentage.TabIndex = 2;
+            this.progressBarPercentage.Visible = false;
+            // 
             // btnCopy
             // 
             this.btnCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCopy.Location = new System.Drawing.Point(399, 6);
+            this.btnCopy.Location = new System.Drawing.Point(391, 6);
             this.btnCopy.Name = "btnCopy";
-            this.btnCopy.Size = new System.Drawing.Size(50, 23);
+            this.btnCopy.Size = new System.Drawing.Size(58, 23);
             this.btnCopy.TabIndex = 1;
             this.btnCopy.Text = "复制";
             this.btnCopy.UseVisualStyleBackColor = true;
@@ -399,17 +410,6 @@
             this.groupConvertOption.Size = new System.Drawing.Size(571, 38);
             this.groupConvertOption.TabIndex = 5;
             this.groupConvertOption.TabStop = false;
-            // 
-            // progressBarPercentage
-            // 
-            this.progressBarPercentage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBarPercentage.Location = new System.Drawing.Point(169, 6);
-            this.progressBarPercentage.Name = "progressBarPercentage";
-            this.progressBarPercentage.Size = new System.Drawing.Size(224, 23);
-            this.progressBarPercentage.Step = 1;
-            this.progressBarPercentage.TabIndex = 2;
-            this.progressBarPercentage.Visible = false;
             // 
             // FormMain
             // 

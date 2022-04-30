@@ -1,6 +1,7 @@
 ﻿using Microsoft.Office.Interop.Word;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -45,22 +46,36 @@ namespace ChineseSubtitleConversionTool
         }
 
         /// <summary>
+        /// 析构函数
+        /// </summary>
+        ~OfficeWordConvert()
+        {
+            Dispose();
+        }
+
+        /// <summary>
         /// 简体转繁体函数
         /// </summary>
         /// <param name="src">简体字符串</param>
         /// <returns>繁体字符串</returns>
         public string Chs2Cht(string src)
         {
+            int len = src.Length;
+            int cnt = 0;
             double p = 0;
             StringBuilder sb = new StringBuilder();
-            string[] lines = src.Split(new string[] { "\n" }, StringSplitOptions.None);
-            for (int i = 0; i < lines.Length; i++)
+            using (StringReader sr = new StringReader(src))
             {
-                sb.AppendLine(chs_to_cht(lines[i].Replace("\r", "")));
-                if ((100 * i / lines.Length) - p > 1)
+                string line;
+                while ((line = sr.ReadLine()) != null)
                 {
-                    p = 100 * i / lines.Length;
-                    EventConvertCallback(p);
+                    cnt += line.Length;
+                    sb.AppendLine(chs_to_cht(line).TrimEnd());
+                    if (100 * cnt / len - p > 1)
+                    {
+                        p = 100 * cnt / len;
+                        EventConvertCallback(p > 100 ? 100 : p);
+                    }
                 }
             }
             EventConvertCallback(100);
@@ -74,31 +89,29 @@ namespace ChineseSubtitleConversionTool
         /// <returns>简体字符串</returns>
         public string Cht2Chs(string src)
         {
+            int len = src.Length;
+            int cnt = 0;
             double p = 0;
             StringBuilder sb = new StringBuilder();
-            string[] lines = src.Split(new string[] { "\n" }, StringSplitOptions.None);
-            for (int i = 0; i < lines.Length; i++)
+            using (StringReader sr = new StringReader(src))
             {
-                sb.AppendLine(cht_to_chs(lines[i].Replace("\r", "")));
-                if ((100 * i / lines.Length) - p > 1)
+                string line;
+                while ((line = sr.ReadLine()) != null)
                 {
-                    p = 100 * i / lines.Length;
-                    EventConvertCallback(p);
+                    cnt += line.Length;
+                    sb.AppendLine(cht_to_chs(line).TrimEnd());
+                    if (100 * cnt / len - p > 1)
+                    {
+                        p = 100 * cnt / len;
+                        EventConvertCallback(p > 100 ? 100 : p);
+                    }
                 }
             }
             EventConvertCallback(100);
             return sb.ToString();
         }
 
-        /// <summary>
-        /// 析构函数
-        /// </summary>
-        ~OfficeWordConvert()
-        {
-            Dispose();
-        }
-
-        private void Dispose()
+        public void Dispose()
         {
             object saveChange = 0;
             object originalFormat = Missing.Value;
@@ -107,6 +120,7 @@ namespace ChineseSubtitleConversionTool
             doc = null;
             appWord = null;
             GC.Collect();
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -116,6 +130,10 @@ namespace ChineseSubtitleConversionTool
         /// <returns>繁体字符串</returns>
         private string chs_to_cht(string src)
         {
+            if (isStringChinese(src) == false)
+            {
+                return src;
+            }
             appWord.Selection.Delete();
             appWord.Selection.TypeText(src);
             appWord.Selection.Range.TCSCConverter(WdTCSCConverterDirection.wdTCSCConverterDirectionSCTC, true, true);
@@ -130,11 +148,33 @@ namespace ChineseSubtitleConversionTool
         /// <returns>简体字符串</returns>
         private string cht_to_chs(string src)
         {
+            if (isStringChinese(src) == false)
+            {
+                return src;
+            }
             appWord.Selection.Delete();
             appWord.Selection.TypeText(src);
             appWord.Selection.Range.TCSCConverter(WdTCSCConverterDirection.wdTCSCConverterDirectionTCSC, true, true);
             appWord.ActiveDocument.Select();
             return appWord.Selection.Text;
+        }
+
+        /// <summary>
+        /// 检查字符串中是否包含汉字
+        /// </summary>
+        /// <param name="src">待检测字符串</param>
+        /// <returns>是否包含汉字</returns>
+        private bool isStringChinese(string src)
+        {
+            char[] c = src.ToCharArray();
+            for (int i = 0; i < c.Length; i++)
+            {
+                if (c[i] >= 0x4e00 && c[i] <= 0x9fbb)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
