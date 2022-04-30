@@ -173,9 +173,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtPath.Location = new System.Drawing.Point(41, 8);
             this.txtPath.Name = "txtPath";
-            this.txtPath.ReadOnly = true;
+            this.txtPath.ReadOnly = false;
             this.txtPath.Size = new System.Drawing.Size(383, 21);
             this.txtPath.TabIndex = 1;
+            this.txtPath.TextChanged += txtPath_TextChanged;
             // 
             // label2
             // 
