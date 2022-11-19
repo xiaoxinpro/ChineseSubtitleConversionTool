@@ -574,7 +574,18 @@ namespace ChineseSubtitleConversionTool
                     case enumConvertOption.OldWord:
                         return ChineseConvert.ToSimplified(str);
                     case enumConvertOption.High:
+                        bool isWait = true;
+                        Task.Factory.StartNew(() =>
+                        {
+                            int cnt = 0;
+                            while(isWait && cnt++ < 80)
+                            {
+                                ChangeProcessBarValue(null, cnt);
+                                Thread.Sleep(200);
+                            }
+                        });
                         OfficeWordConvert HighConvert = new OfficeWordConvert();
+                        isWait = false;
                         HighConvert.BindConvertEvent(ChangeProcessBarValue);
                         string ret = HighConvert.Cht2Chs(str);
                         HighConvert.Dispose();
@@ -605,7 +616,18 @@ namespace ChineseSubtitleConversionTool
                     case enumConvertOption.OldWord:
                         return ChineseConvert.ToTraditional(str);
                     case enumConvertOption.High:
+                        bool isWait = true;
+                        Task.Factory.StartNew(() =>
+                        {
+                            int cnt = 0;
+                            while (isWait && cnt++ < 80)
+                            {
+                                ChangeProcessBarValue(null, cnt);
+                                Thread.Sleep(200);
+                            }
+                        });
                         OfficeWordConvert HighConvert = new OfficeWordConvert();
+                        isWait = false;
                         HighConvert.BindConvertEvent(ChangeProcessBarValue);
                         string ret = HighConvert.Chs2Cht(str);
                         HighConvert.Dispose();
@@ -791,6 +813,10 @@ namespace ChineseSubtitleConversionTool
         /// <returns></returns>
         public bool SaveFile(string path, string text, string encode = "UTF-8")
         {
+            //if (encode == "UTF-16")
+            //{
+            //    encode = "UTF-8";
+            //}
             Encoding encoding = Encoding.GetEncoding(encode);
             if (path.Trim() == "")
             {
