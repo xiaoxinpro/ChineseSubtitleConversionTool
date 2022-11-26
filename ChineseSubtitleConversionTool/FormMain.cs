@@ -477,6 +477,7 @@ namespace ChineseSubtitleConversionTool
                     case ".srt":
                     case ".lrc":
                     case ".txt":
+                    case ".yaml":
                         try
                         {
                             ListViewItem listViewItem = listView.Items.Cast<ListViewItem>().First(x => x.SubItems[2].Text == file.FullName);
@@ -842,9 +843,23 @@ namespace ChineseSubtitleConversionTool
                 return false;
             }
         }
+
+        /// <summary>
+        /// auto load whenever textpath has changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txtPath_TextChanged(object sender, EventArgs e)
+        {
+            string path = ((TextBox)sender).Text;
+            if (Directory.Exists(path))
+            {
+                txtPath.Text = path;
+                LoadDirectoryFile(txtPath.Text.Trim(), listViewFile);
+                UpdataListViewFileName(listViewFile, txtFileName.Text.Trim());
+            }
+        }
         #endregion
-
-
     }
 
     /// <summary>
