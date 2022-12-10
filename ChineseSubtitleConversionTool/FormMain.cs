@@ -18,12 +18,14 @@ namespace ChineseSubtitleConversionTool
         private ToolTip TipObject;
         private string OpenFileDefineExt = "";
         private string OpenFileDefineName = "";
-        private enumConvertOption ConvertOption;
+        private MainConfig Config;
 
         #region 初始化相关
         public FormMain()
         {
+            Global.Init();
             InitializeComponent();
+            Config = MainConfig.Load();
         }
 
         /// <summary>
@@ -37,21 +39,46 @@ namespace ChineseSubtitleConversionTool
 
             InitFileListView(listViewFile);
 
-            cbFormat.SelectedIndex = 0;
-            cbEncode.SelectedIndex = 0;
+            tabControlMain.SelectedIndex = Config.ControlTabIndex;
+
+            cbFormat.SelectedIndex = Config.FormatIndex;
+            cbEncode.SelectedIndex = Config.EncodeIndex;
+
+            txtFileName.Text = Config.FileName;
 
             try
             {
                 OfficeWordConvert owc = new OfficeWordConvert();
                 owc.Dispose();
+                if (Config.ConvertOption == enumConvertOption.Null)
+                {
+                    Config.ConvertOption = enumConvertOption.High;
+                }
                 rbConvertHigh.Enabled = true;
-                rbConvertHigh.Checked = true;
             }
             catch (Exception err)
             {
-                rbConvertOldWord.Checked = true;
+                if (Config.ConvertOption == enumConvertOption.Null)
+                {
+                    Config.ConvertOption = enumConvertOption.OldWord;
+                }
                 rbConvertHigh.Enabled = false;
                 Console.WriteLine(err.Message);
+            }
+
+            switch (Config.ConvertOption)
+            {
+                case enumConvertOption.High:
+                    rbConvertHigh.Checked = true;
+                    break;
+                case enumConvertOption.OldWord:
+                    rbConvertOldWord.Checked = true;
+                    break;
+                case enumConvertOption.Quick:
+                case enumConvertOption.Null:
+                default:
+                    rbConvertQuick.Checked = true;
+                    break;
             }
 
             TipObject = new ToolTip();
@@ -66,6 +93,28 @@ namespace ChineseSubtitleConversionTool
             TipObject.SetToolTip(this.rbConvertQuick, "选择后可较快的转换完成，全局有效！");
             TipObject.SetToolTip(this.rbConvertOldWord, "选择后可有效避免出现??异常文字，全局有效！");
             TipObject.SetToolTip(this.rbConvertHigh, "选择后会结合上下文语义转换速度慢，全局有效！");
+        }
+
+        /// <summary>
+        /// 关闭窗体保存配置
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.Hide();
+            try
+            {
+                Config.ControlTabIndex = tabControlMain.SelectedIndex;
+                Config.FormatIndex = cbFormat.SelectedIndex;
+                Config.EncodeIndex = cbEncode.SelectedIndex;
+                Config.FileName = txtFileName.Text;
+                MainConfig.Save(Config);
+            }
+            catch (Exception err)
+            {
+                Console.WriteLine(err.Message);
+            }
         }
 
         /// <summary>
@@ -172,7 +221,7 @@ namespace ChineseSubtitleConversionTool
             {
                 Stopwatch Watch = new Stopwatch();
                 Watch.Start();
-                strText = StringToSimlified(strText, ConvertOption);
+                strText = StringToSimlified(strText, Config.ConvertOption);
                 Invoke(new Action(() =>
                 {
                     Watch.Stop();
@@ -197,7 +246,7 @@ namespace ChineseSubtitleConversionTool
             {
                 Stopwatch Watch = new Stopwatch();
                 Watch.Start();
-                strText = StringToTraditional(strText, ConvertOption);
+                strText = StringToTraditional(strText, Config.ConvertOption);
                 Invoke(new Action(() =>
                 {
                     Watch.Stop();
@@ -379,7 +428,7 @@ namespace ChineseSubtitleConversionTool
             string format = cbFormat.Text.Trim();
             string encode = cbEncode.Text.Trim();
             string nameStyle = txtFileName.Text.Trim();
-            enumConvertOption convertOption = ConvertOption;
+            enumConvertOption convertOption = Config.ConvertOption;
             int fileLength = listViewFile.Items.Count;
             if (fileLength <= 0)
             {
@@ -453,7 +502,7 @@ namespace ChineseSubtitleConversionTool
             RadioButton radioButton = (RadioButton)sender;
             if (radioButton.Checked)
             {
-                ConvertOption = (enumConvertOption)Convert.ToInt32(radioButton.Tag);
+                Config.ConvertOption = (enumConvertOption)Convert.ToInt32(radioButton.Tag);
             }
         }
 
@@ -842,6 +891,7 @@ namespace ChineseSubtitleConversionTool
                 return false;
             }
         }
+
         #endregion
 
 
@@ -852,8 +902,9 @@ namespace ChineseSubtitleConversionTool
     /// </summary>
     public enum enumConvertOption
     {
+        Null = -1,
         Quick = 0,
         OldWord = 1,
-        High = 2
+        High = 2,
     }
 }
