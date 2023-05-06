@@ -46,40 +46,56 @@ namespace ChineseSubtitleConversionTool
 
             txtFileName.Text = Config.FileName;
 
-            try
+            rbConvertHigh.Enabled = false;
+            rbConvertOldWord.Enabled = false;
+            rbConvertQuick.Enabled = false;
+            Task.Factory.StartNew(() =>
             {
-                OfficeWordConvert owc = new OfficeWordConvert();
-                owc.Dispose();
-                if (Config.ConvertOption == enumConvertOption.Null)
+                try
                 {
-                    Config.ConvertOption = enumConvertOption.High;
+                    OfficeWordConvert owc = new OfficeWordConvert();
+                    owc.Dispose();
+                    if (Config.ConvertOption == enumConvertOption.Null)
+                    {
+                        Config.ConvertOption = enumConvertOption.High;
+                    }
+                    this.Invoke(new Action(() =>
+                    {
+                        rbConvertHigh.Enabled = true;
+                    }));
                 }
-                rbConvertHigh.Enabled = true;
-            }
-            catch (Exception err)
-            {
-                if (Config.ConvertOption == enumConvertOption.Null)
+                catch (Exception err)
                 {
-                    Config.ConvertOption = enumConvertOption.OldWord;
+                    if (Config.ConvertOption == enumConvertOption.Null)
+                    {
+                        Config.ConvertOption = enumConvertOption.OldWord;
+                    }
+                    this.Invoke(new Action(() =>
+                    {
+                        rbConvertHigh.Enabled = false;
+                        Console.WriteLine(err.Message);
+                    }));
                 }
-                rbConvertHigh.Enabled = false;
-                Console.WriteLine(err.Message);
-            }
-
-            switch (Config.ConvertOption)
-            {
-                case enumConvertOption.High:
-                    rbConvertHigh.Checked = true;
-                    break;
-                case enumConvertOption.OldWord:
-                    rbConvertOldWord.Checked = true;
-                    break;
-                case enumConvertOption.Quick:
-                case enumConvertOption.Null:
-                default:
-                    rbConvertQuick.Checked = true;
-                    break;
-            }
+                this.Invoke(new Action(() =>
+                {
+                    rbConvertOldWord.Enabled = true;
+                    rbConvertQuick.Enabled = true;
+                    switch (Config.ConvertOption)
+                    {
+                        case enumConvertOption.High:
+                            rbConvertHigh.Checked = true;
+                            break;
+                        case enumConvertOption.OldWord:
+                            rbConvertOldWord.Checked = true;
+                            break;
+                        case enumConvertOption.Quick:
+                        case enumConvertOption.Null:
+                        default:
+                            rbConvertQuick.Checked = true;
+                            break;
+                    }
+                }));
+            });
 
             TipObject = new ToolTip();
             TipObject.AutoPopDelay = 10000;    //工具提示保持可见的时间期限
