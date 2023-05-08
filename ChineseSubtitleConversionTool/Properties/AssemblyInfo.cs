@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Chishin")]
 [assembly: AssemblyProduct("Chinese Subtitle Conversion Tool")]
-[assembly: AssemblyCopyright("Copyright © Chishin 2020-2022")]
+[assembly: AssemblyCopyright("Copyright © Chishin 2020-2023")]
 [assembly: AssemblyTrademark("www.xxgzs.org")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // 可以指定所有值，也可以使用以下所示的 "*" 预置版本号和修订号
 // 方法是按如下所示使用“*”: :
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.4.4.62")]
-[assembly: AssemblyFileVersion("0.4.4.62")]
+[assembly: AssemblyVersion("0.4.5.66")]
+[assembly: AssemblyFileVersion("0.4.5.66")]

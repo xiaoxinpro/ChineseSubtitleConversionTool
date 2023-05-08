@@ -116,7 +116,10 @@ namespace ChineseSubtitleConversionTool
             object saveChange = 0;
             object originalFormat = Missing.Value;
             object routeDocument = Missing.Value;
-            appWord.Quit(ref saveChange, ref originalFormat, ref routeDocument);
+            if (appWord != null)
+            {
+                appWord.Quit(ref saveChange, ref originalFormat, ref routeDocument);
+            }
             doc = null;
             appWord = null;
             GC.Collect();
