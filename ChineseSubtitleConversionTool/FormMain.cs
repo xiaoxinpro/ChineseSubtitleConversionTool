@@ -19,25 +19,10 @@ namespace ChineseSubtitleConversionTool
         private string OpenFileDefineExt = "";
         private string OpenFileDefineName = "";
         private MainConfig Config;
-        private Task<bool> officeIsReadyTask;
 
         #region 初始化相关
         public FormMain()
         {
-            this.officeIsReadyTask = Task.Factory.StartNew(() =>
-            {
-                try
-                {
-                    OfficeWordConvert owc = new OfficeWordConvert();
-                    owc.Dispose();
-                    return true;
-                }
-                catch (Exception err)
-                {
-                    Console.WriteLine(err);
-                    return false;
-                }
-            });
             InitializeComponent();
             Config = MainConfig.Load();
         }
@@ -63,57 +48,38 @@ namespace ChineseSubtitleConversionTool
             rbConvertHigh.Enabled = false;
             rbConvertOldWord.Enabled = true;
             rbConvertQuick.Enabled = true;
-            Task.Factory.StartNew(() =>
+            if (Type.GetTypeFromProgID("Word.Application") != null)
             {
-                this.officeIsReadyTask.Wait();
-                if (this.officeIsReadyTask.Result)
+                if (Config.ConvertOption == enumConvertOption.Null)
                 {
-                    if (Config.ConvertOption == enumConvertOption.Null)
-                    {
-                        Config.ConvertOption = enumConvertOption.High;
-                    }
-                    this.Invoke(new Action(() =>
-                    {
-                        rbConvertHigh.Enabled = true;
-                    }));
+                    Config.ConvertOption = enumConvertOption.High;
                 }
-                else
+                rbConvertHigh.Enabled = true;
+            }
+            else
+            {
+                switch (Config.ConvertOption)
                 {
-                    switch (Config.ConvertOption)
-                    {
-                        case enumConvertOption.Null:
-                            Config.ConvertOption = enumConvertOption.Quick;
-                            break;
-                        case enumConvertOption.High:
-                            Config.ConvertOption = enumConvertOption.Quick;
-                            break;
-                    }
-                    this.Invoke(new Action(() =>
-                    {
-                        rbConvertHigh.Enabled = false;
-                    }));
+                    case enumConvertOption.Null:
+                        Config.ConvertOption = enumConvertOption.Quick;
+                        break;
+                    case enumConvertOption.High:
+                        Config.ConvertOption = enumConvertOption.Quick;
+                        break;
                 }
-                this.Invoke(new Action(() =>
-                {
-                    switch (Config.ConvertOption)
-                    {
-                        case enumConvertOption.High:
-                            rbConvertHigh.Checked = true;
-                            break;
-                        case enumConvertOption.Quick:
-                            rbConvertQuick.Checked = true;
-                            break;
-                    }
-                }));
-            });
+                rbConvertHigh.Enabled = false;
+            }
 
             switch (Config.ConvertOption)
             {
-                case enumConvertOption.OldWord:
-                    rbConvertOldWord.Checked = true;
+                case enumConvertOption.High:
+                    rbConvertHigh.Checked = true;
                     break;
                 case enumConvertOption.Quick:
                     rbConvertQuick.Checked = true;
+                    break;
+                case enumConvertOption.OldWord:
+                    rbConvertOldWord.Checked = true;
                     break;
             }
 
