@@ -19,10 +19,24 @@ namespace ChineseSubtitleConversionTool
         private string OpenFileDefineExt = "";
         private string OpenFileDefineName = "";
         private enumConvertOption ConvertOption;
+        private Task<bool> officeIsReadyTask;
 
         #region 初始化相关
         public FormMain()
         {
+            this.officeIsReadyTask = Task.Factory.StartNew(() =>
+            {
+                try
+                {
+                    OfficeWordConvert owc = new OfficeWordConvert();
+                    owc.Dispose();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            });
             InitializeComponent();
         }
 
@@ -40,20 +54,6 @@ namespace ChineseSubtitleConversionTool
             cbFormat.SelectedIndex = 0;
             cbEncode.SelectedIndex = 0;
 
-            try
-            {
-                OfficeWordConvert owc = new OfficeWordConvert();
-                owc.Dispose();
-                rbConvertHigh.Enabled = true;
-                rbConvertHigh.Checked = true;
-            }
-            catch (Exception err)
-            {
-                rbConvertOldWord.Checked = true;
-                rbConvertHigh.Enabled = false;
-                Console.WriteLine(err.Message);
-            }
-
             TipObject = new ToolTip();
             TipObject.AutoPopDelay = 10000;    //工具提示保持可见的时间期限
             TipObject.InitialDelay = 200;     //鼠标放上，自动打开提示的时间
@@ -62,8 +62,19 @@ namespace ChineseSubtitleConversionTool
             TipObject.UseAnimation = true;   //动画效果
             TipObject.UseFading = true;      //淡入淡出效果
             TipObject.IsBalloon = true;      //气球状外观
-            TipObject.SetToolTip(this.txtFileName, "替换符说明：{name}原文件名称，{exten}文件扩展名，{num}文件序号");
+            TipObject.SetToolTip(this.txtFileName, "替换符说明：{name}原文件名称，{exten}文件扩展名，{num}文件序号，{name}<xxx>删除原文件名中最后出现的xxx");
             TipObject.SetToolTip(this.rbConvertQuick, "选择后可较快的转换完成，全局有效！");
+            this.officeIsReadyTask.Wait();
+            if (this.officeIsReadyTask.Result)
+            {
+                rbConvertHigh.Enabled = true;
+                rbConvertHigh.Checked = true;
+            }
+            else
+            {
+                rbConvertOldWord.Checked = true;
+                rbConvertHigh.Enabled = false;
+            }
             TipObject.SetToolTip(this.rbConvertOldWord, "选择后可有效避免出现??异常文字，全局有效！");
             TipObject.SetToolTip(this.rbConvertHigh, "选择后会结合上下文语义转换速度慢，全局有效！");
         }
@@ -334,16 +345,16 @@ namespace ChineseSubtitleConversionTool
         private void cbFormat_SelectionChangeCommitted(object sender, EventArgs e)
         {
             string strFileStyle = txtFileName.Text.Trim();
-            if (strFileStyle == "{name}.cs{exten}" || strFileStyle == "{name}.ct{exten}")
+            if (strFileStyle == "{name}.sc{exten}" || strFileStyle == "{name}.tc{exten}")
             {
                 ComboBox comboBox = (ComboBox)sender;
                 if (comboBox.SelectedIndex == 0)
                 {
-                    strFileStyle = "{name}.cs{exten}";
+                    strFileStyle = "{name}.sc{exten}";
                 }
                 else if (comboBox.SelectedIndex == 1)
                 {
-                    strFileStyle = "{name}.ct{exten}";
+                    strFileStyle = "{name}.tc{exten}";
                 }
                 txtFileName.Text = strFileStyle;
             }
@@ -519,6 +530,17 @@ namespace ChineseSubtitleConversionTool
         /// <param name="nameStyle"></param>
         private void UpdataListViewFileName(ListView listView, string nameStyle)
         {
+            String exclude = null;
+            int startIndex = nameStyle.IndexOf("{name}<");
+            if (startIndex != -1)
+            {
+                int endIndex = nameStyle.IndexOf(">", startIndex + 7);
+                if (endIndex != -1)
+                {
+                    exclude = nameStyle.Substring(startIndex + 7, endIndex - startIndex - 7);
+                    nameStyle = nameStyle.Substring(0, startIndex + 6) + nameStyle.Substring(endIndex + 1);
+                }
+            }
             if (CheckFileStyle(nameStyle, out string msg)) 
             {
                 listView.BeginUpdate();
@@ -527,7 +549,7 @@ namespace ChineseSubtitleConversionTool
                     string filePath = item.SubItems[2].Text;
                     if (File.Exists(filePath))
                     {
-                        item.SubItems[1].Text = Path.GetFileName(MakeFileName(filePath, nameStyle, Convert.ToInt32(item.Text).ToString().PadLeft(listView.Items.Count.ToString().Length, '0')));
+                        item.SubItems[1].Text = Path.GetFileName(MakeFileName(filePath, nameStyle, exclude, Convert.ToInt32(item.Text).ToString().PadLeft(listView.Items.Count.ToString().Length, '0')));
                     }
                 }
                 listView.EndUpdate();
@@ -694,10 +716,19 @@ namespace ChineseSubtitleConversionTool
         /// <returns>返回是否合法</returns>
         public bool CheckFileStyle(string fileStyle, out string msg)
         {
+            int startIndex = fileStyle.IndexOf("{name}<");
+            if (startIndex != -1)
+            {
+                int endIndex = fileStyle.IndexOf(">", startIndex+7);
+                if (endIndex != -1)
+                {
+                    fileStyle = fileStyle.Substring(0, startIndex+6) + fileStyle.Substring(endIndex + 1);
+                }
+            }
             msg = "";
             if (fileStyle.IndexOf("{name}") == -1 && fileStyle.IndexOf("{num}") == -1)
             {
-                msg = "文件名中必须包含{name}，请检查后修改再试。";
+                msg = "文件名中必须包含{name}或{num}，请检查后修改再试。";
                 return false;
             }
             if (fileStyle.IndexOf("{exten}") == -1)
@@ -719,11 +750,19 @@ namespace ChineseSubtitleConversionTool
         /// <param name="sourceName">源名称</param>
         /// <param name="styleName">目标名称样式</param>
         /// <returns></returns>
-        public string MakeFileName(string sourceName, string styleName, string num = "")
+        public string MakeFileName(string sourceName, string styleName,String exclude, string num = "")
         {
             string path = Path.GetDirectoryName(sourceName) + "\\";
             string fileName = Path.GetFileNameWithoutExtension(sourceName);
             string fileExt = Path.GetExtension(sourceName);
+            if (exclude != null)
+            {
+                int lastIndex = fileName.LastIndexOf(exclude);
+                if (lastIndex != -1)
+                {
+                    fileName = fileName.Substring(0, lastIndex) + fileName.Substring(lastIndex + exclude.Length); ;
+                }
+            }
             return path + styleName.Replace("{name}", fileName).Replace("{exten}", fileExt).Replace("{num}", num);
         }
 
