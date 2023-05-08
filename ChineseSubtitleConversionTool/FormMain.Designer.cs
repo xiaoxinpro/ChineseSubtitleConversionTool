@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.txtShow = new System.Windows.Forms.TextBox();
             this.btnToSimplified = new System.Windows.Forms.Button();
             this.btnToTraditional = new System.Windows.Forms.Button();
@@ -58,6 +57,7 @@
             this.rbConvertQuick = new System.Windows.Forms.RadioButton();
             this.label6 = new System.Windows.Forms.Label();
             this.groupConvertOption = new System.Windows.Forms.GroupBox();
+            this.btnSaveProfile = new System.Windows.Forms.Button();
             this.tabControlMain.SuspendLayout();
             this.tabPageCommon.SuspendLayout();
             this.tabPageBatch.SuspendLayout();
@@ -76,7 +76,6 @@
             this.txtShow.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtShow.Size = new System.Drawing.Size(555, 246);
             this.txtShow.TabIndex = 0;
-            this.txtShow.Text = resources.GetString("txtShow.Text");
             // 
             // btnToSimplified
             // 
@@ -400,6 +399,7 @@
             // 
             this.groupConvertOption.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupConvertOption.Controls.Add(this.btnSaveProfile);
             this.groupConvertOption.Controls.Add(this.rbConvertHigh);
             this.groupConvertOption.Controls.Add(this.rbConvertOldWord);
             this.groupConvertOption.Controls.Add(this.rbConvertQuick);
@@ -409,6 +409,16 @@
             this.groupConvertOption.Size = new System.Drawing.Size(571, 38);
             this.groupConvertOption.TabIndex = 5;
             this.groupConvertOption.TabStop = false;
+            // 
+            // btnSaveProfile
+            // 
+            this.btnSaveProfile.Location = new System.Drawing.Point(490, 12);
+            this.btnSaveProfile.Name = "btnSaveProfile";
+            this.btnSaveProfile.Size = new System.Drawing.Size(75, 23);
+            this.btnSaveProfile.TabIndex = 5;
+            this.btnSaveProfile.Text = "保存配置";
+            this.btnSaveProfile.UseVisualStyleBackColor = true;
+            this.btnSaveProfile.Click += new System.EventHandler(this.btnSaveProfile_Click);
             // 
             // FormMain
             // 
@@ -422,7 +432,6 @@
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "繁体简体字幕转换工具";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.FormMain_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.FormMain_DragEnter);
@@ -468,6 +477,7 @@
         private System.Windows.Forms.GroupBox groupConvertOption;
         private System.Windows.Forms.Button btnCopy;
         private System.Windows.Forms.ProgressBar progressBarPercentage;
+        private System.Windows.Forms.Button btnSaveProfile;
     }
 }
 

@@ -38,7 +38,6 @@ namespace ChineseSubtitleConversionTool
                     return false;
                 }
             });
-            Global.Init();
             InitializeComponent();
             Config = MainConfig.Load();
         }
@@ -130,28 +129,6 @@ namespace ChineseSubtitleConversionTool
             TipObject.SetToolTip(this.rbConvertQuick, "选择后可较快的转换完成，全局有效！");
             TipObject.SetToolTip(this.rbConvertOldWord, "选择后可有效避免出现??异常文字，全局有效！");
             TipObject.SetToolTip(this.rbConvertHigh, "选择后会结合上下文语义转换速度慢，全局有效！");
-        }
-
-        /// <summary>
-        /// 关闭窗体保存配置
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            this.Hide();
-            try
-            {
-                Config.ControlTabIndex = tabControlMain.SelectedIndex;
-                Config.FormatIndex = cbFormat.SelectedIndex;
-                Config.EncodeIndex = cbEncode.SelectedIndex;
-                Config.FileName = txtFileName.Text;
-                MainConfig.Save(Config);
-            }
-            catch (Exception err)
-            {
-                Console.WriteLine(err.Message);
-            }
         }
 
         /// <summary>
@@ -957,9 +934,25 @@ namespace ChineseSubtitleConversionTool
             }
         }
 
+
         #endregion
 
-
+        private void btnSaveProfile_Click(object sender, EventArgs e)
+        {
+            Global.Init();
+            try
+            {
+                Config.ControlTabIndex = tabControlMain.SelectedIndex;
+                Config.FormatIndex = cbFormat.SelectedIndex;
+                Config.EncodeIndex = cbEncode.SelectedIndex;
+                Config.FileName = txtFileName.Text;
+                MainConfig.Save(Config);
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message, "保存失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 
     /// <summary>
