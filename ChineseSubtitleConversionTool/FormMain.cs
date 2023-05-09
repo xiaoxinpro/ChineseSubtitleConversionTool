@@ -147,7 +147,7 @@ namespace ChineseSubtitleConversionTool
         private void FormMain_DragDrop(object sender, DragEventArgs e)
         {
             string[] paths = (string[])e.Data.GetData(DataFormats.FileDrop, true);
-            if (paths.Length > 1)
+            if (paths.Length > 1|| tabControlMain.SelectedIndex == 1)
             {
                 tabControlMain.SelectedIndex = 1;
                 txtPath.Text = Path.GetDirectoryName(paths[0].Trim());
