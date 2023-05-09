@@ -361,6 +361,7 @@
             this.rbConvertHigh.Text = "高精度";
             this.rbConvertHigh.UseVisualStyleBackColor = true;
             this.rbConvertHigh.CheckedChanged += new System.EventHandler(this.rbConvertOption_CheckedChanged);
+            this.rbConvertHigh.CheckedChanged += new System.EventHandler(this.rbConvertHigh_CheckedChanged);
             // 
             // rbConvertOldWord
             // 
@@ -433,6 +434,7 @@
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "繁体简体字幕转换工具";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.FormMain_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.FormMain_DragEnter);

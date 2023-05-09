@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
@@ -98,6 +97,16 @@ namespace ChineseSubtitleConversionTool
         }
 
         /// <summary>
+        /// 关闭窗体
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
+        }
+
+        /// <summary>
         /// 初始化列表
         /// </summary>
         /// <param name="listView"></param>
@@ -147,7 +156,7 @@ namespace ChineseSubtitleConversionTool
         private void FormMain_DragDrop(object sender, DragEventArgs e)
         {
             string[] paths = (string[])e.Data.GetData(DataFormats.FileDrop, true);
-            if (paths.Length > 1|| tabControlMain.SelectedIndex == 1)
+            if (paths.Length > 1 || tabControlMain.SelectedIndex == 1)
             {
                 tabControlMain.SelectedIndex = 1;
                 txtPath.Text = Path.GetDirectoryName(paths[0].Trim());
@@ -434,6 +443,10 @@ namespace ChineseSubtitleConversionTool
                 }
                 pbConvert.Value = 0;
                 pbConvert.Maximum = dicFile.Count;
+                if(convertOption == enumConvertOption.High)
+                {
+                    WordApplicationPool.SemaphoreInit(dicFile.Count);
+                }
                 btnStartConvert.Hide();
                 int cnt = 0;
                 Stopwatch Watch = new Stopwatch();
@@ -483,6 +496,30 @@ namespace ChineseSubtitleConversionTool
             if (radioButton.Checked)
             {
                 Config.ConvertOption = (enumConvertOption)Convert.ToInt32(radioButton.Tag);
+            }
+        }
+
+        private void rbConvertHigh_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton radioButton = (RadioButton)sender;
+            if (radioButton.Checked)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    try
+                    {
+                        WordApplicationPool.PoolInit(1);
+                    }
+                    catch (Exception err)
+                    {
+                        this.Invoke(new Action(() =>
+                        {
+                            rbConvertHigh.Enabled = false;
+                            rbConvertQuick.Checked = true;
+                        }));
+                        Console.WriteLine(err);
+                    }
+                });
             }
         }
 
@@ -628,7 +665,6 @@ namespace ChineseSubtitleConversionTool
                         isWait = false;
                         HighConvert.BindConvertEvent(ChangeProcessBarValue);
                         string ret = HighConvert.Cht2Chs(str);
-                        HighConvert.Dispose();
                         return ret;
                     default:
                         return "";
@@ -670,7 +706,6 @@ namespace ChineseSubtitleConversionTool
                         isWait = false;
                         HighConvert.BindConvertEvent(ChangeProcessBarValue);
                         string ret = HighConvert.Chs2Cht(str);
-                        HighConvert.Dispose();
                         return ret;
                     default:
                         return "";

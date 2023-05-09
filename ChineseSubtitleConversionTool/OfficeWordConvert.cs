@@ -1,17 +1,10 @@
-﻿using Microsoft.Office.Interop.Word;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
+﻿using System.IO;
 using System.Text;
 
 namespace ChineseSubtitleConversionTool
 {
     public class OfficeWordConvert
     {
-        private _Application appWord;
-        private Document doc;
 
         /// <summary>
         /// 转换进度
@@ -32,26 +25,6 @@ namespace ChineseSubtitleConversionTool
             }
         }
 
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        public OfficeWordConvert()
-        {
-            appWord = new Application();
-            object template = Missing.Value;
-            object newTemplate = Missing.Value;
-            object docType = Missing.Value;
-            object visible = true;
-            doc = appWord.Documents.Add(ref template, ref newTemplate, ref docType, ref visible);
-        }
-
-        /// <summary>
-        /// 析构函数
-        /// </summary>
-        ~OfficeWordConvert()
-        {
-            Dispose();
-        }
 
         /// <summary>
         /// 简体转繁体函数
@@ -70,7 +43,14 @@ namespace ChineseSubtitleConversionTool
                 while ((line = sr.ReadLine()) != null)
                 {
                     cnt += line.Length;
-                    sb.AppendLine(chs_to_cht(line).TrimEnd());
+                    if (isStringChinese(line) == false)
+                    {
+                        sb.AppendLine(line.TrimEnd());
+                    }
+                    else
+                    {
+                        sb.AppendLine(WordApplicationPool.Get().chs_to_cht(line).TrimEnd());
+                    }
                     if (100 * cnt / len - p > 1)
                     {
                         p = 100 * cnt / len;
@@ -99,7 +79,14 @@ namespace ChineseSubtitleConversionTool
                 while ((line = sr.ReadLine()) != null)
                 {
                     cnt += line.Length;
-                    sb.AppendLine(cht_to_chs(line).TrimEnd());
+                    if (isStringChinese(line) == false)
+                    {
+                        sb.AppendLine(line.TrimEnd());
+                    }
+                    else
+                    {
+                        sb.AppendLine(WordApplicationPool.Get().cht_to_chs(line).TrimEnd());
+                    }
                     if (100 * cnt / len - p > 1)
                     {
                         p = 100 * cnt / len;
@@ -111,56 +98,6 @@ namespace ChineseSubtitleConversionTool
             return sb.ToString();
         }
 
-        public void Dispose()
-        {
-            object saveChange = 0;
-            object originalFormat = Missing.Value;
-            object routeDocument = Missing.Value;
-            if (appWord != null)
-            {
-                appWord.Quit(ref saveChange, ref originalFormat, ref routeDocument);
-            }
-            doc = null;
-            appWord = null;
-            GC.Collect();
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// 简体转繁体函数
-        /// </summary>
-        /// <param name="src">简体字符串</param>
-        /// <returns>繁体字符串</returns>
-        private string chs_to_cht(string src)
-        {
-            if (isStringChinese(src) == false)
-            {
-                return src;
-            }
-            appWord.Selection.Delete();
-            appWord.Selection.TypeText(src);
-            appWord.Selection.Range.TCSCConverter(WdTCSCConverterDirection.wdTCSCConverterDirectionSCTC, true, true);
-            appWord.ActiveDocument.Select();
-            return appWord.Selection.Text;
-        }
-
-        /// <summary>
-        /// 繁体转简体函数
-        /// </summary>
-        /// <param name="src">繁体字符串</param>
-        /// <returns>简体字符串</returns>
-        private string cht_to_chs(string src)
-        {
-            if (isStringChinese(src) == false)
-            {
-                return src;
-            }
-            appWord.Selection.Delete();
-            appWord.Selection.TypeText(src);
-            appWord.Selection.Range.TCSCConverter(WdTCSCConverterDirection.wdTCSCConverterDirectionTCSC, true, true);
-            appWord.ActiveDocument.Select();
-            return appWord.Selection.Text;
-        }
 
         /// <summary>
         /// 检查字符串中是否包含汉字
