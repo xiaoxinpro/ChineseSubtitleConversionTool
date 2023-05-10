@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using Microsoft.Office.Interop.Word;
+using System.IO;
 using System.Text;
 
 namespace ChineseSubtitleConversionTool
@@ -33,33 +34,11 @@ namespace ChineseSubtitleConversionTool
         /// <returns>繁体字符串</returns>
         public string Chs2Cht(string src)
         {
-            int len = src.Length;
-            int cnt = 0;
-            double p = 0;
-            StringBuilder sb = new StringBuilder();
-            using (StringReader sr = new StringReader(src))
-            {
-                string line;
-                while ((line = sr.ReadLine()) != null)
-                {
-                    cnt += line.Length;
-                    if (isStringChinese(line) == false)
-                    {
-                        sb.AppendLine(line.TrimEnd());
-                    }
-                    else
-                    {
-                        sb.AppendLine(WordApplicationPool.Get().chs_to_cht(line).TrimEnd());
-                    }
-                    if (100 * cnt / len - p > 1)
-                    {
-                        p = 100 * cnt / len;
-                        EventConvertCallback(p > 100 ? 100 : p);
-                    }
-                }
-            }
+            WordApplication wordApplication = WordApplicationPool.Get();
+            string str = wordApplication.chs_to_cht(src);
+            WordApplicationPool.Return(wordApplication);
             EventConvertCallback(100);
-            return sb.ToString();
+            return str.Replace("\r", "\r\n");
         }
 
         /// <summary>
@@ -69,33 +48,11 @@ namespace ChineseSubtitleConversionTool
         /// <returns>简体字符串</returns>
         public string Cht2Chs(string src)
         {
-            int len = src.Length;
-            int cnt = 0;
-            double p = 0;
-            StringBuilder sb = new StringBuilder();
-            using (StringReader sr = new StringReader(src))
-            {
-                string line;
-                while ((line = sr.ReadLine()) != null)
-                {
-                    cnt += line.Length;
-                    if (isStringChinese(line) == false)
-                    {
-                        sb.AppendLine(line.TrimEnd());
-                    }
-                    else
-                    {
-                        sb.AppendLine(WordApplicationPool.Get().cht_to_chs(line).TrimEnd());
-                    }
-                    if (100 * cnt / len - p > 1)
-                    {
-                        p = 100 * cnt / len;
-                        EventConvertCallback(p > 100 ? 100 : p);
-                    }
-                }
-            }
+            WordApplication wordApplication = WordApplicationPool.Get();
+            string str = wordApplication.cht_to_chs(src);
+            WordApplicationPool.Return(wordApplication);
             EventConvertCallback(100);
-            return sb.ToString();
+            return str.Replace("\r","\r\n");
         }
 
 

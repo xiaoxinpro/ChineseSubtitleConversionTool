@@ -6,37 +6,60 @@ namespace ChineseSubtitleConversionTool
 {
     public static class WordApplicationPool
     {
-        private static readonly SemaphoreSlim semaphore = new SemaphoreSlim(1,Environment.ProcessorCount);
+        private static readonly SemaphoreSlim semaphore = new SemaphoreSlim(0,Environment.ProcessorCount);
         private static readonly Queue<WordApplication> pool = new Queue<WordApplication>();
+        public static bool CreatingWordApplication = false;
 
-        public static void PoolInit(int num)
+        public static void InitPool()
         {
-            for (int i = 0; i < num; ++i)
+            if (pool.Count == 0)
             {
-                WordApplication wordApplication = new WordApplication();
-                lock (pool)
-                {
-                    pool.Enqueue(wordApplication);
-                }
+                CreateWordApplicationAsync(1);
             }
         }
-
-        public static void SemaphoreInit(int num)
+        public static void CreateWordApplicationAsync(int num)
         {
-            int limitSemaphore = Environment.ProcessorCount - semaphore.CurrentCount;
+            CreatingWordApplication = true;
+            System.Threading.Tasks.Task.Factory.StartNew(() =>
+            {
+                for (int i = 0; i < num; ++i)
+                {
+                    if(CreatingWordApplication)
+                    {
+                        WordApplication wordApplication = new WordApplication();
+                        lock (pool)
+                        {
+                            pool.Enqueue(wordApplication);
+                        }
+                        semaphore.Release();
+                    }
+                }
+            });
+        }
 
-            if (limitSemaphore == 0)
+        public static void InitSemaphore(int num)
+        {
+            if (num > 0)
             {
-                return;
-            }
-            num /= 2;
-            if (num > limitSemaphore)
-            {
-                semaphore.Release(limitSemaphore);
-            }
-            else if(num <= limitSemaphore && num > 0)
-            {
-                semaphore.Release(num);
+                int limitSemaphore = Environment.ProcessorCount - semaphore.CurrentCount;
+                if (limitSemaphore == 0)
+                {
+                    return;
+                }
+                if (num > semaphore.CurrentCount)
+                {
+                    int releaseNum = 0;
+                    if(num <= Environment.ProcessorCount)
+                    {
+                        releaseNum = num - semaphore.CurrentCount;
+                    }
+                    else if (num > Environment.ProcessorCount)
+                    {
+                        releaseNum = limitSemaphore;
+                    }
+                    CreateWordApplicationAsync(releaseNum);
+                }
+
             }
         }
 
@@ -51,7 +74,7 @@ namespace ChineseSubtitleConversionTool
                     return pool.Dequeue();
                 }
             }
-            return new WordApplication();
+            return new WordApplication();//正常情況不会在这里创建WordApplication()
         }
 
         public static void Return(WordApplication obj)

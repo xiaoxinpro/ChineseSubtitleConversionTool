@@ -103,7 +103,12 @@ namespace ChineseSubtitleConversionTool
         /// <param name="e"></param>
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
+            this.Hide();
+            WordApplicationPool.CreatingWordApplication = false;
+            lock (WordApplication.CreatingWordApplication)
+            {
 
+            }
         }
 
         /// <summary>
@@ -445,7 +450,7 @@ namespace ChineseSubtitleConversionTool
                 pbConvert.Maximum = dicFile.Count;
                 if(convertOption == enumConvertOption.High)
                 {
-                    WordApplicationPool.SemaphoreInit(dicFile.Count);
+                    WordApplicationPool.InitSemaphore(dicFile.Count);
                 }
                 btnStartConvert.Hide();
                 int cnt = 0;
@@ -472,6 +477,7 @@ namespace ChineseSubtitleConversionTool
                             if (cnt >= fileLength)
                             {
                                 Watch.Stop();
+                                WordApplicationPool.CreatingWordApplication = false;
                                 MessageBox.Show("转换完成，共输出" + pbConvert.Value + "个字幕文件，耗时" + string.Format("{0:0.###}", Watch.Elapsed.TotalSeconds)  + "秒。", "转换完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 pbConvert.Value = 0;
                                 btnStartConvert.Show();
@@ -508,7 +514,7 @@ namespace ChineseSubtitleConversionTool
                 {
                     try
                     {
-                        WordApplicationPool.PoolInit(1);
+                        WordApplicationPool.InitPool();
                     }
                     catch (Exception err)
                     {
