@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace ChineseSubtitleConversionTool
 {
@@ -14,7 +10,7 @@ namespace ChineseSubtitleConversionTool
         public int ControlTabIndex { get; set; } = 0;
         public int FormatIndex { get; set; } = 0;
         public int EncodeIndex { get; set; } = 0;
-        public string FileName { get; set; } = "{name}.cs{exten}";
+        public string FileName { get; set; } = "{name}<.tc>.sc{exten}";
 
         public MainConfig() 
         { 
