@@ -1,7 +1,4 @@
-﻿using Microsoft.Office.Interop.Word;
-using System.IO;
-using System.Text;
-
+﻿
 namespace ChineseSubtitleConversionTool
 {
     public class OfficeWordConvert

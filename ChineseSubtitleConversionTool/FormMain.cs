@@ -105,7 +105,7 @@ namespace ChineseSubtitleConversionTool
         {
             this.Hide();
             WordApplicationPool.CreatingWordApplication = false;
-            lock (WordApplication.CreatingWordApplication)
+            lock (WordApplication.CreatingWordApplicationLock)
             {
 
             }

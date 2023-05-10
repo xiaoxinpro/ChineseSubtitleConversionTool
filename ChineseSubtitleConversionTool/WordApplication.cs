@@ -8,10 +8,10 @@ namespace ChineseSubtitleConversionTool
     {
         private _Application appWord;
         private Document doc;
-        public static Object CreatingWordApplication = new Object();
+        public static Object CreatingWordApplicationLock = new Object();
         public WordApplication()
         {
-            lock (CreatingWordApplication)
+            lock (CreatingWordApplicationLock)
             {
                 appWord = new Application();
                 object template = Missing.Value;
