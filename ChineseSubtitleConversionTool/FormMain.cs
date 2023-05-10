@@ -105,7 +105,7 @@ namespace ChineseSubtitleConversionTool
         {
             this.Hide();
             WordApplicationPool.CreatingWordApplication = false;
-            lock (WordApplication.CreatingWordApplicationLock)
+            lock (WordApplication.CreatingWordApplicationLock)//初始化结束后再退出，否则新打开的word会残留在后台
             {
 
             }

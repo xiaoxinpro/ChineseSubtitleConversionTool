@@ -6,10 +6,11 @@ namespace ChineseSubtitleConversionTool
 {
     public static class WordApplicationPool
     {
-        private static readonly SemaphoreSlim semaphore = new SemaphoreSlim(0,Environment.ProcessorCount);
+        private static readonly SemaphoreSlim semaphore = new SemaphoreSlim(0,Environment.ProcessorCount);//控制数量
         private static readonly Queue<WordApplication> pool = new Queue<WordApplication>();
-        public static bool CreatingWordApplication = false;
+        public static bool CreatingWordApplication = false;//用于中断word应用创建
 
+        //用户选择高精度时就参加一个word放入池中
         public static void InitPool()
         {
             if (pool.Count == 0)
@@ -17,6 +18,10 @@ namespace ChineseSubtitleConversionTool
                 CreateWordApplicationAsync(1);
             }
         }
+        /// <summary>
+        /// 异步创建word
+        /// </summary>
+        /// <param name="num">要创建的数量</param>
         public static void CreateWordApplicationAsync(int num)
         {
             CreatingWordApplication = true;
@@ -36,7 +41,10 @@ namespace ChineseSubtitleConversionTool
                 }
             });
         }
-
+        /// <summary>
+        /// 根据文件数初始化word，最高不超过系统线程数，生成一个word释放一个信号，不阻塞线程
+        /// </summary>
+        /// <param name="num"></param>
         public static void InitSemaphore(int num)
         {
             if (num > 0)
@@ -62,7 +70,10 @@ namespace ChineseSubtitleConversionTool
 
             }
         }
-
+        /// <summary>
+        /// 获取word
+        /// </summary>
+        /// <returns></returns>
         public static WordApplication Get()
         {
             semaphore.Wait();
@@ -76,7 +87,10 @@ namespace ChineseSubtitleConversionTool
             }
             return new WordApplication();//正常情況不会在这里创建WordApplication()
         }
-
+        /// <summary>
+        /// 归还word
+        /// </summary>
+        /// <param name="obj"></param>
         public static void Return(WordApplication obj)
         {
             lock (pool)
