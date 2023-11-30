@@ -542,6 +542,7 @@ namespace ChineseSubtitleConversionTool
                     case ".srt":
                     case ".lrc":
                     case ".txt":
+                    case ".yaml":
                         try
                         {
                             ListViewItem listViewItem = listView.Items.Cast<ListViewItem>().First(x => x.SubItems[2].Text == file.FullName);
