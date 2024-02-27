@@ -36,41 +36,49 @@ namespace ChineseSubtitleConversionTool
 
         private string ChineseConverter(string source, EnumConverterModel model, bool idiom = false)
         {
-            string target = null;
-            switch (model)
+            string target;
+            try
             {
-                case EnumConverterModel.cht2chs:
-                    target = ZhConverter.HantToHans(source);
-                    break;
-                case EnumConverterModel.cht2chtw:
-                    target = ZhConverter.HantToTW(source, idiom);
-                    break;
-                case EnumConverterModel.cht2chk:
-                    target = ZhConverter.HantToHK(source);
-                    break;
-                case EnumConverterModel.chtw2chs:
-                    target = ZhConverter.TWToHans(source, idiom);
-                    break;
-                case EnumConverterModel.chtw2chk:
-                    target = ZhConverter.TWToHant(source, idiom);
-                    break;
-                case EnumConverterModel.chk2chs:
-                    target = ZhConverter.HKToHans(source);
-                    break;
-                case EnumConverterModel.chk2cht:
-                    target = ZhConverter.HKToHant(source);
-                    break;
-                case EnumConverterModel.chs2cht:
-                    target = ZhConverter.HansToHant(source);
-                    break;
-                case EnumConverterModel.chs2chtw:
-                    target = ZhConverter.HansToTW(source, idiom);
-                    break;
-                case EnumConverterModel.chs2chk:
-                    target = ZhConverter.HansToHK(source);
-                    break;
-                default:
-                    break;
+                switch (model)
+                {
+                    case EnumConverterModel.cht2chs:
+                        target = ZhConverter.HantToHans(source);
+                        break;
+                    case EnumConverterModel.cht2chtw:
+                        target = ZhConverter.HantToTW(source, idiom);
+                        break;
+                    case EnumConverterModel.cht2chk:
+                        target = ZhConverter.HantToHK(source);
+                        break;
+                    case EnumConverterModel.chtw2chs:
+                        target = ZhConverter.TWToHans(source, idiom);
+                        break;
+                    case EnumConverterModel.chtw2chk:
+                        target = ZhConverter.TWToHant(source, idiom);
+                        break;
+                    case EnumConverterModel.chk2chs:
+                        target = ZhConverter.HKToHans(source);
+                        break;
+                    case EnumConverterModel.chk2cht:
+                        target = ZhConverter.HKToHant(source);
+                        break;
+                    case EnumConverterModel.chs2cht:
+                        target = ZhConverter.HansToHant(source);
+                        break;
+                    case EnumConverterModel.chs2chtw:
+                        target = ZhConverter.HansToTW(source, idiom);
+                        break;
+                    case EnumConverterModel.chs2chk:
+                        target = ZhConverter.HansToHK(source);
+                        break;
+                    default:
+                        target = "无效的转换模型。";
+                        break;
+                }
+            }
+            catch (Exception err)
+            {
+                target = err.Message;
             }
             return target;
         }
