@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenCCNET;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,6 +15,11 @@ namespace ChineseSubtitleConversionTool
         public FormMain()
         {
             InitializeComponent();
+        }
+
+        private void FormMain_Load(object sender, EventArgs e)
+        {
+            ZhConverter.Initialize();
         }
     }
 }
