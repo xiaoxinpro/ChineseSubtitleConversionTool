@@ -144,7 +144,7 @@
             this.TabPageFile.Padding = new System.Windows.Forms.Padding(3);
             this.TabPageFile.Size = new System.Drawing.Size(776, 435);
             this.TabPageFile.TabIndex = 1;
-            this.TabPageFile.Text = "文件转换";
+            this.TabPageFile.Text = "批量转换";
             this.TabPageFile.UseVisualStyleBackColor = true;
             // 
             // TextBoxInput

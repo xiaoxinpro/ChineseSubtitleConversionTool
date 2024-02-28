@@ -25,7 +25,7 @@ namespace ChineseSubtitleConversionTool
                 {
                     if (ctr != this)
                     {
-                        if ((m.Msg == 0x115 || m.Msg == 0x20a) && !scrolling && ctr.IsHandleCreated)
+                        if (((m.Msg == 0x114) || m.Msg == 0x115 || m.Msg == 0x20a) && !scrolling && ctr.IsHandleCreated)
                         {
                             scrolling = true;
                             SendMessage(ctr.Handle, m.Msg, m.WParam, m.LParam);
