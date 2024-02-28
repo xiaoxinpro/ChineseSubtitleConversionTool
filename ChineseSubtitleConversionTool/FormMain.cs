@@ -17,23 +17,44 @@ namespace ChineseSubtitleConversionTool
             InitializeComponent();
         }
 
+        /// <summary>
+        /// 加载窗体
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FormMain_Load(object sender, EventArgs e)
         {
             InitComboBoxMode(ComboBoxMode);
             ZhConverter.Initialize();
         }
 
+        /// <summary>
+        /// 转换模型下拉列表初始化
+        /// </summary>
+        /// <param name="comboBox"></param>
         private void InitComboBoxMode(ComboBox comboBox)
         {
             EnumHelper.InitComboBox(comboBox, EnumConverterModel.cht2chs);
         }
 
+        /// <summary>
+        /// 转换按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonConverter_Click(object sender, EventArgs e)
         {
-            RichTextBoxTarget.Clear();
-            RichTextBoxTarget.Text = ChineseConverter(RichTextBoxSource.Text, EnumHelper.GetComboBoxSelected<EnumConverterModel>(ComboBoxMode), CheckBoxIdiomConvert.Checked);
+            TextBoxOutput.Clear();
+            TextBoxOutput.Text = ChineseConverter(TextBoxInput.Text, EnumHelper.GetComboBoxSelected<EnumConverterModel>(ComboBoxMode), CheckBoxIdiomConvert.Checked);
         }
 
+        /// <summary>
+        /// 中文转换函数
+        /// </summary>
+        /// <param name="source">源字符串</param>
+        /// <param name="model">转换模型</param>
+        /// <param name="idiom">是否使用常用词</param>
+        /// <returns>转换后的结果</returns>
         private string ChineseConverter(string source, EnumConverterModel model, bool idiom = false)
         {
             string target;
@@ -82,8 +103,12 @@ namespace ChineseSubtitleConversionTool
             }
             return target;
         }
+
     }
 
+    /// <summary>
+    /// 转换模式枚举
+    /// </summary>
     public enum EnumConverterModel
     {
         [Description("繁体中文（标准）→ 简体中文（标准）")]
