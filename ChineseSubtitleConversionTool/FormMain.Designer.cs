@@ -36,9 +36,9 @@
             this.ButtonConverter = new System.Windows.Forms.Button();
             this.ComboBoxMode = new System.Windows.Forms.ComboBox();
             this.SplitContainerText = new System.Windows.Forms.SplitContainer();
-            this.TextBoxInput = new System.Windows.Forms.RichTextBox();
-            this.TextBoxOutput = new System.Windows.Forms.RichTextBox();
             this.TabPageFile = new System.Windows.Forms.TabPage();
+            this.TextBoxInput = new ChineseSubtitleConversionTool.SyncTextBox();
+            this.TextBoxOutput = new ChineseSubtitleConversionTool.SyncTextBox();
             this.TabControlMain.SuspendLayout();
             this.TabPageText.SuspendLayout();
             this.GroupBoxTextConfig.SuspendLayout();
@@ -137,27 +137,6 @@
             this.SplitContainerText.SplitterDistance = 380;
             this.SplitContainerText.TabIndex = 0;
             // 
-            // TextBoxInput
-            // 
-            this.TextBoxInput.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TextBoxInput.Location = new System.Drawing.Point(0, 0);
-            this.TextBoxInput.MaxLength = 0;
-            this.TextBoxInput.Name = "TextBoxInput";
-            this.TextBoxInput.Size = new System.Drawing.Size(380, 366);
-            this.TextBoxInput.TabIndex = 0;
-            this.TextBoxInput.Text = resources.GetString("TextBoxInput.Text");
-            // 
-            // TextBoxOutput
-            // 
-            this.TextBoxOutput.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TextBoxOutput.Location = new System.Drawing.Point(0, 0);
-            this.TextBoxOutput.MaxLength = 0;
-            this.TextBoxOutput.Name = "TextBoxOutput";
-            this.TextBoxOutput.ReadOnly = true;
-            this.TextBoxOutput.Size = new System.Drawing.Size(376, 366);
-            this.TextBoxOutput.TabIndex = 1;
-            this.TextBoxOutput.Text = "";
-            // 
             // TabPageFile
             // 
             this.TabPageFile.Location = new System.Drawing.Point(4, 22);
@@ -167,6 +146,34 @@
             this.TabPageFile.TabIndex = 1;
             this.TabPageFile.Text = "文件转换";
             this.TabPageFile.UseVisualStyleBackColor = true;
+            // 
+            // TextBoxInput
+            // 
+            this.TextBoxInput.Buddies = null;
+            this.TextBoxInput.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TextBoxInput.Location = new System.Drawing.Point(0, 0);
+            this.TextBoxInput.MaxLength = 0;
+            this.TextBoxInput.Multiline = true;
+            this.TextBoxInput.Name = "TextBoxInput";
+            this.TextBoxInput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.TextBoxInput.Size = new System.Drawing.Size(380, 366);
+            this.TextBoxInput.TabIndex = 1;
+            this.TextBoxInput.Text = resources.GetString("TextBoxInput.Text");
+            this.TextBoxInput.WordWrap = false;
+            // 
+            // TextBoxOutput
+            // 
+            this.TextBoxOutput.Buddies = null;
+            this.TextBoxOutput.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TextBoxOutput.Location = new System.Drawing.Point(0, 0);
+            this.TextBoxOutput.MaxLength = 0;
+            this.TextBoxOutput.Multiline = true;
+            this.TextBoxOutput.Name = "TextBoxOutput";
+            this.TextBoxOutput.ReadOnly = true;
+            this.TextBoxOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.TextBoxOutput.Size = new System.Drawing.Size(376, 366);
+            this.TextBoxOutput.TabIndex = 2;
+            this.TextBoxOutput.WordWrap = false;
             // 
             // FormMain
             // 
@@ -183,7 +190,9 @@
             this.GroupBoxTextConfig.ResumeLayout(false);
             this.GroupBoxTextConfig.PerformLayout();
             this.SplitContainerText.Panel1.ResumeLayout(false);
+            this.SplitContainerText.Panel1.PerformLayout();
             this.SplitContainerText.Panel2.ResumeLayout(false);
+            this.SplitContainerText.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainerText)).EndInit();
             this.SplitContainerText.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -200,8 +209,8 @@
         private System.Windows.Forms.CheckBox CheckBoxIdiomConvert;
         private System.Windows.Forms.Button ButtonConverter;
         private System.Windows.Forms.ComboBox ComboBoxMode;
-        private System.Windows.Forms.RichTextBox TextBoxInput;
-        private System.Windows.Forms.RichTextBox TextBoxOutput;
+        private SyncTextBox TextBoxInput;
+        private SyncTextBox TextBoxOutput;
     }
 }
 

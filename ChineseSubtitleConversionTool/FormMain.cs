@@ -25,11 +25,24 @@ namespace ChineseSubtitleConversionTool
         private void FormMain_Load(object sender, EventArgs e)
         {
             InitComboBoxMode(ComboBoxMode);
+            InitSyncTextBox(TextBoxInput, TextBoxOutput);
             ZhConverter.Initialize();
         }
 
         /// <summary>
-        /// 转换模型下拉列表初始化
+        /// 初始化同步滚动文本框
+        /// </summary>
+        /// <param name="syncedCtrls"></param>
+        private void InitSyncTextBox(params Control[] syncedCtrls)
+        {
+            foreach (SyncTextBox ctr in syncedCtrls)
+            {
+                ctr.Buddies = syncedCtrls;
+            }
+        }
+
+        /// <summary>
+        /// 初始化转换模型下拉列表
         /// </summary>
         /// <param name="comboBox"></param>
         private void InitComboBoxMode(ComboBox comboBox)
@@ -46,6 +59,10 @@ namespace ChineseSubtitleConversionTool
         {
             TextBoxOutput.Clear();
             TextBoxOutput.Text = ChineseConverter(TextBoxInput.Text, EnumHelper.GetComboBoxSelected<EnumConverterModel>(ComboBoxMode), CheckBoxIdiomConvert.Checked);
+            TextBoxOutput.SelectionStart = 0;
+            TextBoxInput.SelectionStart = 0;
+            TextBoxOutput.ScrollToCaret();
+            TextBoxInput.ScrollToCaret();
         }
 
         /// <summary>
