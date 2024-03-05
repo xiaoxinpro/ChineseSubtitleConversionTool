@@ -39,6 +39,23 @@
             this.TabPageFile = new System.Windows.Forms.TabPage();
             this.TextBoxInput = new ChineseSubtitleConversionTool.SyncTextBox();
             this.TextBoxOutput = new ChineseSubtitleConversionTool.SyncTextBox();
+            this.GroupBoxFileConfig = new System.Windows.Forms.GroupBox();
+            this.CheckBoxFileIdiomConvert = new System.Windows.Forms.CheckBox();
+            this.ButtonFileConverter = new System.Windows.Forms.Button();
+            this.ComboBoxFileMode = new System.Windows.Forms.ComboBox();
+            this.GroupBoxFlieList = new System.Windows.Forms.GroupBox();
+            this.ButtonAddFile = new System.Windows.Forms.Button();
+            this.ButtonAddFiles = new System.Windows.Forms.Button();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.label1 = new System.Windows.Forms.Label();
+            this.ButtonOpenFileOutput = new System.Windows.Forms.Button();
+            this.ComboBoxFileOutput = new System.Windows.Forms.ComboBox();
+            this.ButtonClearList = new System.Windows.Forms.Button();
+            this.ButtonDeleteFile = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.ComboBoxFileFormart = new System.Windows.Forms.ComboBox();
+            this.TextBoxFileSuffix = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.TabControlMain.SuspendLayout();
             this.TabPageText.SuspendLayout();
             this.GroupBoxTextConfig.SuspendLayout();
@@ -46,6 +63,9 @@
             this.SplitContainerText.Panel1.SuspendLayout();
             this.SplitContainerText.Panel2.SuspendLayout();
             this.SplitContainerText.SuspendLayout();
+            this.TabPageFile.SuspendLayout();
+            this.GroupBoxFileConfig.SuspendLayout();
+            this.GroupBoxFlieList.SuspendLayout();
             this.SuspendLayout();
             // 
             // TabControlMain
@@ -139,6 +159,8 @@
             // 
             // TabPageFile
             // 
+            this.TabPageFile.Controls.Add(this.GroupBoxFlieList);
+            this.TabPageFile.Controls.Add(this.GroupBoxFileConfig);
             this.TabPageFile.Location = new System.Drawing.Point(4, 22);
             this.TabPageFile.Name = "TabPageFile";
             this.TabPageFile.Padding = new System.Windows.Forms.Padding(3);
@@ -175,12 +197,209 @@
             this.TextBoxOutput.TabIndex = 2;
             this.TextBoxOutput.WordWrap = false;
             // 
+            // GroupBoxFileConfig
+            // 
+            this.GroupBoxFileConfig.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.GroupBoxFileConfig.Controls.Add(this.CheckBoxFileIdiomConvert);
+            this.GroupBoxFileConfig.Controls.Add(this.ButtonFileConverter);
+            this.GroupBoxFileConfig.Controls.Add(this.ComboBoxFileMode);
+            this.GroupBoxFileConfig.Location = new System.Drawing.Point(6, 6);
+            this.GroupBoxFileConfig.Name = "GroupBoxFileConfig";
+            this.GroupBoxFileConfig.Size = new System.Drawing.Size(764, 54);
+            this.GroupBoxFileConfig.TabIndex = 2;
+            this.GroupBoxFileConfig.TabStop = false;
+            this.GroupBoxFileConfig.Text = "转换选项";
+            // 
+            // CheckBoxFileIdiomConvert
+            // 
+            this.CheckBoxFileIdiomConvert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CheckBoxFileIdiomConvert.AutoSize = true;
+            this.CheckBoxFileIdiomConvert.Location = new System.Drawing.Point(596, 22);
+            this.CheckBoxFileIdiomConvert.Name = "CheckBoxFileIdiomConvert";
+            this.CheckBoxFileIdiomConvert.Size = new System.Drawing.Size(72, 16);
+            this.CheckBoxFileIdiomConvert.TabIndex = 6;
+            this.CheckBoxFileIdiomConvert.Text = "常用词汇";
+            this.CheckBoxFileIdiomConvert.UseVisualStyleBackColor = true;
+            // 
+            // ButtonFileConverter
+            // 
+            this.ButtonFileConverter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ButtonFileConverter.Location = new System.Drawing.Point(674, 18);
+            this.ButtonFileConverter.Name = "ButtonFileConverter";
+            this.ButtonFileConverter.Size = new System.Drawing.Size(73, 23);
+            this.ButtonFileConverter.TabIndex = 5;
+            this.ButtonFileConverter.Text = "转换";
+            this.ButtonFileConverter.UseVisualStyleBackColor = true;
+            // 
+            // ComboBoxFileMode
+            // 
+            this.ComboBoxFileMode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ComboBoxFileMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ComboBoxFileMode.FormattingEnabled = true;
+            this.ComboBoxFileMode.Location = new System.Drawing.Point(15, 20);
+            this.ComboBoxFileMode.Name = "ComboBoxFileMode";
+            this.ComboBoxFileMode.Size = new System.Drawing.Size(575, 20);
+            this.ComboBoxFileMode.TabIndex = 4;
+            // 
+            // GroupBoxFlieList
+            // 
+            this.GroupBoxFlieList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.GroupBoxFlieList.Controls.Add(this.TextBoxFileSuffix);
+            this.GroupBoxFlieList.Controls.Add(this.ComboBoxFileFormart);
+            this.GroupBoxFlieList.Controls.Add(this.label3);
+            this.GroupBoxFlieList.Controls.Add(this.label2);
+            this.GroupBoxFlieList.Controls.Add(this.ComboBoxFileOutput);
+            this.GroupBoxFlieList.Controls.Add(this.ButtonDeleteFile);
+            this.GroupBoxFlieList.Controls.Add(this.ButtonClearList);
+            this.GroupBoxFlieList.Controls.Add(this.ButtonOpenFileOutput);
+            this.GroupBoxFlieList.Controls.Add(this.label1);
+            this.GroupBoxFlieList.Controls.Add(this.listView1);
+            this.GroupBoxFlieList.Controls.Add(this.ButtonAddFiles);
+            this.GroupBoxFlieList.Controls.Add(this.ButtonAddFile);
+            this.GroupBoxFlieList.Location = new System.Drawing.Point(6, 66);
+            this.GroupBoxFlieList.Name = "GroupBoxFlieList";
+            this.GroupBoxFlieList.Size = new System.Drawing.Size(764, 363);
+            this.GroupBoxFlieList.TabIndex = 3;
+            this.GroupBoxFlieList.TabStop = false;
+            this.GroupBoxFlieList.Text = "转换列表";
+            // 
+            // ButtonAddFile
+            // 
+            this.ButtonAddFile.Location = new System.Drawing.Point(15, 20);
+            this.ButtonAddFile.Name = "ButtonAddFile";
+            this.ButtonAddFile.Size = new System.Drawing.Size(73, 23);
+            this.ButtonAddFile.TabIndex = 0;
+            this.ButtonAddFile.Text = "添加文件";
+            this.ButtonAddFile.UseVisualStyleBackColor = true;
+            // 
+            // ButtonAddFiles
+            // 
+            this.ButtonAddFiles.Location = new System.Drawing.Point(94, 20);
+            this.ButtonAddFiles.Name = "ButtonAddFiles";
+            this.ButtonAddFiles.Size = new System.Drawing.Size(92, 23);
+            this.ButtonAddFiles.TabIndex = 0;
+            this.ButtonAddFiles.Text = "添加文件夹";
+            this.ButtonAddFiles.UseVisualStyleBackColor = true;
+            // 
+            // listView1
+            // 
+            this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listView1.HideSelection = false;
+            this.listView1.Location = new System.Drawing.Point(6, 49);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(752, 282);
+            this.listView1.TabIndex = 1;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label1.Location = new System.Drawing.Point(293, 336);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(90, 20);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "输出文件夹：";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // ButtonOpenFileOutput
+            // 
+            this.ButtonOpenFileOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ButtonOpenFileOutput.Location = new System.Drawing.Point(690, 335);
+            this.ButtonOpenFileOutput.Name = "ButtonOpenFileOutput";
+            this.ButtonOpenFileOutput.Size = new System.Drawing.Size(57, 23);
+            this.ButtonOpenFileOutput.TabIndex = 6;
+            this.ButtonOpenFileOutput.Text = "打开";
+            this.ButtonOpenFileOutput.UseVisualStyleBackColor = true;
+            // 
+            // ComboBoxFileOutput
+            // 
+            this.ComboBoxFileOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ComboBoxFileOutput.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ComboBoxFileOutput.FormattingEnabled = true;
+            this.ComboBoxFileOutput.Items.AddRange(new object[] {
+            "输出至源文件目录",
+            "清空列表",
+            "选择输出目录..."});
+            this.ComboBoxFileOutput.Location = new System.Drawing.Point(365, 337);
+            this.ComboBoxFileOutput.Name = "ComboBoxFileOutput";
+            this.ComboBoxFileOutput.Size = new System.Drawing.Size(319, 20);
+            this.ComboBoxFileOutput.TabIndex = 7;
+            // 
+            // ButtonClearList
+            // 
+            this.ButtonClearList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ButtonClearList.Location = new System.Drawing.Point(690, 20);
+            this.ButtonClearList.Name = "ButtonClearList";
+            this.ButtonClearList.Size = new System.Drawing.Size(57, 23);
+            this.ButtonClearList.TabIndex = 6;
+            this.ButtonClearList.Text = "清空";
+            this.ButtonClearList.UseVisualStyleBackColor = true;
+            // 
+            // ButtonDeleteFile
+            // 
+            this.ButtonDeleteFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ButtonDeleteFile.Location = new System.Drawing.Point(627, 20);
+            this.ButtonDeleteFile.Name = "ButtonDeleteFile";
+            this.ButtonDeleteFile.Size = new System.Drawing.Size(57, 23);
+            this.ButtonDeleteFile.TabIndex = 6;
+            this.ButtonDeleteFile.Text = "删除";
+            this.ButtonDeleteFile.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label2.Location = new System.Drawing.Point(151, 337);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(75, 20);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "输出格式：";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // ComboBoxFileFormart
+            // 
+            this.ComboBoxFileFormart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.ComboBoxFileFormart.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ComboBoxFileFormart.FormattingEnabled = true;
+            this.ComboBoxFileFormart.Items.AddRange(new object[] {
+            "UTF-8"});
+            this.ComboBoxFileFormart.Location = new System.Drawing.Point(210, 337);
+            this.ComboBoxFileFormart.Name = "ComboBoxFileFormart";
+            this.ComboBoxFileFormart.Size = new System.Drawing.Size(77, 20);
+            this.ComboBoxFileFormart.TabIndex = 7;
+            // 
+            // TextBoxFileSuffix
+            // 
+            this.TextBoxFileSuffix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.TextBoxFileSuffix.Location = new System.Drawing.Point(71, 336);
+            this.TextBoxFileSuffix.Name = "TextBoxFileSuffix";
+            this.TextBoxFileSuffix.Size = new System.Drawing.Size(74, 21);
+            this.TextBoxFileSuffix.TabIndex = 10;
+            this.TextBoxFileSuffix.Text = ".chs";
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label3.Location = new System.Drawing.Point(13, 337);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(75, 20);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "输出后缀：";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 461);
             this.Controls.Add(this.TabControlMain);
+            this.MinimumSize = new System.Drawing.Size(600, 300);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "繁体简体字幕转换工具";
@@ -195,6 +414,11 @@
             this.SplitContainerText.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainerText)).EndInit();
             this.SplitContainerText.ResumeLayout(false);
+            this.TabPageFile.ResumeLayout(false);
+            this.GroupBoxFileConfig.ResumeLayout(false);
+            this.GroupBoxFileConfig.PerformLayout();
+            this.GroupBoxFlieList.ResumeLayout(false);
+            this.GroupBoxFlieList.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -211,6 +435,23 @@
         private System.Windows.Forms.ComboBox ComboBoxMode;
         private SyncTextBox TextBoxInput;
         private SyncTextBox TextBoxOutput;
+        private System.Windows.Forms.GroupBox GroupBoxFlieList;
+        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.Button ButtonAddFiles;
+        private System.Windows.Forms.Button ButtonAddFile;
+        private System.Windows.Forms.GroupBox GroupBoxFileConfig;
+        private System.Windows.Forms.CheckBox CheckBoxFileIdiomConvert;
+        private System.Windows.Forms.Button ButtonFileConverter;
+        private System.Windows.Forms.ComboBox ComboBoxFileMode;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button ButtonOpenFileOutput;
+        private System.Windows.Forms.ComboBox ComboBoxFileOutput;
+        private System.Windows.Forms.ComboBox ComboBoxFileFormart;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button ButtonDeleteFile;
+        private System.Windows.Forms.Button ButtonClearList;
+        private System.Windows.Forms.TextBox TextBoxFileSuffix;
+        private System.Windows.Forms.Label label3;
     }
 }
 
