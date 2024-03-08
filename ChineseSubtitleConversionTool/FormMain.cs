@@ -12,6 +12,8 @@ namespace ChineseSubtitleConversionTool
 {
     public partial class FormMain : Form
     {
+
+        #region 初始化
         public FormMain()
         {
             InitializeComponent();
@@ -24,8 +26,19 @@ namespace ChineseSubtitleConversionTool
         /// <param name="e"></param>
         private void FormMain_Load(object sender, EventArgs e)
         {
+            this.Text += @" V" + Application.ProductVersion.ToString();
+
+            #region 文本转换界面初始化
             InitComboBoxMode(ComboBoxMode);
             InitSyncTextBox(TextBoxInput, TextBoxOutput);
+            #endregion
+
+            #region 批量转换界面初始化
+            InitComboBoxMode(ComboBoxFileMode);
+            InitComboBoxFormat(ComboBoxFileFormart);
+            InitListViewFile(ListViewFile);
+            #endregion
+
             ZhConverter.Initialize();
         }
 
@@ -49,6 +62,39 @@ namespace ChineseSubtitleConversionTool
         {
             EnumHelper.InitComboBox(comboBox, EnumConverterModel.cht2chs);
         }
+
+        /// <summary>
+        /// 初始化输出文件编码下拉列表
+        /// </summary>
+        /// <param name="comboBox"></param>
+        private void InitComboBoxFormat(ComboBox comboBox)
+        {
+            EnumHelper.InitComboBox(comboBox, EnumConverterFileEncode.utf8);
+        }
+
+        /// <summary>
+        /// 初始化文件列表
+        /// </summary>
+        /// <param name="listView"></param>
+        private void InitListViewFile(ListView listView)
+        {
+            //基本属性设置
+            listView.Clear();
+            listView.FullRowSelect = true;
+            listView.GridLines = true;
+            listView.HeaderStyle = ColumnHeaderStyle.Nonclickable;
+            listView.View = View.Details;
+            listView.CheckBoxes = false;
+            listView.MultiSelect = false;
+
+            //创建列表头
+            listView.Columns.Add("ID", "序号", 45);
+            listView.Columns.Add("Name", "文件名称", 160, HorizontalAlignment.Left, "");
+            listView.Columns.Add("Type", "文件路径", -2, HorizontalAlignment.Left, "");
+            
+        }
+        #endregion
+
 
         /// <summary>
         /// 转换按钮
@@ -148,5 +194,22 @@ namespace ChineseSubtitleConversionTool
         chs2chtw,
         [Description("简体中文 → 繁体中文（香港）")]
         chs2chk,
+    }
+
+    /// <summary>
+    /// 转换输出文件编码格式
+    /// </summary>
+    public enum EnumConverterFileEncode
+    {
+        [Description("UTF-8")]
+        utf8,
+        [Description("UTF-16")]
+        utf16,
+        [Description("UTF-32")]
+        utf32,
+        [Description("ASCII")]
+        ascii,
+        [Description("Unicode")]
+        unicode,
     }
 }
