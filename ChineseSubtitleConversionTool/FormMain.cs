@@ -6,12 +6,19 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ChineseSubtitleConversionTool
 {
     public partial class FormMain : Form
     {
+        #region 字符串常量
+        private const string STR_OUTPUT_TO_SOURCE_FILE_DIRECTORY = "输出至源文件目录";
+        private const string STR_CLEAR_LIST = "清空列表";
+        private const string STR_SELECT_OUTPUT_DIRECTORY = "选择输出目录...";
+        #endregion
 
         #region 初始化
         public FormMain()
@@ -36,6 +43,7 @@ namespace ChineseSubtitleConversionTool
             #region 批量转换界面初始化
             InitComboBoxMode(ComboBoxFileMode);
             InitComboBoxFormat(ComboBoxFileFormart);
+            InitComboBoxFileOutput(ComboBoxFileOutput);
             InitListViewFile(ListViewFile);
             #endregion
 
@@ -73,6 +81,27 @@ namespace ChineseSubtitleConversionTool
         }
 
         /// <summary>
+        /// 初始化输出文件夹下拉列表
+        /// </summary>
+        /// <param name="comboBox"></param>
+        private void InitComboBoxFileOutput(ComboBox comboBox, string[] paths = null)
+        {
+            comboBox.Items.Clear();
+            if (paths != null && paths.Length > 0)
+            {
+                //在此添加文件夹列表
+                foreach (string item in paths)
+                {
+                    comboBox.Items.Add(item);
+                }
+            }
+            comboBox.Items.Add(STR_OUTPUT_TO_SOURCE_FILE_DIRECTORY);
+            comboBox.Items.Add(STR_CLEAR_LIST);
+            comboBox.Items.Add(STR_SELECT_OUTPUT_DIRECTORY);
+            comboBox.SelectedIndex = 0;
+        }
+
+        /// <summary>
         /// 初始化文件列表
         /// </summary>
         /// <param name="listView"></param>
@@ -95,7 +124,7 @@ namespace ChineseSubtitleConversionTool
         }
         #endregion
 
-
+        #region 基础转换功能
         /// <summary>
         /// 转换按钮
         /// </summary>
@@ -166,6 +195,68 @@ namespace ChineseSubtitleConversionTool
             }
             return target;
         }
+
+        #endregion
+
+        #region 输出文件夹功能
+        /// <summary>
+        /// 输出文件夹下拉框改变事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ComboBoxFileOutput_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            string path = comboBox.SelectedItem.ToString();
+            Task.Run(() =>
+            {
+                Thread.Sleep(20);
+                this.Invoke(new Action(() =>
+                {
+                    if (path == STR_SELECT_OUTPUT_DIRECTORY)
+                    {
+                        FolderBrowserDialog dialog = new FolderBrowserDialog();
+                        dialog.Description = "请选择输出文件夹";
+                        if (dialog.ShowDialog() == DialogResult.OK)
+                        {
+                            string selectedPath = dialog.SelectedPath;
+                            if (string.IsNullOrEmpty(selectedPath))
+                            {
+                                comboBox.SelectedIndex = 0;
+                            }
+                            else
+                            {
+                                //添加到列表 selectedPath
+                                InitComboBoxFileOutput(comboBox, new string[] { selectedPath });
+                            }
+                        }
+                    }
+                    else if (path == STR_CLEAR_LIST)
+                    {
+                        DialogResult result = MessageBox.Show("是否要清除全部输出文件夹列表，清除后将无法恢复。", "清除确认", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+                        if (result == DialogResult.Yes)
+                        {
+                            InitComboBoxFileOutput(comboBox);
+                        }
+                        else
+                        {
+                            comboBox.SelectedIndex = 0;
+                        }
+                    }
+                    else if (path == STR_OUTPUT_TO_SOURCE_FILE_DIRECTORY)
+                    {
+                        //忽略操作
+                    }
+                    else
+                    {
+                        //指定文件夹
+                    }
+                }));
+            });
+        }
+
+        #endregion
+
 
     }
 
