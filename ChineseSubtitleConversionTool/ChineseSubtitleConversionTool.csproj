@@ -182,6 +182,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChineseConverter.cs" />
+    <Compile Include="ConvertList.cs" />
     <Compile Include="EnumHelper.cs" />
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
