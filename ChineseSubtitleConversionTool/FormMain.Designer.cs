@@ -35,6 +35,9 @@
             this.CheckBoxIdiomConvert = new System.Windows.Forms.CheckBox();
             this.ButtonConverter = new System.Windows.Forms.Button();
             this.ComboBoxMode = new System.Windows.Forms.ComboBox();
+            this.SplitContainerText = new System.Windows.Forms.SplitContainer();
+            this.TextBoxInput = new ChineseSubtitleConversionTool.SyncTextBox();
+            this.TextBoxOutput = new ChineseSubtitleConversionTool.SyncTextBox();
             this.TabPageFile = new System.Windows.Forms.TabPage();
             this.GroupBoxFlieList = new System.Windows.Forms.GroupBox();
             this.TextBoxFileSuffix = new System.Windows.Forms.TextBox();
@@ -53,19 +56,16 @@
             this.CheckBoxFileIdiomConvert = new System.Windows.Forms.CheckBox();
             this.ButtonFileConverter = new System.Windows.Forms.Button();
             this.ComboBoxFileMode = new System.Windows.Forms.ComboBox();
-            this.SplitContainerText = new System.Windows.Forms.SplitContainer();
-            this.TextBoxInput = new ChineseSubtitleConversionTool.SyncTextBox();
-            this.TextBoxOutput = new ChineseSubtitleConversionTool.SyncTextBox();
             this.TabControlMain.SuspendLayout();
             this.TabPageText.SuspendLayout();
             this.GroupBoxTextConfig.SuspendLayout();
-            this.TabPageFile.SuspendLayout();
-            this.GroupBoxFlieList.SuspendLayout();
-            this.GroupBoxFileConfig.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainerText)).BeginInit();
             this.SplitContainerText.Panel1.SuspendLayout();
             this.SplitContainerText.Panel2.SuspendLayout();
             this.SplitContainerText.SuspendLayout();
+            this.TabPageFile.SuspendLayout();
+            this.GroupBoxFlieList.SuspendLayout();
+            this.GroupBoxFileConfig.SuspendLayout();
             this.SuspendLayout();
             // 
             // TabControlMain
@@ -139,6 +139,53 @@
             this.ComboBoxMode.Name = "ComboBoxMode";
             this.ComboBoxMode.Size = new System.Drawing.Size(575, 20);
             this.ComboBoxMode.TabIndex = 4;
+            // 
+            // SplitContainerText
+            // 
+            this.SplitContainerText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.SplitContainerText.Location = new System.Drawing.Point(8, 66);
+            this.SplitContainerText.Name = "SplitContainerText";
+            // 
+            // SplitContainerText.Panel1
+            // 
+            this.SplitContainerText.Panel1.Controls.Add(this.TextBoxInput);
+            // 
+            // SplitContainerText.Panel2
+            // 
+            this.SplitContainerText.Panel2.Controls.Add(this.TextBoxOutput);
+            this.SplitContainerText.Size = new System.Drawing.Size(760, 366);
+            this.SplitContainerText.SplitterDistance = 380;
+            this.SplitContainerText.TabIndex = 0;
+            // 
+            // TextBoxInput
+            // 
+            this.TextBoxInput.Buddies = null;
+            this.TextBoxInput.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TextBoxInput.Location = new System.Drawing.Point(0, 0);
+            this.TextBoxInput.MaxLength = 0;
+            this.TextBoxInput.Multiline = true;
+            this.TextBoxInput.Name = "TextBoxInput";
+            this.TextBoxInput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.TextBoxInput.Size = new System.Drawing.Size(380, 366);
+            this.TextBoxInput.TabIndex = 1;
+            this.TextBoxInput.Text = resources.GetString("TextBoxInput.Text");
+            this.TextBoxInput.WordWrap = false;
+            // 
+            // TextBoxOutput
+            // 
+            this.TextBoxOutput.Buddies = null;
+            this.TextBoxOutput.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TextBoxOutput.Location = new System.Drawing.Point(0, 0);
+            this.TextBoxOutput.MaxLength = 0;
+            this.TextBoxOutput.Multiline = true;
+            this.TextBoxOutput.Name = "TextBoxOutput";
+            this.TextBoxOutput.ReadOnly = true;
+            this.TextBoxOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.TextBoxOutput.Size = new System.Drawing.Size(376, 366);
+            this.TextBoxOutput.TabIndex = 2;
+            this.TextBoxOutput.WordWrap = false;
             // 
             // TabPageFile
             // 
@@ -236,6 +283,7 @@
             this.ButtonDeleteFile.TabIndex = 6;
             this.ButtonDeleteFile.Text = "删除";
             this.ButtonDeleteFile.UseVisualStyleBackColor = true;
+            this.ButtonDeleteFile.Click += new System.EventHandler(this.ButtonDeleteFile_Click);
             // 
             // ButtonClearList
             // 
@@ -246,6 +294,7 @@
             this.ButtonClearList.TabIndex = 6;
             this.ButtonClearList.Text = "清空";
             this.ButtonClearList.UseVisualStyleBackColor = true;
+            this.ButtonClearList.Click += new System.EventHandler(this.ButtonClearList_Click);
             // 
             // ButtonOpenFileOutput
             // 
@@ -287,6 +336,7 @@
             this.ButtonAddFiles.TabIndex = 0;
             this.ButtonAddFiles.Text = "添加文件夹";
             this.ButtonAddFiles.UseVisualStyleBackColor = true;
+            this.ButtonAddFiles.Click += new System.EventHandler(this.ButtonAddFiles_Click);
             // 
             // ButtonAddFile
             // 
@@ -296,6 +346,7 @@
             this.ButtonAddFile.TabIndex = 0;
             this.ButtonAddFile.Text = "添加文件";
             this.ButtonAddFile.UseVisualStyleBackColor = true;
+            this.ButtonAddFile.Click += new System.EventHandler(this.ButtonAddFile_Click);
             // 
             // GroupBoxFileConfig
             // 
@@ -345,53 +396,6 @@
             this.ComboBoxFileMode.Size = new System.Drawing.Size(575, 20);
             this.ComboBoxFileMode.TabIndex = 4;
             // 
-            // SplitContainerText
-            // 
-            this.SplitContainerText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.SplitContainerText.Location = new System.Drawing.Point(8, 66);
-            this.SplitContainerText.Name = "SplitContainerText";
-            // 
-            // SplitContainerText.Panel1
-            // 
-            this.SplitContainerText.Panel1.Controls.Add(this.TextBoxInput);
-            // 
-            // SplitContainerText.Panel2
-            // 
-            this.SplitContainerText.Panel2.Controls.Add(this.TextBoxOutput);
-            this.SplitContainerText.Size = new System.Drawing.Size(760, 366);
-            this.SplitContainerText.SplitterDistance = 380;
-            this.SplitContainerText.TabIndex = 0;
-            // 
-            // TextBoxInput
-            // 
-            this.TextBoxInput.Buddies = null;
-            this.TextBoxInput.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TextBoxInput.Location = new System.Drawing.Point(0, 0);
-            this.TextBoxInput.MaxLength = 0;
-            this.TextBoxInput.Multiline = true;
-            this.TextBoxInput.Name = "TextBoxInput";
-            this.TextBoxInput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.TextBoxInput.Size = new System.Drawing.Size(380, 366);
-            this.TextBoxInput.TabIndex = 1;
-            this.TextBoxInput.Text = resources.GetString("TextBoxInput.Text");
-            this.TextBoxInput.WordWrap = false;
-            // 
-            // TextBoxOutput
-            // 
-            this.TextBoxOutput.Buddies = null;
-            this.TextBoxOutput.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TextBoxOutput.Location = new System.Drawing.Point(0, 0);
-            this.TextBoxOutput.MaxLength = 0;
-            this.TextBoxOutput.Multiline = true;
-            this.TextBoxOutput.Name = "TextBoxOutput";
-            this.TextBoxOutput.ReadOnly = true;
-            this.TextBoxOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.TextBoxOutput.Size = new System.Drawing.Size(376, 366);
-            this.TextBoxOutput.TabIndex = 2;
-            this.TextBoxOutput.WordWrap = false;
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -407,17 +411,17 @@
             this.TabPageText.ResumeLayout(false);
             this.GroupBoxTextConfig.ResumeLayout(false);
             this.GroupBoxTextConfig.PerformLayout();
-            this.TabPageFile.ResumeLayout(false);
-            this.GroupBoxFlieList.ResumeLayout(false);
-            this.GroupBoxFlieList.PerformLayout();
-            this.GroupBoxFileConfig.ResumeLayout(false);
-            this.GroupBoxFileConfig.PerformLayout();
             this.SplitContainerText.Panel1.ResumeLayout(false);
             this.SplitContainerText.Panel1.PerformLayout();
             this.SplitContainerText.Panel2.ResumeLayout(false);
             this.SplitContainerText.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainerText)).EndInit();
             this.SplitContainerText.ResumeLayout(false);
+            this.TabPageFile.ResumeLayout(false);
+            this.GroupBoxFlieList.ResumeLayout(false);
+            this.GroupBoxFlieList.PerformLayout();
+            this.GroupBoxFileConfig.ResumeLayout(false);
+            this.GroupBoxFileConfig.PerformLayout();
             this.ResumeLayout(false);
 
         }

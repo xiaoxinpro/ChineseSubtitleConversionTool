@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Text;
 
@@ -53,6 +54,25 @@ namespace ChineseSubtitleConversionTool
     { 
         public string SourceFile { get; set; }
         public string TargetFile { get; set; }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        public ConvertListItem()
+        {
+            SourceFile = TargetFile = string.Empty;
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="sourceFile">输入文件路径</param>
+        /// <param name="targetFile">输出文件路径</param>
+        public ConvertListItem(string sourceFile, string targetFile = "")
+        {
+            SourceFile = sourceFile;
+            TargetFile = targetFile;
+        }
 
         /// <summary>
         /// 转换并输出到文件
@@ -132,5 +152,21 @@ namespace ChineseSubtitleConversionTool
 
     }
 
+    /// <summary>
+    /// 转换输出文件编码格式
+    /// </summary>
+    public enum EnumConverterFileEncode
+    {
+        [Description("UTF-8")]
+        utf8,
+        [Description("UTF-16")]
+        utf16,
+        [Description("UTF-32")]
+        utf32,
+        [Description("ASCII")]
+        ascii,
+        [Description("Unicode")]
+        unicode,
+    }
 
 }
