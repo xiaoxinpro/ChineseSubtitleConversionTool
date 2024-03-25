@@ -305,6 +305,7 @@
             this.ButtonOpenFileOutput.TabIndex = 6;
             this.ButtonOpenFileOutput.Text = "打开";
             this.ButtonOpenFileOutput.UseVisualStyleBackColor = true;
+            this.ButtonOpenFileOutput.Click += new System.EventHandler(this.ButtonOpenFileOutput_Click);
             // 
             // label1
             // 

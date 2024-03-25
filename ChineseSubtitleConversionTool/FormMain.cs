@@ -390,7 +390,42 @@ namespace ChineseSubtitleConversionTool
             });
         }
 
-
+        /// <summary>
+        /// 打开输出文件夹
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonOpenFileOutput_Click(object sender, EventArgs e)
+        {
+            string path = ComboBoxFileOutput.SelectedItem.ToString();
+            if (path == STR_OUTPUT_TO_SOURCE_FILE_DIRECTORY)
+            {
+                if (ListViewFile.Items.Count > 0 && MainConvertList.Items.Count > 0)
+                {
+                    if (ListViewFile.SelectedIndices.Count > 0)
+                    {
+                        path = MainConvertList.Items[ListViewFile.SelectedIndices[0]].SourceFile;
+                    }
+                    else
+                    {
+                        path = MainConvertList.Items[0].SourceFile;
+                    }
+                }
+                else 
+                {
+                    MessageBox.Show("没有找到输入文件，请先添加文件。", "打开输出文件夹", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+            if(Directory.Exists(path))
+            {
+                System.Diagnostics.Process.Start("Explorer.exe", path);
+            }
+            else if (File.Exists(path))
+            {
+                System.Diagnostics.Process.Start("Explorer.exe", "/select," + path);
+            }
+        }
         #endregion
 
 
