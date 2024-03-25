@@ -302,10 +302,12 @@ namespace ChineseSubtitleConversionTool
                     if (index < ListViewFile.Items.Count)
                     {
                         ListViewFile.Items[index].Selected = true;
+                        ListViewFile.EnsureVisible(index);
                     }
                     else
                     {
                         ListViewFile.Items[ListViewFile.Items.Count - 1].Selected = true;
+                        ListViewFile.EnsureVisible(ListViewFile.Items.Count - 1);
                     }
                     ListViewFile.Focus();
                 }
