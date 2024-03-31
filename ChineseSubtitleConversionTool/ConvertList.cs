@@ -30,7 +30,7 @@ namespace ChineseSubtitleConversionTool
             {
                 isOutputSourceDir = true;
             }
-            if (Directory.Exists(outputDir) == false)
+            else if (Directory.Exists(outputDir) == false)
             {
                 Directory.CreateDirectory(outputDir);
             }

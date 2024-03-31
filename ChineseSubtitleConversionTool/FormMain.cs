@@ -140,12 +140,17 @@ namespace ChineseSubtitleConversionTool
         /// <param name="e"></param>
         private void ButtonConverter_Click(object sender, EventArgs e)
         {
+            Button button = sender as Button;
+            button.Enabled = false;
+            TextBoxInput.Enabled = false;
             TextBoxOutput.Clear();
             TextBoxOutput.Text = ChineseConverter.Convert(TextBoxInput.Text, EnumHelper.GetComboBoxSelected<EnumConverterModel>(ComboBoxMode), CheckBoxIdiomConvert.Checked);
             TextBoxOutput.SelectionStart = 0;
             TextBoxInput.SelectionStart = 0;
             TextBoxOutput.ScrollToCaret();
             TextBoxInput.ScrollToCaret();
+            TextBoxInput.Enabled = true;
+            button.Enabled = true;
         }
         #endregion
 
@@ -397,25 +402,11 @@ namespace ChineseSubtitleConversionTool
         /// <param name="e"></param>
         private void ButtonOpenFileOutput_Click(object sender, EventArgs e)
         {
-            string path = ComboBoxFileOutput.SelectedItem.ToString();
-            if (path == STR_OUTPUT_TO_SOURCE_FILE_DIRECTORY)
+            string path = GetFileOutputDriectory();
+            if (path == null)
             {
-                if (ListViewFile.Items.Count > 0 && MainConvertList.Items.Count > 0)
-                {
-                    if (ListViewFile.SelectedIndices.Count > 0)
-                    {
-                        path = MainConvertList.Items[ListViewFile.SelectedIndices[0]].SourceFile;
-                    }
-                    else
-                    {
-                        path = MainConvertList.Items[0].SourceFile;
-                    }
-                }
-                else 
-                {
-                    MessageBox.Show("没有找到输入文件，请先添加文件。", "打开输出文件夹", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+                MessageBox.Show("没有找到输入文件，请先添加文件。", "打开输出文件夹", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
             if(Directory.Exists(path))
             {
@@ -426,8 +417,62 @@ namespace ChineseSubtitleConversionTool
                 System.Diagnostics.Process.Start("Explorer.exe", "/select," + path);
             }
         }
+
+        /// <summary>
+        /// 获取输出文件夹
+        /// </summary>
+        /// <param name="index">指定索引，-1表示根据UI选择索引</param>
+        /// <returns>返回路径，null表示无对应输入文件</returns>
+        private string GetFileOutputDriectory(int index = -1)
+        {
+            string path = ComboBoxFileOutput.SelectedItem.ToString();
+            if (path == STR_OUTPUT_TO_SOURCE_FILE_DIRECTORY)
+            {
+                if (ListViewFile.Items.Count > 0 && MainConvertList.Items.Count > 0)
+                {
+                    if (index >= 0 && index < MainConvertList.Items.Count)
+                    {
+                        path = MainConvertList.Items[index].SourceFile;
+                    }
+                    else if (ListViewFile.SelectedIndices.Count > 0)
+                    {
+                        path = MainConvertList.Items[ListViewFile.SelectedIndices[0]].SourceFile;
+                    }
+                    else
+                    {
+                        path = MainConvertList.Items[0].SourceFile;
+                    }
+                    path = Path.GetDirectoryName(path);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            return path;
+        }
         #endregion
 
+        #region 文件转换功能
+        /// <summary>
+        /// 转换按钮（文件/批量）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonFileConverter_Click(object sender, EventArgs e)
+        {
+            Button button = sender as Button;
+            string outPath = ComboBoxFileOutput.SelectedItem.ToString();
+            if (string.IsNullOrEmpty(outPath) || outPath == STR_OUTPUT_TO_SOURCE_FILE_DIRECTORY)
+            {
+                outPath = null;
+            }
+            button.Enabled = false;
+            long cnt = MainConvertList.ConvertOutputAll(EnumHelper.GetComboBoxSelected<EnumConverterModel>(ComboBoxFileMode), CheckBoxFileIdiomConvert.Checked, Encoding.GetEncoding(EnumHelper.GetDescriptionByEnum(EnumHelper.GetComboBoxSelected<EnumConverterFileEncode>(ComboBoxFileFormart))), outPath, TextBoxFileSuffix.Text);
+            button.Enabled = true;
+            MessageBox.Show("转换完成，共转换" + cnt.ToString() + "个段落。", "转换完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        #endregion
 
     }
 
