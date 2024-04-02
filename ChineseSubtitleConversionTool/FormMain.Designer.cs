@@ -166,7 +166,7 @@
             this.txtFileName.Name = "txtFileName";
             this.txtFileName.Size = new System.Drawing.Size(153, 21);
             this.txtFileName.TabIndex = 1;
-            this.txtFileName.Text = "{name}.cs{exten}";
+            this.txtFileName.Text = "{name}.chs{exten}";
             this.txtFileName.TextChanged += new System.EventHandler(this.txtFileName_TextChanged);
             // 
             // txtPath

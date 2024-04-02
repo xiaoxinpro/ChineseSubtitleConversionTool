@@ -15,7 +15,7 @@ namespace ChineseSubtitleConversionTool
         public int FormatIndex { get; set; } = 0;
         public int OutputEncodeIndex { get; set; } = 0;
         public int InputEncodeIndex { get; set; } = 0;
-        public string FileName { get; set; } = "{name}.cs{exten}";
+        public string FileName { get; set; } = "{name}.chs{exten}";
 
         public MainConfig() 
         { 
