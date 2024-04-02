@@ -327,7 +327,6 @@
             this.cbInputEncode.Name = "cbInputEncode";
             this.cbInputEncode.Size = new System.Drawing.Size(66, 20);
             this.cbInputEncode.TabIndex = 3;
-            this.cbInputEncode.SelectionChangeCommitted += new System.EventHandler(this.cbFormat_SelectionChangeCommitted);
             // 
             // cbOutputEncode
             // 
@@ -345,7 +344,6 @@
             this.cbOutputEncode.Name = "cbOutputEncode";
             this.cbOutputEncode.Size = new System.Drawing.Size(66, 20);
             this.cbOutputEncode.TabIndex = 3;
-            this.cbOutputEncode.SelectionChangeCommitted += new System.EventHandler(this.cbFormat_SelectionChangeCommitted);
             // 
             // label7
             // 
