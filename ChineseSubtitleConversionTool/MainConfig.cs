@@ -13,7 +13,8 @@ namespace ChineseSubtitleConversionTool
         public enumConvertOption ConvertOption { get; set; } = enumConvertOption.Null;
         public int ControlTabIndex { get; set; } = 0;
         public int FormatIndex { get; set; } = 0;
-        public int EncodeIndex { get; set; } = 0;
+        public int OutputEncodeIndex { get; set; } = 0;
+        public int InputEncodeIndex { get; set; } = 0;
         public string FileName { get; set; } = "{name}.cs{exten}";
 
         public MainConfig() 

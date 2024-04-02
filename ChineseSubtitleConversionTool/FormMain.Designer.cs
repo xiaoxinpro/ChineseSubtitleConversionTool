@@ -49,7 +49,9 @@
             this.tabPageBatch = new System.Windows.Forms.TabPage();
             this.btnClearList = new System.Windows.Forms.Button();
             this.listViewFile = new System.Windows.Forms.ListView();
-            this.cbEncode = new System.Windows.Forms.ComboBox();
+            this.cbInputEncode = new System.Windows.Forms.ComboBox();
+            this.cbOutputEncode = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.pbConvert = new System.Windows.Forms.ProgressBar();
@@ -148,7 +150,7 @@
             // btnOpenPath
             // 
             this.btnOpenPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOpenPath.Location = new System.Drawing.Point(430, 6);
+            this.btnOpenPath.Location = new System.Drawing.Point(302, 6);
             this.btnOpenPath.Name = "btnOpenPath";
             this.btnOpenPath.Size = new System.Drawing.Size(50, 23);
             this.btnOpenPath.TabIndex = 2;
@@ -160,9 +162,9 @@
             // 
             this.txtFileName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFileName.Location = new System.Drawing.Point(306, 263);
+            this.txtFileName.Location = new System.Drawing.Point(327, 263);
             this.txtFileName.Name = "txtFileName";
-            this.txtFileName.Size = new System.Drawing.Size(174, 21);
+            this.txtFileName.Size = new System.Drawing.Size(153, 21);
             this.txtFileName.TabIndex = 1;
             this.txtFileName.Text = "{name}.cs{exten}";
             this.txtFileName.TextChanged += new System.EventHandler(this.txtFileName_TextChanged);
@@ -174,14 +176,14 @@
             this.txtPath.Location = new System.Drawing.Point(41, 8);
             this.txtPath.Name = "txtPath";
             this.txtPath.ReadOnly = true;
-            this.txtPath.Size = new System.Drawing.Size(383, 21);
+            this.txtPath.Size = new System.Drawing.Size(255, 21);
             this.txtPath.TabIndex = 1;
             // 
             // label2
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(234, 266);
+            this.label2.Location = new System.Drawing.Point(258, 267);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(77, 12);
             this.label2.TabIndex = 0;
@@ -191,7 +193,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 266);
+            this.label3.Location = new System.Drawing.Point(7, 267);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(41, 12);
             this.label3.TabIndex = 0;
@@ -263,13 +265,15 @@
             // 
             this.tabPageBatch.Controls.Add(this.btnClearList);
             this.tabPageBatch.Controls.Add(this.listViewFile);
-            this.tabPageBatch.Controls.Add(this.cbEncode);
+            this.tabPageBatch.Controls.Add(this.cbInputEncode);
+            this.tabPageBatch.Controls.Add(this.cbOutputEncode);
             this.tabPageBatch.Controls.Add(this.cbFormat);
             this.tabPageBatch.Controls.Add(this.btnOpenPath);
             this.tabPageBatch.Controls.Add(this.btnStartConvert);
             this.tabPageBatch.Controls.Add(this.txtFileName);
             this.tabPageBatch.Controls.Add(this.txtPath);
             this.tabPageBatch.Controls.Add(this.label2);
+            this.tabPageBatch.Controls.Add(this.label7);
             this.tabPageBatch.Controls.Add(this.label4);
             this.tabPageBatch.Controls.Add(this.label5);
             this.tabPageBatch.Controls.Add(this.label1);
@@ -307,22 +311,51 @@
             this.listViewFile.UseCompatibleStateImageBehavior = false;
             this.listViewFile.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listViewFile_ColumnClick);
             // 
-            // cbEncode
+            // cbInputEncode
             // 
-            this.cbEncode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cbEncode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbEncode.FormattingEnabled = true;
-            this.cbEncode.Items.AddRange(new object[] {
+            this.cbInputEncode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbInputEncode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbInputEncode.FormattingEnabled = true;
+            this.cbInputEncode.Items.AddRange(new object[] {
             "UTF-8",
-            "UTF-16",
-            "UTF-32",
-            "ASCII",
+            "GBK",
+            "BIG5",
+            "EUC-KR",
+            "EUC-JP",
             "Unicode"});
-            this.cbEncode.Location = new System.Drawing.Point(162, 263);
-            this.cbEncode.Name = "cbEncode";
-            this.cbEncode.Size = new System.Drawing.Size(66, 20);
-            this.cbEncode.TabIndex = 3;
-            this.cbEncode.SelectionChangeCommitted += new System.EventHandler(this.cbFormat_SelectionChangeCommitted);
+            this.cbInputEncode.Location = new System.Drawing.Point(414, 8);
+            this.cbInputEncode.Name = "cbInputEncode";
+            this.cbInputEncode.Size = new System.Drawing.Size(66, 20);
+            this.cbInputEncode.TabIndex = 3;
+            this.cbInputEncode.SelectionChangeCommitted += new System.EventHandler(this.cbFormat_SelectionChangeCommitted);
+            // 
+            // cbOutputEncode
+            // 
+            this.cbOutputEncode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cbOutputEncode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbOutputEncode.FormattingEnabled = true;
+            this.cbOutputEncode.Items.AddRange(new object[] {
+            "UTF-8",
+            "GBK",
+            "BIG5",
+            "EUC-KR",
+            "EUC-JP",
+            "Unicode"});
+            this.cbOutputEncode.Location = new System.Drawing.Point(186, 263);
+            this.cbOutputEncode.Name = "cbOutputEncode";
+            this.cbOutputEncode.Size = new System.Drawing.Size(66, 20);
+            this.cbOutputEncode.TabIndex = 3;
+            this.cbOutputEncode.SelectionChangeCommitted += new System.EventHandler(this.cbFormat_SelectionChangeCommitted);
+            // 
+            // label7
+            // 
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(356, 11);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(65, 12);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "输入编码：";
             // 
             // label4
             // 
@@ -337,11 +370,11 @@
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(128, 266);
+            this.label5.Location = new System.Drawing.Point(128, 267);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(41, 12);
+            this.label5.Size = new System.Drawing.Size(65, 12);
             this.label5.TabIndex = 0;
-            this.label5.Text = "编码：";
+            this.label5.Text = "输出编码：";
             // 
             // pbConvert
             // 
@@ -459,7 +492,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ProgressBar pbConvert;
         private System.Windows.Forms.Button btnClearList;
-        private System.Windows.Forms.ComboBox cbEncode;
+        private System.Windows.Forms.ComboBox cbOutputEncode;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.RadioButton rbConvertHigh;
         private System.Windows.Forms.RadioButton rbConvertOldWord;
@@ -468,6 +501,8 @@
         private System.Windows.Forms.GroupBox groupConvertOption;
         private System.Windows.Forms.Button btnCopy;
         private System.Windows.Forms.ProgressBar progressBarPercentage;
+        private System.Windows.Forms.ComboBox cbInputEncode;
+        private System.Windows.Forms.Label label7;
     }
 }
 

@@ -42,7 +42,8 @@ namespace ChineseSubtitleConversionTool
             tabControlMain.SelectedIndex = Config.ControlTabIndex;
 
             cbFormat.SelectedIndex = Config.FormatIndex;
-            cbEncode.SelectedIndex = Config.EncodeIndex;
+            cbInputEncode.SelectedIndex = Config.InputEncodeIndex;
+            cbOutputEncode.SelectedIndex = Config.OutputEncodeIndex;
 
             txtFileName.Text = Config.FileName;
 
@@ -123,7 +124,8 @@ namespace ChineseSubtitleConversionTool
             {
                 Config.ControlTabIndex = tabControlMain.SelectedIndex;
                 Config.FormatIndex = cbFormat.SelectedIndex;
-                Config.EncodeIndex = cbEncode.SelectedIndex;
+                Config.InputEncodeIndex = cbInputEncode.SelectedIndex;
+                Config.OutputEncodeIndex = cbOutputEncode.SelectedIndex;
                 Config.FileName = txtFileName.Text;
                 MainConfig.Save(Config);
             }
@@ -442,7 +444,8 @@ namespace ChineseSubtitleConversionTool
         {
             string path = txtPath.Text.Trim();
             string format = cbFormat.Text.Trim();
-            string encode = cbEncode.Text.Trim();
+            string outputEncode = cbOutputEncode.Text.Trim();
+            string inputEncode = cbInputEncode.Text.Trim();
             string nameStyle = txtFileName.Text.Trim();
             enumConvertOption convertOption = Config.ConvertOption;
             int fileLength = listViewFile.Items.Count;
@@ -482,11 +485,11 @@ namespace ChineseSubtitleConversionTool
                         Console.WriteLine(format + "\t" + newFilePath);
                         if (format == "转为简体")
                         {
-                            SaveFile(newFilePath, StringToSimlified(ReadFile(file.Value), convertOption), encode);
+                            SaveFile(newFilePath, StringToSimlified(ReadFile(file.Value, inputEncode), convertOption), outputEncode);
                         }
                         else
                         {
-                            SaveFile(newFilePath, StringToTraditional(ReadFile(file.Value), convertOption), encode);
+                            SaveFile(newFilePath, StringToTraditional(ReadFile(file.Value, inputEncode), convertOption), outputEncode);
                         }
                         this.Invoke(new Action(() =>
                         {
@@ -797,9 +800,11 @@ namespace ChineseSubtitleConversionTool
         /// 读取文件内容
         /// </summary>
         /// <param name="path">读取路径</param>
+        /// <param name="encoding">读取文件编码</param>
         /// <returns>返回文件内容</returns>
-        public string ReadFile(string path)
+        public string ReadFile(string path, string encode = "UTF-8")
         {
+            Encoding encoding = Encoding.GetEncoding(encode);
             if (File.Exists(path))
             {
                 try
@@ -808,7 +813,7 @@ namespace ChineseSubtitleConversionTool
                     OpenFileDefineName = Path.GetFileNameWithoutExtension(path);
                     // 创建一个 StreamReader 的实例来读取文件 
                     // using 语句也能关闭 StreamReader
-                    using (StreamReader sr = new StreamReader(path))
+                    using (StreamReader sr = new StreamReader(path, encoding))
                     {
                         StringBuilder sbText = new StringBuilder();
                         // 从文件读取并显示行，直到文件的末尾 
