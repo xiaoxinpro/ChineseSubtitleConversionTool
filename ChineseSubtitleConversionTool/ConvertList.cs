@@ -53,6 +53,7 @@ namespace ChineseSubtitleConversionTool
     public class ConvertListItem
     { 
         public string SourceFile { get; set; }
+        public Encoding SourceFileEncoding { get; set; }
         public string TargetFile { get; set; }
 
         /// <summary>
@@ -61,6 +62,7 @@ namespace ChineseSubtitleConversionTool
         public ConvertListItem()
         {
             SourceFile = TargetFile = string.Empty;
+            SourceFileEncoding = Encoding.UTF8;
         }
 
         /// <summary>
@@ -68,10 +70,18 @@ namespace ChineseSubtitleConversionTool
         /// </summary>
         /// <param name="sourceFile">输入文件路径</param>
         /// <param name="targetFile">输出文件路径</param>
-        public ConvertListItem(string sourceFile, string targetFile = "")
+        public ConvertListItem(string sourceFile, string targetFile = "", Encoding encoding = null)
         {
             SourceFile = sourceFile;
             TargetFile = targetFile;
+            if (encoding == null)
+            {
+                SourceFileEncoding = FileEncodingDetector.GetFileEncoding(sourceFile);
+            }
+            else
+            {
+                SourceFileEncoding = encoding;
+            }
         }
 
         /// <summary>
@@ -84,7 +94,6 @@ namespace ChineseSubtitleConversionTool
         /// <exception cref="Exception">文件不存在异常</exception>
         public long ConvertOutput(EnumConverterModel model, bool idiom = false, Encoding encoding = null)
         {
-            string filePath = SourceFile;
             if (encoding == null)
             {
                 encoding = Encoding.UTF8;
@@ -99,7 +108,7 @@ namespace ChineseSubtitleConversionTool
             }
             using (FileStream fsWrite = new FileStream(TargetFile, FileMode.OpenOrCreate, FileAccess.Write))
             {
-                long cnt = ReadTextLines(SourceFile, text =>
+                long cnt = ReadTextLines(SourceFile, SourceFileEncoding, text =>
                 {
                     string output = ChineseConverter.Convert(text, model, idiom);
                     byte[] buffer = encoding.GetBytes(output);
@@ -116,10 +125,10 @@ namespace ChineseSubtitleConversionTool
         /// <param name="funcLine">文本回调函数</param>
         /// <param name="maxLine">最大读取的行数</param>
         /// <returns>整个文件的行数</returns>
-        private long ReadTextLines(string filePath, Action<string> funcLine, int maxLine = 1024)
+        private long ReadTextLines(string filePath, Encoding fileEncoding, Action<string> funcLine, int maxLine = 1024)
         {
             long count = 0;
-            using (StreamReader sr = new StreamReader(filePath))
+            using (StreamReader sr = new StreamReader(filePath, fileEncoding))
             {
                 try
                 {

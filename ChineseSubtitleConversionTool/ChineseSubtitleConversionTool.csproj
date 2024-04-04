@@ -185,6 +185,7 @@
     <Compile Include="ChineseConverter.cs" />
     <Compile Include="ConvertList.cs" />
     <Compile Include="EnumHelper.cs" />
+    <Compile Include="FileEncodingDetector.cs" />
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>

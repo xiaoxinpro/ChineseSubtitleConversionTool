@@ -125,6 +125,7 @@ namespace ChineseSubtitleConversionTool
             //创建列表头
             listView.Columns.Add("ID", "序号", 45);
             listView.Columns.Add("Name", "文件名称", 160, HorizontalAlignment.Left, "");
+            listView.Columns.Add("Name", "文件编码", 80, HorizontalAlignment.Left, "");
             listView.Columns.Add("Type", "文件路径", -2, HorizontalAlignment.Left, "");
 
             listView.Items.Clear();
@@ -171,6 +172,7 @@ namespace ChineseSubtitleConversionTool
                 {
                     ListViewItem listViewItem = new ListViewItem((i + 1).ToString());
                     listViewItem.SubItems.Add(Path.GetFileName(convertList.Items[i].SourceFile));
+                    listViewItem.SubItems.Add(convertList.Items[i].SourceFileEncoding.WebName.ToUpper());
                     listViewItem.SubItems.Add(convertList.Items[i].SourceFile);
                     listView.Items.Add(listViewItem);
                 }
