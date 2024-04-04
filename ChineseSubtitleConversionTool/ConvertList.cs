@@ -163,8 +163,14 @@ namespace ChineseSubtitleConversionTool
         utf16,
         [Description("UTF-32")]
         utf32,
-        [Description("ASCII")]
-        ascii,
+        [Description("GBK")]
+        gbk,
+        [Description("BIG5")]
+        big5,
+        [Description("EUC-JP")]
+        euc_jp,
+        [Description("EUC-KR")]
+        euc_kr,
         [Description("Unicode")]
         unicode,
     }
