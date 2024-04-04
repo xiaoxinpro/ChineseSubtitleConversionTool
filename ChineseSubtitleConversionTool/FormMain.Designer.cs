@@ -300,6 +300,7 @@
             this.ListViewFile.Size = new System.Drawing.Size(752, 282);
             this.ListViewFile.TabIndex = 1;
             this.ListViewFile.UseCompatibleStateImageBehavior = false;
+            this.ListViewFile.DoubleClick += new System.EventHandler(this.ListViewFile_DoubleClick);
             // 
             // ButtonAddFiles
             // 

@@ -334,6 +334,42 @@ namespace ChineseSubtitleConversionTool
         {
             ClearConvertList();
         }
+
+        /// <summary>
+        /// 双击文件列表事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ListViewFile_DoubleClick(object sender, EventArgs e)
+        {
+            ListView listView =  sender as ListView;
+            if (listView.SelectedIndices.Count == 1)
+            {
+                int index = listView.SelectedIndices[0];
+                TextBoxOutput.Clear();
+                TextBoxInput.Text = "加载中...";
+                TextBoxInput.Enabled = false;
+                ButtonConverter.Enabled = false;
+                TabControlMain.SelectedIndex = 0;
+                ComboBoxMode.DroppedDown = true;
+                Task.Run(() =>
+                {
+                    string content;
+                    ConvertListItem item = MainConvertList.Items[index];
+                    Thread.Sleep(100);
+                    using (StreamReader sr = new StreamReader(item.SourceFile, item.SourceFileEncoding))
+                    {
+                        content = sr.ReadToEnd();
+                    }
+                    this.Invoke(new Action(() =>
+                    {
+                        TextBoxInput.Text = content;
+                        TextBoxInput.Enabled = true;
+                        ButtonConverter.Enabled = true;
+                    }));
+                });
+            }
+        }
         #endregion
 
         #region 输出文件夹功能
@@ -475,6 +511,7 @@ namespace ChineseSubtitleConversionTool
             MessageBox.Show("转换完成，共转换" + cnt.ToString() + "个段落。", "转换完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         #endregion
+
 
     }
 
