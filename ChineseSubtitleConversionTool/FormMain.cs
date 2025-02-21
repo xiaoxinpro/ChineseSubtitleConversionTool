@@ -188,7 +188,10 @@ namespace ChineseSubtitleConversionTool
         {
             foreach (string path in paths)
             {
-                MainConvertList.Items.Add(new ConvertListItem(path));
+                if (MainConvertList.SourceFileExists(path) == false)
+                {
+                    MainConvertList.Items.Add(new ConvertListItem(path));
+                }
             }
             UpdateListViewFile(ListViewFile, MainConvertList);
         }

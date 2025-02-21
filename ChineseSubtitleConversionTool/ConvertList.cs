@@ -14,6 +14,23 @@ namespace ChineseSubtitleConversionTool
         public List<ConvertListItem> Items { get; set; } = new List<ConvertListItem>();
 
         /// <summary>
+        /// 检查源文件是否已存在于Items
+        /// </summary>
+        /// <param name="path">源文件路径</param>
+        /// <returns>True存在，False不存在</returns>
+        public bool SourceFileExists(string path)
+        {
+            foreach (ConvertListItem item in Items)
+            {
+                if (item.SourceFile == path)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
         /// 转换并输出全部
         /// </summary>
         /// <param name="model">转换模型</param>
