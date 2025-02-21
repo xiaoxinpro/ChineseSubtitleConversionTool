@@ -121,6 +121,7 @@
             // ButtonConverter
             // 
             this.ButtonConverter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ButtonConverter.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ButtonConverter.Location = new System.Drawing.Point(674, 18);
             this.ButtonConverter.Name = "ButtonConverter";
             this.ButtonConverter.Size = new System.Drawing.Size(73, 23);
@@ -352,6 +353,7 @@
             // ButtonFileConverter
             // 
             this.ButtonFileConverter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ButtonFileConverter.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ButtonFileConverter.Location = new System.Drawing.Point(674, 18);
             this.ButtonFileConverter.Name = "ButtonFileConverter";
             this.ButtonFileConverter.Size = new System.Drawing.Size(73, 23);
