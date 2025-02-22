@@ -532,7 +532,7 @@ namespace ChineseSubtitleConversionTool
                     //button.Enabled = true;
                     SetGroupBoxEnabled(GroupBoxFileConfig, true);
                     SetGroupBoxEnabled(GroupBoxFlieList, true, typeof(Button), typeof(ComboBox), typeof(TextBox));
-                    MessageBox.Show("转换完成，共转换" + cnt.ToString() + "个文件。", "转换完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("转换完成，共转换了"+ ProgressBarConverter.Maximum + "个文件，包含" + cnt.ToString() + "个段落。", "转换完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     ProgressBarConverter.Visible = false;
                 }));
             });
@@ -549,7 +549,7 @@ namespace ChineseSubtitleConversionTool
         {
             foreach (Control control in groupBox.Controls)
             {
-                if (controlTypes.Contains(control.GetType()))
+                if (controlTypes.Length == 0 || controlTypes.Contains(control.GetType()))
                 {
                     control.Enabled = enabled;
                 }
