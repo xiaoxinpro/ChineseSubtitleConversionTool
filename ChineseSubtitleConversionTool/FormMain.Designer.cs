@@ -36,6 +36,8 @@
             this.ButtonConverter = new System.Windows.Forms.Button();
             this.ComboBoxMode = new System.Windows.Forms.ComboBox();
             this.SplitContainerText = new System.Windows.Forms.SplitContainer();
+            this.TextBoxInput = new ChineseSubtitleConversionTool.SyncTextBox();
+            this.TextBoxOutput = new ChineseSubtitleConversionTool.SyncTextBox();
             this.TabPageFile = new System.Windows.Forms.TabPage();
             this.GroupBoxFlieList = new System.Windows.Forms.GroupBox();
             this.TextBoxFileSuffix = new System.Windows.Forms.TextBox();
@@ -54,8 +56,7 @@
             this.CheckBoxFileIdiomConvert = new System.Windows.Forms.CheckBox();
             this.ButtonFileConverter = new System.Windows.Forms.Button();
             this.ComboBoxFileMode = new System.Windows.Forms.ComboBox();
-            this.TextBoxInput = new ChineseSubtitleConversionTool.SyncTextBox();
-            this.TextBoxOutput = new ChineseSubtitleConversionTool.SyncTextBox();
+            this.ProgressBarConverter = new System.Windows.Forms.ProgressBar();
             this.TabControlMain.SuspendLayout();
             this.TabPageText.SuspendLayout();
             this.GroupBoxTextConfig.SuspendLayout();
@@ -160,6 +161,34 @@
             this.SplitContainerText.SplitterDistance = 380;
             this.SplitContainerText.TabIndex = 0;
             // 
+            // TextBoxInput
+            // 
+            this.TextBoxInput.Buddies = null;
+            this.TextBoxInput.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TextBoxInput.Location = new System.Drawing.Point(0, 0);
+            this.TextBoxInput.MaxLength = 0;
+            this.TextBoxInput.Multiline = true;
+            this.TextBoxInput.Name = "TextBoxInput";
+            this.TextBoxInput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.TextBoxInput.Size = new System.Drawing.Size(380, 366);
+            this.TextBoxInput.TabIndex = 1;
+            this.TextBoxInput.Text = resources.GetString("TextBoxInput.Text");
+            this.TextBoxInput.WordWrap = false;
+            // 
+            // TextBoxOutput
+            // 
+            this.TextBoxOutput.Buddies = null;
+            this.TextBoxOutput.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TextBoxOutput.Location = new System.Drawing.Point(0, 0);
+            this.TextBoxOutput.MaxLength = 0;
+            this.TextBoxOutput.Multiline = true;
+            this.TextBoxOutput.Name = "TextBoxOutput";
+            this.TextBoxOutput.ReadOnly = true;
+            this.TextBoxOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.TextBoxOutput.Size = new System.Drawing.Size(376, 366);
+            this.TextBoxOutput.TabIndex = 2;
+            this.TextBoxOutput.WordWrap = false;
+            // 
             // TabPageFile
             // 
             this.TabPageFile.Controls.Add(this.GroupBoxFlieList);
@@ -177,6 +206,7 @@
             this.GroupBoxFlieList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.GroupBoxFlieList.Controls.Add(this.ProgressBarConverter);
             this.GroupBoxFlieList.Controls.Add(this.TextBoxFileSuffix);
             this.GroupBoxFlieList.Controls.Add(this.ComboBoxFileFormart);
             this.GroupBoxFlieList.Controls.Add(this.label3);
@@ -373,33 +403,16 @@
             this.ComboBoxFileMode.Size = new System.Drawing.Size(575, 20);
             this.ComboBoxFileMode.TabIndex = 4;
             // 
-            // TextBoxInput
+            // ProgressBarConverter
             // 
-            this.TextBoxInput.Buddies = null;
-            this.TextBoxInput.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TextBoxInput.Location = new System.Drawing.Point(0, 0);
-            this.TextBoxInput.MaxLength = 0;
-            this.TextBoxInput.Multiline = true;
-            this.TextBoxInput.Name = "TextBoxInput";
-            this.TextBoxInput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.TextBoxInput.Size = new System.Drawing.Size(380, 366);
-            this.TextBoxInput.TabIndex = 1;
-            this.TextBoxInput.Text = resources.GetString("TextBoxInput.Text");
-            this.TextBoxInput.WordWrap = false;
-            // 
-            // TextBoxOutput
-            // 
-            this.TextBoxOutput.Buddies = null;
-            this.TextBoxOutput.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TextBoxOutput.Location = new System.Drawing.Point(0, 0);
-            this.TextBoxOutput.MaxLength = 0;
-            this.TextBoxOutput.Multiline = true;
-            this.TextBoxOutput.Name = "TextBoxOutput";
-            this.TextBoxOutput.ReadOnly = true;
-            this.TextBoxOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.TextBoxOutput.Size = new System.Drawing.Size(376, 366);
-            this.TextBoxOutput.TabIndex = 2;
-            this.TextBoxOutput.WordWrap = false;
+            this.ProgressBarConverter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ProgressBarConverter.Location = new System.Drawing.Point(192, 20);
+            this.ProgressBarConverter.Name = "ProgressBarConverter";
+            this.ProgressBarConverter.Size = new System.Drawing.Size(429, 23);
+            this.ProgressBarConverter.Step = 1;
+            this.ProgressBarConverter.TabIndex = 11;
+            this.ProgressBarConverter.Visible = false;
             // 
             // FormMain
             // 
@@ -460,6 +473,7 @@
         private System.Windows.Forms.Button ButtonClearList;
         private System.Windows.Forms.TextBox TextBoxFileSuffix;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ProgressBar ProgressBarConverter;
     }
 }
 

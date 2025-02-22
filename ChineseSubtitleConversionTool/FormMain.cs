@@ -508,7 +508,12 @@ namespace ChineseSubtitleConversionTool
             {
                 outPath = null;
             }
-            button.Enabled = false;
+            //button.Enabled = false;
+            ProgressBarConverter.Value = 0;
+            ProgressBarConverter.Visible = true;
+            ProgressBarConverter.Maximum = MainConvertList.Items.Count;
+            SetGroupBoxEnabled(GroupBoxFileConfig, false);
+            SetGroupBoxEnabled(GroupBoxFlieList, false, typeof(Button), typeof(ComboBox), typeof(TextBox));
             string suffix = TextBoxFileSuffix.Text.Trim();
             bool idiom = CheckBoxFileIdiomConvert.Checked;
             EnumConverterModel fileMode = EnumHelper.GetComboBoxSelected<EnumConverterModel>(ComboBoxFileMode);
@@ -517,22 +522,48 @@ namespace ChineseSubtitleConversionTool
             {
                 long cnt = MainConvertList.ConvertOutputAll(fileMode, idiom, encoding, outPath, suffix, (that, index) =>
                 {
-                    if (index >= MainConvertList.Items.Count)
+                    this.Invoke(new Action(() =>
                     {
-                        //ListViewFile.Items[index].SubItems[1].Text = "转换完成";
-                    }
-                    else
-                    {
-
-                    }
+                        ProgressBarConverter.PerformStep();
+                    }));
                 });
                 this.Invoke(new Action(() =>
                 {
-                    button.Enabled = true;
+                    //button.Enabled = true;
+                    SetGroupBoxEnabled(GroupBoxFileConfig, true);
+                    SetGroupBoxEnabled(GroupBoxFlieList, true, typeof(Button), typeof(ComboBox), typeof(TextBox));
                     MessageBox.Show("转换完成，共转换" + cnt.ToString() + "个文件。", "转换完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ProgressBarConverter.Visible = false;
                 }));
             });
 
+        }
+
+        /// <summary>
+        /// 设置GroupBox中指定类型控件的Enabled属性
+        /// </summary>
+        /// <param name="groupBox">目标GroupBox</param>
+        /// <param name="enabled">是否启用</param>
+        /// <param name="controlTypes">指定控件类型数组</param>
+        private void SetGroupBoxEnabled(GroupBox groupBox, bool enabled, params Type[] controlTypes)
+        {
+            foreach (Control control in groupBox.Controls)
+            {
+                if (controlTypes.Contains(control.GetType()))
+                {
+                    control.Enabled = enabled;
+                }
+                else if (control.HasChildren)
+                {
+                    foreach (Control childControl in control.Controls)
+                    {
+                        if (controlTypes.Length == 0 || controlTypes.Contains(childControl.GetType()))
+                        {
+                            childControl.Enabled = enabled;
+                        }
+                    }
+                }
+            }
         }
         #endregion
 
