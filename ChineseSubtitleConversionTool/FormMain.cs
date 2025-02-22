@@ -509,9 +509,30 @@ namespace ChineseSubtitleConversionTool
                 outPath = null;
             }
             button.Enabled = false;
-            long cnt = MainConvertList.ConvertOutputAll(EnumHelper.GetComboBoxSelected<EnumConverterModel>(ComboBoxFileMode), CheckBoxFileIdiomConvert.Checked, Encoding.GetEncoding(EnumHelper.GetDescriptionByEnum(EnumHelper.GetComboBoxSelected<EnumConverterFileEncode>(ComboBoxFileFormart))), outPath, TextBoxFileSuffix.Text);
-            button.Enabled = true;
-            MessageBox.Show("转换完成，共转换" + cnt.ToString() + "个段落。", "转换完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            string suffix = TextBoxFileSuffix.Text.Trim();
+            bool idiom = CheckBoxFileIdiomConvert.Checked;
+            EnumConverterModel fileMode = EnumHelper.GetComboBoxSelected<EnumConverterModel>(ComboBoxFileMode);
+            Encoding encoding = Encoding.GetEncoding(EnumHelper.GetDescriptionByEnum(EnumHelper.GetComboBoxSelected<EnumConverterFileEncode>(ComboBoxFileFormart)));
+            Task.Run(() =>
+            {
+                long cnt = MainConvertList.ConvertOutputAll(fileMode, idiom, encoding, outPath, suffix, (that, index) =>
+                {
+                    if (index >= MainConvertList.Items.Count)
+                    {
+                        //ListViewFile.Items[index].SubItems[1].Text = "转换完成";
+                    }
+                    else
+                    {
+
+                    }
+                });
+                this.Invoke(new Action(() =>
+                {
+                    button.Enabled = true;
+                    MessageBox.Show("转换完成，共转换" + cnt.ToString() + "个文件。", "转换完成", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }));
+            });
+
         }
         #endregion
 

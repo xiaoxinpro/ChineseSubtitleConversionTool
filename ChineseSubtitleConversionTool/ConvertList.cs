@@ -11,7 +11,17 @@ namespace ChineseSubtitleConversionTool
     /// </summary>
     public class ConvertList
     {
+        /// <summary>
+        /// 转换任务列表
+        /// </summary>
         public List<ConvertListItem> Items { get; set; } = new List<ConvertListItem>();
+
+        /// <summary>
+        /// 转换任务列表事件
+        /// </summary>
+        /// <param name="sender">转换列表ConvertList</param>
+        /// <param name="current"></param>
+        public delegate void ConvertStateEventHandler(object sender, int current);
 
         /// <summary>
         /// 检查源文件是否已存在于Items
@@ -38,8 +48,9 @@ namespace ChineseSubtitleConversionTool
         /// <param name="encoding">输出文件编码</param>
         /// <param name="outputDir">输出文件夹</param>
         /// <param name="outputSuffix">输出文件后缀</param>
+        /// <param name="callback">转换状态回调事件</param>
         /// <returns></returns>
-        public long ConvertOutputAll(EnumConverterModel model, bool idiom = false, Encoding encoding = null, string outputDir = null, string outputSuffix = "")
+        public long ConvertOutputAll(EnumConverterModel model, bool idiom = false, Encoding encoding = null, string outputDir = null, string outputSuffix = "", ConvertStateEventHandler callback = null)
         {
             long cnt = 0;
             bool isOutputSourceDir = false;
@@ -51,8 +62,10 @@ namespace ChineseSubtitleConversionTool
             {
                 Directory.CreateDirectory(outputDir);
             }
-            foreach (ConvertListItem item in Items)
+            for (int i = 0; i < Items.Count; i++)
             {
+                ConvertListItem item = Items[i];
+                callback?.Invoke(this, i);
                 if (isOutputSourceDir)
                 {
                     outputDir = Path.GetDirectoryName(item.SourceFile);
@@ -60,6 +73,7 @@ namespace ChineseSubtitleConversionTool
                 item.TargetFile = Path.Combine(outputDir, Path.GetFileNameWithoutExtension(item.SourceFile) + outputSuffix + Path.GetExtension(item.SourceFile));
                 cnt += item.ConvertOutput(model, idiom, encoding);
             }
+            callback?.Invoke(this, Items.Count);
             return cnt;
         }
     }
