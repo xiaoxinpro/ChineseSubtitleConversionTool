@@ -172,7 +172,6 @@
             this.TextBoxInput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.TextBoxInput.Size = new System.Drawing.Size(380, 366);
             this.TextBoxInput.TabIndex = 1;
-            this.TextBoxInput.Text = resources.GetString("TextBoxInput.Text");
             this.TextBoxInput.WordWrap = false;
             // 
             // TextBoxOutput
@@ -420,6 +419,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 461);
             this.Controls.Add(this.TabControlMain);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(600, 300);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
